@@ -1,0 +1,685 @@
+V[10:00:18.891] <<< {"id":12,"jsonrpc":"2.0","method":"shutdown"}
+
+I[10:00:18.891] <-- shutdown(12)
+I[10:00:18.891] --> reply:shutdown(12) 0 ms
+V[10:00:18.891] >>> {"id":12,"jsonrpc":"2.0","result":null}
+
+V[10:00:18.910] <<< {"jsonrpc":"2.0","method":"exit"}
+
+I[10:00:18.910] <-- exit
+I[10:00:18.910] LSP finished, exiting with status 0
+The flag `-cross-file-rename` is obsolete and ignored.
+I[10:00:18.945] clangd version 19.1.2 (https://github.com/llvm/llvm-project 7ba7d8e2f7b6445b60679da826210cdde29eaf8b)
+I[10:00:18.946] Features: windows+grpc
+I[10:00:18.946] PID: 25244
+I[10:00:18.946] Working directory: d:\proj\STM32F10x-MesonBuild-Demo
+I[10:00:18.946] argv[0]: c:\Users\Siliconwaves_Users\AppData\Roaming\Code\User\globalStorage\llvm-vs-code-extensions.vscode-clangd\install\19.1.2\clangd_19.1.2\bin\clangd.exe
+I[10:00:18.946] argv[1]: --compile-commands-dir=builddir
+I[10:00:18.946] argv[2]: --function-arg-placeholders=1
+I[10:00:18.946] argv[3]: --header-insertion=iwyu
+I[10:00:18.946] argv[4]: --clang-tidy
+I[10:00:18.946] argv[5]: --all-scopes-completion
+I[10:00:18.946] argv[6]: --enable-config
+I[10:00:18.946] argv[7]: --cross-file-rename
+I[10:00:18.946] argv[8]: --background-index
+I[10:00:18.946] argv[9]: --query-driver=D:/SysGCC/arm-none-eabi/bin/arm-none-eabi-gcc
+I[10:00:18.946] argv[10]: --log=verbose
+V[10:00:18.953] User config file is C:\Users\Siliconwaves_Users\AppData\Local\clangd\config.yaml
+I[10:00:18.953] Starting LSP over stdin/stdout
+V[10:00:18.954] <<< {"id":0,"jsonrpc":"2.0","method":"initialize","params":{"capabilities":{"general":{"markdown":{"parser":"marked","version":"1.1.0"},"positionEncodings":["utf-16"],"regularExpressions":{"engine":"ECMAScript","version":"ES2020"},"staleRequestSupport":{"cancel":true,"retryOnContentModified":["textDocument/semanticTokens/full","textDocument/semanticTokens/range","textDocument/semanticTokens/full/delta"]}},"notebookDocument":{"synchronization":{"dynamicRegistration":true,"executionSummarySupport":true}},"textDocument":{"callHierarchy":{"dynamicRegistration":true},"codeAction":{"codeActionLiteralSupport":{"codeActionKind":{"valueSet":["","quickfix","refactor","refactor.extract","refactor.inline","refactor.rewrite","source","source.organizeImports"]}},"dataSupport":true,"disabledSupport":true,"dynamicRegistration":true,"honorsChangeAnnotations":false,"isPreferredSupport":true,"resolveSupport":{"properties":["edit"]}},"codeLens":{"dynamicRegistration":true},"colorProvider":{"dynamicRegistration":true},"completion":{"completionItem":{"commitCharactersSupport":true,"deprecatedSupport":true,"documentationFormat":["markdown","plaintext"],"insertReplaceSupport":true,"insertTextModeSupport":{"valueSet":[1,2]},"labelDetailsSupport":true,"preselectSupport":true,"resolveSupport":{"properties":["documentation","detail","additionalTextEdits"]},"snippetSupport":true,"tagSupport":{"valueSet":[1]}},"completionItemKind":{"valueSet":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]},"completionList":{"itemDefaults":["commitCharacters","editRange","insertTextFormat","insertTextMode"]},"contextSupport":true,"dynamicRegistration":true,"editsNearCursor":true,"insertTextMode":2},"declaration":{"dynamicRegistration":true,"linkSupport":true},"definition":{"dynamicRegistration":true,"linkSupport":true},"diagnostic":{"dynamicRegistration":true,"relatedDocumentSupport":false},"documentHighlight":{"dynamicRegistration":true},"documentLink":{"dynamicRegistration":true,"tooltipSupport":true},"documentSymbol":{"dynamicRegistration":true,"hierarchicalDocumentSymbolSupport":true,"labelSupport":true,"symbolKind":{"valueSet":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26]},"tagSupport":{"valueSet":[1]}},"foldingRange":{"dynamicRegistration":true,"foldingRange":{"collapsedText":false},"foldingRangeKind":{"valueSet":["comment","imports","region"]},"lineFoldingOnly":true,"rangeLimit":5000},"formatting":{"dynamicRegistration":true},"hover":{"contentFormat":["markdown","plaintext"],"dynamicRegistration":true},"implementation":{"dynamicRegistration":true,"linkSupport":true},"inactiveRegionsCapabilities":{"inactiveRegions":true},"inlayHint":{"dynamicRegistration":true,"resolveSupport":{"properties":["tooltip","textEdits","label.tooltip","label.location","label.command"]}},"inlineValue":{"dynamicRegistration":true},"linkedEditingRange":{"dynamicRegistration":true},"onTypeFormatting":{"dynamicRegistration":true},"publishDiagnostics":{"codeDescriptionSupport":true,"dataSupport":true,"relatedInformation":true,"tagSupport":{"valueSet":[1,2]},"versionSupport":false},"rangeFormatting":{"dynamicRegistration":true},"references":{"dynamicRegistration":true},"rename":{"dynamicRegistration":true,"honorsChangeAnnotations":true,"prepareSupport":true,"prepareSupportDefaultBehavior":1},"selectionRange":{"dynamicRegistration":true},"semanticTokens":{"augmentsSyntaxTokens":true,"dynamicRegistration":true,"formats":["relative"],"multilineTokenSupport":false,"overlappingTokenSupport":false,"requests":{"full":{"delta":true},"range":true},"serverCancelSupport":true,"tokenModifiers":["declaration","definition","readonly","static","deprecated","abstract","async","modification","documentation","defaultLibrary"],"tokenTypes":["namespace","type","class","enum","interface","struct","typeParameter","parameter","variable","property","enumMember","event","function","method","macro","keyword","modifier","comment","string","number","regexp","operator","decorator"]},"signatureHelp":{"contextSupport":true,"dynamicRegistration":true,"signatureInformation":{"activeParameterSupport":true,"documentationFormat":["markdown","plaintext"],"parameterInformation":{"labelOffsetSupport":true}}},"synchronization":{"didSave":true,"dynamicRegistration":true,"willSave":true,"willSaveWaitUntil":true},"typeDefinition":{"dynamicRegistration":true,"linkSupport":true},"typeHierarchy":{"dynamicRegistration":true}},"window":{"showDocument":{"support":true},"showMessage":{"messageActionItem":{"additionalPropertiesSupport":true}},"workDoneProgress":true},"workspace":{"applyEdit":true,"codeLens":{"refreshSupport":true},"configuration":true,"diagnostics":{"refreshSupport":true},"didChangeConfiguration":{"dynamicRegistration":true},"didChangeWatchedFiles":{"dynamicRegistration":true,"relativePatternSupport":true},"executeCommand":{"dynamicRegistration":true},"fileOperations":{"didCreate":true,"didDelete":true,"didRename":true,"dynamicRegistration":true,"willCreate":true,"willDelete":true,"willRename":true},"inlayHint":{"refreshSupport":true},"inlineValue":{"refreshSupport":true},"semanticTokens":{"refreshSupport":true},"symbol":{"dynamicRegistration":true,"resolveSupport":{"properties":["location.range"]},"symbolKind":{"valueSet":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26]},"tagSupport":{"valueSet":[1]}},"workspaceEdit":{"changeAnnotationSupport":{"groupsOnLabel":true},"documentChanges":true,"failureHandling":"textOnlyTransactional","normalizesLineEndings":true,"resourceOperations":["create","rename","delete"]},"workspaceFolders":true}},"clientInfo":{"name":"Visual Studio Code","version":"1.98.2"},"initializationOptions":{"clangdFileStatus":true,"fallbackFlags":[]},"locale":"zh-cn","processId":6156,"rootPath":"d:\\proj\\STM32F10x-MesonBuild-Demo","rootUri":"file:///d%3A/proj/STM32F10x-MesonBuild-Demo","trace":"off","workspaceFolders":[{"name":"STM32F10x-MesonBuild-Demo","uri":"file:///d%3A/proj/STM32F10x-MesonBuild-Demo"}]}}
+
+I[10:00:18.954] <-- initialize(0)
+I[10:00:18.966] --> reply:initialize(0) 12 ms
+V[10:00:18.966] >>> {"id":0,"jsonrpc":"2.0","result":{"capabilities":{"astProvider":true,"callHierarchyProvider":true,"clangdInlayHintsProvider":true,"codeActionProvider":{"codeActionKinds":["quickfix","refactor","info"]},"compilationDatabase":{"automaticReload":true},"completionProvider":{"resolveProvider":false,"triggerCharacters":[".","<",">",":","\"","/","*"]},"declarationProvider":true,"definitionProvider":true,"documentFormattingProvider":true,"documentHighlightProvider":true,"documentLinkProvider":{"resolveProvider":false},"documentOnTypeFormattingProvider":{"firstTriggerCharacter":"\n","moreTriggerCharacter":[]},"documentRangeFormattingProvider":true,"documentSymbolProvider":true,"executeCommandProvider":{"commands":["clangd.applyFix","clangd.applyRename","clangd.applyTweak"]},"foldingRangeProvider":true,"hoverProvider":true,"implementationProvider":true,"inactiveRegionsProvider":true,"inlayHintProvider":true,"memoryUsageProvider":true,"referencesProvider":true,"renameProvider":{"prepareProvider":true},"selectionRangeProvider":true,"semanticTokensProvider":{"full":{"delta":true},"legend":{"tokenModifiers":["declaration","definition","deprecated","deduced","readonly","static","abstract","virtual","dependentName","defaultLibrary","usedAsMutableReference","usedAsMutablePointer","constructorOrDestructor","userDefined","functionScope","classScope","fileScope","globalScope"],"tokenTypes":["variable","variable","parameter","function","method","function","property","variable","class","interface","enum","enumMember","type","type","unknown","namespace","typeParameter","concept","type","macro","modifier","operator","bracket","label","comment"]},"range":false},"signatureHelpProvider":{"triggerCharacters":["(",")","{","}","<",">",","]},"standardTypeHierarchyProvider":true,"textDocumentSync":{"change":2,"openClose":true,"save":true},"typeDefinitionProvider":true,"typeHierarchyProvider":true,"workspaceSymbolProvider":true},"serverInfo":{"name":"clangd","version":"clangd version 19.1.2 (https://github.com/llvm/llvm-project 7ba7d8e2f7b6445b60679da826210cdde29eaf8b) windows+grpc x86_64-pc-windows-msvc"}}}
+
+V[10:00:18.968] <<< {"jsonrpc":"2.0","method":"initialized","params":{}}
+
+I[10:00:18.968] <-- initialized
+V[10:00:18.971] <<< {"jsonrpc":"2.0","method":"textDocument/didOpen","params":{"textDocument":{"languageId":"c","text":"#include \"stm32f10x.h\"\r\n#include \"arm_isr_attr.h\"\r\n#include \"tiny_console/tiny_console.h\"\r\n\r\n#include \"hal/usart/usart.h\"\r\n\r\nextern console_t* console;\r\nextern volatile uint8_t rcv_flag;\r\nextern usart_dev_t console_usart;\r\n\r\nvoid USART1_IRQHandler(void)\r\n{\r\n    if (USART_GetITStatus(console_usart.reg, USART_IT_RXNE)) {\r\n        USART_ClearITPendingBit(console_usart.reg, USART_IT_RXNE);\r\n        console_input_char(console, (char) USART_ReceiveData(console_usart.reg));\r\n        rcv_flag = 1;\r\n    }\r\n\r\n    // asm volatile('')\r\n}\r\n","uri":"file:///d%3A/proj/STM32F10x-MesonBuild-Demo/src/app/isr.c","version":1}}}
+
+I[10:00:18.971] <-- textDocument/didOpen
+E[10:00:18.976] System include extraction: driver clang not found in PATH
+V[10:00:18.976] <<< {"jsonrpc":"2.0","method":"textDocument/didOpen","params":{"textDocument":{"languageId":"c","text":"#include <stdint.h>\r\n#include \"linker_tools.h\"\r\n#include \"gnu_attributes.h\"\r\n#include \"iterators.h\"\r\n#include \"asm_bridge.h\"\r\n#include \"stack_trace/stack_trace.h\"\r\n#include \"hal/usart/prints.h\"\r\n\r\n#include \"system_stm32f10x.h\"\r\n#include \"stm32f10x.h\"\r\n\r\n#define DUMP_INFO_USART_SEL USART1\r\n\r\nextern int main(void);\r\nextern void do_init_calls(void);\r\n\r\n#define ISR_VEC GNU_SECTION(.isr_vector)\r\n#define HANDLER_ALIAS(name) \\\r\n    __attribute__((__alias__(#name), __weak__, __interrupt__(\"IRQ\")))\r\n#define NULL_HANDLER(name) void name(void) HANDLER_ALIAS(Null_Handler)\r\n#define LOOP_HANDLER(name) \\\r\n    GNU_NORETURN void name(void) HANDLER_ALIAS(Default_Handler)\r\n\r\nLINKER_SYMBOL32(__stack);\r\nLINKER_SYMBOL32(__estack); // smaller than __stack\r\nLINKER_SYMBOL32(__sbss);\r\nLINKER_SYMBOL32(__ebss);\r\nLINKER_SYMBOL32(__load_start);\r\nLINKER_SYMBOL32(__load_end);\r\nLINKER_SYMBOL32(__load_addr);\r\nLINKER_SYMBOL32(__isr_vector_offset);\r\n\r\nGNU_WEAK GNU_NORETURN void Default_Handler(void)\r\n{\r\n    volatile uint32_t r[4];\r\n    volatile uint32_t lr_val = 0, xpsr = 0;\r\n\r\n    ASM_READ_REG(\"r0\", r[0]);\r\n    ASM_READ_REG(\"r1\", r[1]);\r\n    ASM_READ_REG(\"r2\", r[2]);\r\n    ASM_READ_REG(\"r3\", r[3]);\r\n\r\n    ASM_READ_REG(\"lr\", lr_val);\r\n    ASM_READ_XREG(\"xpsr\", xpsr);\r\n\r\n    uint32_t stack_pointer = 0;\r\n\r\n    if (lr_val == 0xFFFFFFF9) {\r\n        stack_pointer = __get_MSP();\r\n    } else if (lr_val == 0xFFFFFFFD) {\r\n        stack_pointer = __get_PSP();\r\n    }\r\n\r\n    print_str(DUMP_INFO_USART_SEL, __func__);\r\n\r\n    for (int i = 0; i < 4; i++) {\r\n        print_str(DUMP_INFO_USART_SEL, \"\\nr\");\r\n        print_char(DUMP_INFO_USART_SEL, (char) (i + '0'));\r\n        print_str(DUMP_INFO_USART_SEL, \": 0x\");\r\n        print_hex(DUMP_INFO_USART_SEL, r[i]);\r\n    }\r\n\r\n    print_str(DUMP_INFO_USART_SEL, \"\\nlr: 0x\");\r\n    print_hex(DUMP_INFO_USART_SEL, lr_val);\r\n    print_str(DUMP_INFO_USART_SEL, \"\\nxpsr: 0x\");\r\n    print_hex(DUMP_INFO_USART_SEL, xpsr);\r\n    print_str(DUMP_INFO_USART_SEL, \"\\nmsp: 0x\");\r\n    print_hex(DUMP_INFO_USART_SEL, __get_MSP());\r\n    print_str(DUMP_INFO_USART_SEL, \"\\npsp: 0x\");\r\n    print_hex(DUMP_INFO_USART_SEL, __get_PSP());\r\n\r\n    print_str(DUMP_INFO_USART_SEL, \"\\nstack_dump at (0x\");\r\n    print_hex(DUMP_INFO_USART_SEL, stack_pointer);\r\n    print_str(DUMP_INFO_USART_SEL, \"):\\n\");\r\n\r\n    print_stack_trace(DUMP_INFO_USART_SEL, (uint32_t*) stack_pointer);\r\n\r\n    while (1) {\r\n        // *(uint32_t*)0xE000ED0C = 0x5FA0005;\r\n        asm volatile(\"bkpt\");\r\n    }\r\n}\r\n\r\nGNU_WEAK void Null_Handler(void)\r\n{\r\n}\r\n\r\n// fill stack with value 0xAA, this will help us to find the stack top useage\r\nGNU_WEAK void init_stack(void)\r\n{\r\n    asm volatile(\"ldr r0, =__estack\");\r\n    asm volatile(\"ldr r1, =__stack - 4\");\r\n    asm volatile(\"ldr r2, =0xAAAAAAAA\");\r\n\r\n    // stack size in r3\r\n    asm volatile(\"sub r3, r1, r0\");\r\n    asm volatile(\"sub r0, #4\");\r\n\r\n    // if (r0 == r1) return;\r\n    asm volatile(\"cmp r0, r1\");\r\n    asm volatile(\"it eq\");\r\n    asm volatile(\"bxeq lr\");\r\n\r\n    // for(; r3 > 0; r3 -= 4)\r\n    asm volatile(\"__set_stack_loop:\");\r\n    // write r2 to *(uint32_t*)(r0 + r3)\r\n    asm volatile(\"str r2, [r0, r3]\");\r\n    asm volatile(\"sub r3, #4\"); // r3 -= 4;\r\n\r\n    // if (r3 != 0) jump __set_stack_loop\r\n    asm volatile(\"cmp r3, #0\");\r\n    asm volatile(\"bne __set_stack_loop\");\r\n\r\n    // set cpu sp and return\r\n    asm volatile(\"mov sp, r1\");\r\n    asm volatile(\"bx lr\");\r\n}\r\n\r\n__attribute__((__weak__, __noreturn__)) void Reset_Handler(void)\r\n{\r\n    volatile uint32_t* load_to = __load_start;\r\n    volatile uint32_t* load_from = __load_addr;\r\n    uint32_t load_size = ((uint32_t) __load_end - (uint32_t) __load_start) / 4;\r\n\r\n    // load everything that needs to be located at ram\r\n    if (load_from != load_to) {\r\n        for (uint32_t i = 0; i < load_size; i++) {\r\n            *load_to = *load_from;\r\n            load_to++;\r\n            load_from++;\r\n        }\r\n    }\r\n\r\n    volatile uint32_t* sbss = __sbss;\r\n    volatile uint32_t* ebss = __ebss;\r\n\r\n    // clear .bss section\r\n    for (; sbss < ebss; sbss++) *sbss = 0;\r\n\r\n    SystemInit();\r\n\r\n#ifdef VECT_TAB_SRAM\r\n    SCB->VTOR = SRAM_BASE | (uint32_t) __isr_vector_offset;\r\n#else\r\n    SCB->VTOR = FLASH_BASE;\r\n#endif\r\n\r\n    init_stack();\r\n    do_init_calls();\r\n\r\n    main();\r\n    while (1) asm volatile(\"bkpt\");\r\n}\r\n\r\nNULL_HANDLER(NMI_Handler);\r\nLOOP_HANDLER(HardFault_Handler);\r\nLOOP_HANDLER(MemManage_Handler);\r\nLOOP_HANDLER(BusFault_Handler);\r\nLOOP_HANDLER(UsageFault_Handler);\r\n\r\nNULL_HANDLER(SVC_Handler);\r\nNULL_HANDLER(DebugMon_Handler);\r\nNULL_HANDLER(PendSV_Handler);\r\nNULL_HANDLER(SysTick_Handler);\r\nNULL_HANDLER(WWDG_IRQHandler);\r\nNULL_HANDLER(PVD_IRQHandler);\r\nNULL_HANDLER(TAMPER_IRQHandler);\r\nNULL_HANDLER(RTC_IRQHandler);\r\nNULL_HANDLER(FLASH_IRQHandler);\r\nNULL_HANDLER(RCC_IRQHandler);\r\nNULL_HANDLER(EXTI0_IRQHandler);\r\nNULL_HANDLER(EXTI1_IRQHandler);\r\nNULL_HANDLER(EXTI2_IRQHandler);\r\nNULL_HANDLER(EXTI3_IRQHandler);\r\nNULL_HANDLER(EXTI4_IRQHandler);\r\nNULL_HANDLER(DMA1_Channel1_IRQHandler);\r\nNULL_HANDLER(DMA1_Channel2_IRQHandler);\r\nNULL_HANDLER(DMA1_Channel3_IRQHandler);\r\nNULL_HANDLER(DMA1_Channel4_IRQHandler);\r\nNULL_HANDLER(DMA1_Channel5_IRQHandler);\r\nNULL_HANDLER(DMA1_Channel6_IRQHandler);\r\nNULL_HANDLER(DMA1_Channel7_IRQHandler);\r\nNULL_HANDLER(ADC1_2_IRQHandler);\r\nNULL_HANDLER(USB_HP_CAN1_TX_IRQHandler);\r\nNULL_HANDLER(USB_LP_CAN1_RX0_IRQHandler);\r\nNULL_HANDLER(CAN1_RX1_IRQHandler);\r\nNULL_HANDLER(CAN1_SCE_IRQHandler);\r\nNULL_HANDLER(EXTI9_5_IRQHandler);\r\nNULL_HANDLER(TIM1_BRK_IRQHandler);\r\nNULL_HANDLER(TIM1_UP_IRQHandler);\r\nNULL_HANDLER(TIM1_TRG_COM_IRQHandler);\r\nNULL_HANDLER(TIM1_CC_IRQHandler);\r\nNULL_HANDLER(TIM2_IRQHandler);\r\nNULL_HANDLER(TIM3_IRQHandler);\r\nNULL_HANDLER(TIM4_IRQHandler);\r\nNULL_HANDLER(I2C1_EV_IRQHandler);\r\nNULL_HANDLER(I2C1_ER_IRQHandler);\r\nNULL_HANDLER(I2C2_EV_IRQHandler);\r\nNULL_HANDLER(I2C2_ER_IRQHandler);\r\nNULL_HANDLER(SPI1_IRQHandler);\r\nNULL_HANDLER(SPI2_IRQHandler);\r\nNULL_HANDLER(USART1_IRQHandler);\r\nNULL_HANDLER(USART2_IRQHandler);\r\nNULL_HANDLER(USART3_IRQHandler);\r\nNULL_HANDLER(EXTI15_10_IRQHandler);\r\nNULL_HANDLER(RTCAlarm_IRQHandler);\r\nNULL_HANDLER(USBWakeUp_IRQHandler);\r\n\r\n#define BootRAM 0xF108F85F\r\n\r\nISR_VEC volatile uint32_t isr_vectors[] = {\r\n    (uint32_t) __stack,\r\n    (uint32_t) Reset_Handler,\r\n    (uint32_t) NMI_Handler,\r\n    (uint32_t) HardFault_Handler,\r\n    (uint32_t) MemManage_Handler,\r\n    (uint32_t) BusFault_Handler,\r\n    (uint32_t) UsageFault_Handler,\r\n    (uint32_t) 0,\r\n    (uint32_t) 0,\r\n    (uint32_t) 0,\r\n    (uint32_t) 0,\r\n    (uint32_t) SVC_Handler,\r\n    (uint32_t) DebugMon_Handler,\r\n    (uint32_t) 0,\r\n    (uint32_t) PendSV_Handler,\r\n    (uint32_t) SysTick_Handler,\r\n    (uint32_t) WWDG_IRQHandler,\r\n    (uint32_t) PVD_IRQHandler,\r\n    (uint32_t) TAMPER_IRQHandler,\r\n    (uint32_t) RTC_IRQHandler,\r\n    (uint32_t) FLASH_IRQHandler,\r\n    (uint32_t) RCC_IRQHandler,\r\n    (uint32_t) EXTI0_IRQHandler,\r\n    (uint32_t) EXTI1_IRQHandler,\r\n    (uint32_t) EXTI2_IRQHandler,\r\n    (uint32_t) EXTI3_IRQHandler,\r\n    (uint32_t) EXTI4_IRQHandler,\r\n    (uint32_t) DMA1_Channel1_IRQHandler,\r\n    (uint32_t) DMA1_Channel2_IRQHandler,\r\n    (uint32_t) DMA1_Channel3_IRQHandler,\r\n    (uint32_t) DMA1_Channel4_IRQHandler,\r\n    (uint32_t) DMA1_Channel5_IRQHandler,\r\n    (uint32_t) DMA1_Channel6_IRQHandler,\r\n    (uint32_t) DMA1_Channel7_IRQHandler,\r\n    (uint32_t) ADC1_2_IRQHandler,\r\n    (uint32_t) USB_HP_CAN1_TX_IRQHandler,\r\n    (uint32_t) USB_LP_CAN1_RX0_IRQHandler,\r\n    (uint32_t) CAN1_RX1_IRQHandler,\r\n    (uint32_t) CAN1_SCE_IRQHandler,\r\n    (uint32_t) EXTI9_5_IRQHandler,\r\n    (uint32_t) TIM1_BRK_IRQHandler,\r\n    (uint32_t) TIM1_UP_IRQHandler,\r\n    (uint32_t) TIM1_TRG_COM_IRQHandler,\r\n    (uint32_t) TIM1_CC_IRQHandler,\r\n    (uint32_t) TIM2_IRQHandler,\r\n    (uint32_t) TIM3_IRQHandler,\r\n    (uint32_t) TIM4_IRQHandler,\r\n    (uint32_t) I2C1_EV_IRQHandler,\r\n    (uint32_t) I2C1_ER_IRQHandler,\r\n    (uint32_t) I2C2_EV_IRQHandler,\r\n    (uint32_t) I2C2_ER_IRQHandler,\r\n    (uint32_t) SPI1_IRQHandler,\r\n    (uint32_t) SPI2_IRQHandler,\r\n    (uint32_t) USART1_IRQHandler,\r\n    (uint32_t) USART2_IRQHandler,\r\n    (uint32_t) USART3_IRQHandler,\r\n    (uint32_t) EXTI15_10_IRQHandler,\r\n    (uint32_t) RTCAlarm_IRQHandler,\r\n    (uint32_t) USBWakeUp_IRQHandler,\r\n    (uint32_t) 0,\r\n    (uint32_t) 0,\r\n    (uint32_t) 0,\r\n    (uint32_t) 0,\r\n    (uint32_t) 0,\r\n    (uint32_t) 0,\r\n    (uint32_t) 0,\r\n    (uint32_t) BootRAM,\r\n};\r\n\r\nconst uint32_t isr_vector_size = ARRAY_SIZE(isr_vectors);\r\n\r\n/*\r\n.word\t_estack\r\n.word\tReset_Handler\r\n.word\tNMI_Handler\r\n.word\tHardFault_Handler\r\n.word\tMemManage_Handler\r\n.word\tBusFault_Handler\r\n.word\tUsageFault_Handler\r\n.word\t0\r\n.word\t0\r\n.word\t0\r\n.word\t0\r\n.word\tSVC_Handler\r\n.word\tDebugMon_Handler\r\n.word\t0\r\n.word\tPendSV_Handler\r\n.word\tSysTick_Handler\r\n.word\tWWDG_IRQHandler\r\n.word\tPVD_IRQHandler\r\n.word\tTAMPER_IRQHandler\r\n.word\tRTC_IRQHandler\r\n.word\tFLASH_IRQHandler\r\n.word\tRCC_IRQHandler\r\n.word\tEXTI0_IRQHandler\r\n.word\tEXTI1_IRQHandler\r\n.word\tEXTI2_IRQHandler\r\n.word\tEXTI3_IRQHandler\r\n.word\tEXTI4_IRQHandler\r\n.word\tDMA1_Channel1_IRQHandler\r\n.word\tDMA1_Channel2_IRQHandler\r\n.word\tDMA1_Channel3_IRQHandler\r\n.word\tDMA1_Channel4_IRQHandler\r\n.word\tDMA1_Channel5_IRQHandler\r\n.word\tDMA1_Channel6_IRQHandler\r\n.word\tDMA1_Channel7_IRQHandler\r\n.word\tADC1_2_IRQHandler\r\n.word\tUSB_HP_CAN1_TX_IRQHandler\r\n.word\tUSB_LP_CAN1_RX0_IRQHandler\r\n.word\tCAN1_RX1_IRQHandler\r\n.word\tCAN1_SCE_IRQHandler\r\n.word\tEXTI9_5_IRQHandler\r\n.word\tTIM1_BRK_IRQHandler\r\n.word\tTIM1_UP_IRQHandler\r\n.word\tTIM1_TRG_COM_IRQHandler\r\n.word\tTIM1_CC_IRQHandler\r\n.word\tTIM2_IRQHandler\r\n.word\tTIM3_IRQHandler\r\n.word\tTIM4_IRQHandler\r\n.word\tI2C1_EV_IRQHandler\r\n.word\tI2C1_ER_IRQHandler\r\n.word\tI2C2_EV_IRQHandler\r\n.word\tI2C2_ER_IRQHandler\r\n.word\tSPI1_IRQHandler\r\n.word\tSPI2_IRQHandler\r\n.word\tUSART1_IRQHandler\r\n.word\tUSART2_IRQHandler\r\n.word\tUSART3_IRQHandler\r\n.word\tEXTI15_10_IRQHandler\r\n.word\tRTCAlarm_IRQHandler\r\n.word\tUSBWakeUp_IRQHandler\r\n.word\t0\r\n.word\t0\r\n.word\t0\r\n.word\t0\r\n.word\t0\r\n.word\t0\r\n.word\t0\r\n.word\tBootRAM      //@0x108. This is for boot in RAM mode for STM32F10x Medium\r\nDensity devices.\r\n*/\r\n","uri":"file:///d%3A/proj/STM32F10x-MesonBuild-Demo/src/start_files/startup_stm32f10x_md.c","version":1}}}
+
+I[10:00:18.976] <-- textDocument/didOpen
+V[10:00:18.976] <<< {"id":1,"jsonrpc":"2.0","method":"textDocument/documentSymbol","params":{"textDocument":{"uri":"file:///d%3A/proj/STM32F10x-MesonBuild-Demo/src/app/isr.c"}}}
+
+I[10:00:18.976] <-- textDocument/documentSymbol(1)
+V[10:00:18.976] <<< {"id":2,"jsonrpc":"2.0","method":"textDocument/codeAction","params":{"context":{"diagnostics":[],"triggerKind":2},"range":{"end":{"character":17,"line":10},"start":{"character":17,"line":10}},"textDocument":{"uri":"file:///d%3A/proj/STM32F10x-MesonBuild-Demo/src/app/isr.c"}}}
+
+I[10:00:18.976] <-- textDocument/codeAction(2)
+V[10:00:18.977] config note at d:\proj\STM32F10x-MesonBuild-Demo\.clangd:1:0: Parsing config fragment
+V[10:00:18.977] config note at d:\proj\STM32F10x-MesonBuild-Demo\.clangd:1:0: Parsed 1 fragments from file
+V[10:00:18.977] Config fragment: compiling d:\proj\STM32F10x-MesonBuild-Demo\.clangd:1 -> 0x0000025DECE5A850 (trusted=false)
+V[10:00:18.979] config note at C:\Users\Siliconwaves_Users\AppData\Local\clangd\config.yaml:2:0: Parsing config fragment
+V[10:00:18.979] config note at C:\Users\Siliconwaves_Users\AppData\Local\clangd\config.yaml:1:0: Parsed 1 fragments from file
+V[10:00:18.979] Config fragment: compiling C:\Users\Siliconwaves_Users\AppData\Local\clangd\config.yaml:2 -> 0x0000025DECE59CC0 (trusted=true)
+I[10:00:18.979] --> textDocument/publishDiagnostics
+V[10:00:18.979] >>> {"jsonrpc":"2.0","method":"textDocument/publishDiagnostics","params":{"diagnostics":[],"uri":"file:///C:/Users/Siliconwaves_Users/AppData/Local/clangd/config.yaml"}}
+
+I[10:00:18.979] --> textDocument/publishDiagnostics
+V[10:00:18.979] >>> {"jsonrpc":"2.0","method":"textDocument/publishDiagnostics","params":{"diagnostics":[],"uri":"file:///d:/proj/STM32F10x-MesonBuild-Demo/.clangd"}}
+
+I[10:00:18.980] Loaded compilation database from d:\proj\STM32F10x-MesonBuild-Demo\builddir\compile_commands.json
+V[10:00:18.980] Broadcasting compilation database from d:\proj\STM32F10x-MesonBuild-Demo\builddir
+V[10:00:18.982] config note at D:\proj\STM32F10x-MesonBuild-Demo\.clangd:1:0: Parsing config fragment
+V[10:00:18.982] config note at D:\proj\STM32F10x-MesonBuild-Demo\.clangd:1:0: Parsed 1 fragments from file
+V[10:00:18.982] Config fragment: compiling D:\proj\STM32F10x-MesonBuild-Demo\.clangd:1 -> 0x0000025DEE965890 (trusted=false)
+I[10:00:18.983] --> textDocument/publishDiagnostics
+V[10:00:18.983] >>> {"jsonrpc":"2.0","method":"textDocument/publishDiagnostics","params":{"diagnostics":[],"uri":"file:///D:/proj/STM32F10x-MesonBuild-Demo/.clangd"}}
+
+V[10:00:18.991] <<< {"id":3,"jsonrpc":"2.0","method":"textDocument/documentLink","params":{"textDocument":{"uri":"file:///d%3A/proj/STM32F10x-MesonBuild-Demo/src/app/isr.c"}}}
+
+I[10:00:18.991] <-- textDocument/documentLink(3)
+V[10:00:18.992] <<< {"id":4,"jsonrpc":"2.0","method":"textDocument/inlayHint","params":{"range":{"end":{"character":0,"line":20},"start":{"character":0,"line":0}},"textDocument":{"uri":"file:///d%3A/proj/STM32F10x-MesonBuild-Demo/src/app/isr.c"}}}
+
+I[10:00:18.992] <-- textDocument/inlayHint(4)
+I[10:00:18.993] --> window/workDoneProgress/create(0)
+V[10:00:18.993] >>> {"id":0,"jsonrpc":"2.0","method":"window/workDoneProgress/create","params":{"token":"backgroundIndexProgress"}}
+
+I[10:00:18.993] Enqueueing 53 commands for indexing
+V[10:00:18.997] <<< {"id":0,"jsonrpc":"2.0","result":null}
+
+I[10:00:18.997] <-- reply(0)
+I[10:00:18.997] --> $/progress
+V[10:00:18.997] >>> {"jsonrpc":"2.0","method":"$/progress","params":{"token":"backgroundIndexProgress","value":{"kind":"begin","percentage":0,"title":"indexing"}}}
+
+I[10:00:18.997] --> $/progress
+V[10:00:18.997] >>> {"jsonrpc":"2.0","method":"$/progress","params":{"token":"backgroundIndexProgress","value":{"kind":"report","message":"0/1","percentage":0}}}
+
+V[10:00:19.036] Failed to load shard: D:\proj\STM32F10x-MesonBuild-Demo\src\start_files\init_calls.s
+V[10:00:19.037] System include extraction: target extracted: "arm-none-eabi"
+V[10:00:19.037] System include extraction: adding  D:/SysGCC/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/include
+
+V[10:00:19.037] System include extraction: adding  D:/SysGCC/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/include-fixed
+
+V[10:00:19.037] System include extraction: adding  D:/SysGCC/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/include
+
+V[10:00:19.040] System include extraction: target extracted: "arm-none-eabi"
+V[10:00:19.040] System include extraction: adding  D:/SysGCC/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/include
+
+V[10:00:19.040] System include extraction: adding  D:/SysGCC/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/include-fixed
+
+V[10:00:19.040] System include extraction: adding  D:/SysGCC/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/include
+
+V[10:00:19.041] BackgroundIndex: building version 1 after loading index from disk
+V[10:00:19.056] System includes extractor: builtin headers D:/SysGCC/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/include excluded
+I[10:00:19.056] System includes extractor: successfully executed D:/SysGCC/arm-none-eabi/bin/arm-none-eabi-gcc
+	got includes: "D:/SysGCC/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/include-fixed, D:/SysGCC/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/include"
+	got target: "arm-none-eabi"
+I[10:00:19.056] ASTWorker building file d:\proj\STM32F10x-MesonBuild-Demo\src\start_files\startup_stm32f10x_md.c version 1 with command 
+[D:\proj\STM32F10x-MesonBuild-Demo\builddir]
+D:/SysGCC/arm-none-eabi/bin/arm-none-eabi-gcc -Idemo_dbg.elf.p -I. -I.. -Isrc "-I..\\src" "-I..\\src\\app" "-Isubprojects\\embed-utils" "-I..\\subprojects\\embed-utils" "-I..\\subprojects\\embed-utils\\test_cases" "-I..\\subprojects\\STM32_StdLib\\CMSIS\\CoreSupport" "-I..\\subprojects\\STM32_StdLib\\CMSIS\\DeviceSupport" "-I..\\subprojects\\STM32_StdLib\\Driver\\inc" -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu17 -mcpu=cortex-m3 -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER "-DPROJECT_VERSION=\"0.1\"" -fdata-sections -ffunction-sections -DCONFIG_ENABLE_TEST_CASES=0 -DCONFIG_CHECK_TESTCASE_MEMPOOL=1 -DCONFIG_ENABLE_DEMO=0 -DCONFIG_DEFAULT_POOL_SIZE=2 -DCONFIG_TESTCASE_POOL_SIZE=2 -DCONFIG_CONSOLE_BUILTIN_CMD_ENABLE=1 -ffast-math -fno-builtin -fno-unroll-loops -fomit-frame-pointer -ftree-vectorize -mthumb -mabi=aapcs -Wall -Og -DVECT_TAB_SRAM -g3 -D__DEBUG -MD -MQ demo_dbg.elf.p/src_start_files_startup_stm32f10x_md.c.o -MF "demo_dbg.elf.p\\src_start_files_startup_stm32f10x_md.c.o.d" -o demo_dbg.elf.p/src_start_files_startup_stm32f10x_md.c.o -c -Wno-format -isystem D:/SysGCC/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/include-fixed -isystem D:/SysGCC/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/include --target=arm-none-eabi "-resource-dir=C:\\Users\\Siliconwaves_Users\\AppData\\Roaming\\Code\\User\\globalStorage\\llvm-vs-code-extensions.vscode-clangd\\install\\19.1.2\\clangd_19.1.2\\lib\\clang\\19" -- "d:\\proj\\STM32F10x-MesonBuild-Demo\\src\\start_files\\startup_stm32f10x_md.c"
+V[10:00:19.059] Driver produced command: cc1 -cc1 -triple thumbv7m-unknown-none-eabi -fsyntax-only -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name startup_stm32f10x_md.c -mrelocation-model static -mframe-pointer=none -menable-no-infs -menable-no-nans -fapprox-func -funsafe-math-optimizations -fno-signed-zeros -mreassociate -freciprocal-math -ffp-contract=fast -fno-rounding-math -ffast-math -ffinite-math-only -complex-range=basic -mconstructor-aliases -nostdsysteminc -target-cpu cortex-m3 -target-feature +soft-float-abi -target-feature -crc -target-feature -dsp -target-feature -mve -target-feature -ras -target-feature -sb -target-feature -i8mm -target-feature -lob -target-feature -cdecp0 -target-feature -cdecp1 -target-feature -cdecp2 -target-feature -cdecp3 -target-feature -cdecp4 -target-feature -cdecp5 -target-feature -cdecp6 -target-feature -cdecp7 -target-feature -pacbti -target-feature -hwdiv-arm -target-feature +hwdiv -target-feature -vfp2 -target-feature -vfp2sp -target-feature -vfp3 -target-feature -vfp3d16 -target-feature -vfp3d16sp -target-feature -vfp3sp -target-feature -fp16 -target-feature -vfp4 -target-feature -vfp4d16 -target-feature -vfp4d16sp -target-feature -vfp4sp -target-feature -fp-armv8 -target-feature -fp-armv8d16 -target-feature -fp-armv8d16sp -target-feature -fp-armv8sp -target-feature -fullfp16 -target-feature -fp64 -target-feature -d32 -target-feature -neon -target-feature -dotprod -target-feature -fp16fml -target-feature -bf16 -target-feature -mve.fp -target-feature -fpregs -target-feature -crypto -target-feature -sha2 -target-feature -aes -target-abi aapcs -mfloat-abi soft -debug-info-kind=constructor -dwarf-version=5 -debugger-tuning=gdb "-fdebug-compilation-dir=D:\\proj\\STM32F10x-MesonBuild-Demo\\builddir" -ffunction-sections -fdata-sections "-fcoverage-compilation-dir=D:\\proj\\STM32F10x-MesonBuild-Demo\\builddir" -resource-dir "C:\\Users\\Siliconwaves_Users\\AppData\\Roaming\\Code\\User\\globalStorage\\llvm-vs-code-extensions.vscode-clangd\\install\\19.1.2\\clangd_19.1.2\\lib\\clang\\19" -dependency-file "demo_dbg.elf.p\\src_start_files_startup_stm32f10x_md.c.o.d" -MT demo_dbg.elf.p/src_start_files_startup_stm32f10x_md.c.o -sys-header-deps -isystem D:/SysGCC/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/include-fixed -isystem D:/SysGCC/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/include -I demo_dbg.elf.p -I . -I .. -I src -I "..\\src" -I "..\\src\\app" -I "subprojects\\embed-utils" -I "..\\subprojects\\embed-utils" -I "..\\subprojects\\embed-utils\\test_cases" -I "..\\subprojects\\STM32_StdLib\\CMSIS\\CoreSupport" -I "..\\subprojects\\STM32_StdLib\\CMSIS\\DeviceSupport" -I "..\\subprojects\\STM32_StdLib\\Driver\\inc" -D _FILE_OFFSET_BITS=64 -D STM32F10X_MD -D USE_STDPERIPH_DRIVER -D "PROJECT_VERSION=\"0.1\"" -D CONFIG_ENABLE_TEST_CASES=0 -D CONFIG_CHECK_TESTCASE_MEMPOOL=1 -D CONFIG_ENABLE_DEMO=0 -D CONFIG_DEFAULT_POOL_SIZE=2 -D CONFIG_TESTCASE_POOL_SIZE=2 -D CONFIG_CONSOLE_BUILTIN_CMD_ENABLE=1 -D VECT_TAB_SRAM -D __DEBUG -internal-isystem "C:\\Users\\Siliconwaves_Users\\AppData\\Roaming\\Code\\User\\globalStorage\\llvm-vs-code-extensions.vscode-clangd\\install\\19.1.2\\clangd_19.1.2\\lib\\clang\\19\\include" -internal-isystem "D:/SysGCC/arm-none-eabi/bin\\..\\lib\\clang-runtimes\\arm-none-eabi\\include" -Og -Wall -Winvalid-pch -Wextra -Wpedantic -Wall -Wno-format -std=gnu17 -ferror-limit 19 -fno-unroll-loops -fno-builtin -fno-signed-char -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -vectorize-loops -no-round-trip-args -faddrsig -D__GCC_HAVE_DWARF2_CFI_ASM=1 -x c "d:\\proj\\STM32F10x-MesonBuild-Demo\\src\\start_files\\startup_stm32f10x_md.c"
+I[10:00:19.059] --> textDocument/clangd.fileStatus
+V[10:00:19.059] >>> {"jsonrpc":"2.0","method":"textDocument/clangd.fileStatus","params":{"state":"parsing includes, running Update","uri":"file:///d:/proj/STM32F10x-MesonBuild-Demo/src/start_files/startup_stm32f10x_md.c"}}
+
+V[10:00:19.059] Building first preamble for d:\proj\STM32F10x-MesonBuild-Demo\src\start_files\startup_stm32f10x_md.c version 1
+V[10:00:19.063] System includes extractor: builtin headers D:/SysGCC/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/include excluded
+I[10:00:19.063] System includes extractor: successfully executed D:/SysGCC/arm-none-eabi/bin/arm-none-eabi-gcc
+	got includes: "D:/SysGCC/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/include-fixed, D:/SysGCC/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/include"
+	got target: "arm-none-eabi"
+I[10:00:19.063] ASTWorker building file d:\proj\STM32F10x-MesonBuild-Demo\src\app\isr.c version 1 with command 
+[D:\proj\STM32F10x-MesonBuild-Demo\builddir]
+D:/SysGCC/arm-none-eabi/bin/arm-none-eabi-gcc -Idemo_dbg.elf.p -I. -I.. -Isrc "-I..\\src" "-I..\\src\\app" "-Isubprojects\\embed-utils" "-I..\\subprojects\\embed-utils" "-I..\\subprojects\\embed-utils\\test_cases" "-I..\\subprojects\\STM32_StdLib\\CMSIS\\CoreSupport" "-I..\\subprojects\\STM32_StdLib\\CMSIS\\DeviceSupport" "-I..\\subprojects\\STM32_StdLib\\Driver\\inc" -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu17 -mcpu=cortex-m3 -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER "-DPROJECT_VERSION=\"0.1\"" -fdata-sections -ffunction-sections -DCONFIG_ENABLE_TEST_CASES=0 -DCONFIG_CHECK_TESTCASE_MEMPOOL=1 -DCONFIG_ENABLE_DEMO=0 -DCONFIG_DEFAULT_POOL_SIZE=2 -DCONFIG_TESTCASE_POOL_SIZE=2 -DCONFIG_CONSOLE_BUILTIN_CMD_ENABLE=1 -ffast-math -fno-builtin -fno-unroll-loops -fomit-frame-pointer -ftree-vectorize -mthumb -mabi=aapcs -Wall -Og -DVECT_TAB_SRAM -g3 -D__DEBUG -MD -MQ demo_dbg.elf.p/src_app_isr.c.o -MF "demo_dbg.elf.p\\src_app_isr.c.o.d" -o demo_dbg.elf.p/src_app_isr.c.o -c -Wno-format -isystem D:/SysGCC/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/include-fixed -isystem D:/SysGCC/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/include --target=arm-none-eabi "-resource-dir=C:\\Users\\Siliconwaves_Users\\AppData\\Roaming\\Code\\User\\globalStorage\\llvm-vs-code-extensions.vscode-clangd\\install\\19.1.2\\clangd_19.1.2\\lib\\clang\\19" -- "d:\\proj\\STM32F10x-MesonBuild-Demo\\src\\app\\isr.c"
+V[10:00:19.065] BackgroundIndex: serving version 1 (5315049 bytes)
+V[10:00:19.065] Driver produced command: cc1 -cc1 -triple thumbv7m-unknown-none-eabi -fsyntax-only -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name isr.c -mrelocation-model static -mframe-pointer=none -menable-no-infs -menable-no-nans -fapprox-func -funsafe-math-optimizations -fno-signed-zeros -mreassociate -freciprocal-math -ffp-contract=fast -fno-rounding-math -ffast-math -ffinite-math-only -complex-range=basic -mconstructor-aliases -nostdsysteminc -target-cpu cortex-m3 -target-feature +soft-float-abi -target-feature -crc -target-feature -dsp -target-feature -mve -target-feature -ras -target-feature -sb -target-feature -i8mm -target-feature -lob -target-feature -cdecp0 -target-feature -cdecp1 -target-feature -cdecp2 -target-feature -cdecp3 -target-feature -cdecp4 -target-feature -cdecp5 -target-feature -cdecp6 -target-feature -cdecp7 -target-feature -pacbti -target-feature -hwdiv-arm -target-feature +hwdiv -target-feature -vfp2 -target-feature -vfp2sp -target-feature -vfp3 -target-feature -vfp3d16 -target-feature -vfp3d16sp -target-feature -vfp3sp -target-feature -fp16 -target-feature -vfp4 -target-feature -vfp4d16 -target-feature -vfp4d16sp -target-feature -vfp4sp -target-feature -fp-armv8 -target-feature -fp-armv8d16 -target-feature -fp-armv8d16sp -target-feature -fp-armv8sp -target-feature -fullfp16 -target-feature -fp64 -target-feature -d32 -target-feature -neon -target-feature -dotprod -target-feature -fp16fml -target-feature -bf16 -target-feature -mve.fp -target-feature -fpregs -target-feature -crypto -target-feature -sha2 -target-feature -aes -target-abi aapcs -mfloat-abi soft -debug-info-kind=constructor -dwarf-version=5 -debugger-tuning=gdb "-fdebug-compilation-dir=D:\\proj\\STM32F10x-MesonBuild-Demo\\builddir" -ffunction-sections -fdata-sections "-fcoverage-compilation-dir=D:\\proj\\STM32F10x-MesonBuild-Demo\\builddir" -resource-dir "C:\\Users\\Siliconwaves_Users\\AppData\\Roaming\\Code\\User\\globalStorage\\llvm-vs-code-extensions.vscode-clangd\\install\\19.1.2\\clangd_19.1.2\\lib\\clang\\19" -dependency-file "demo_dbg.elf.p\\src_app_isr.c.o.d" -MT demo_dbg.elf.p/src_app_isr.c.o -sys-header-deps -isystem D:/SysGCC/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/include-fixed -isystem D:/SysGCC/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/include -I demo_dbg.elf.p -I . -I .. -I src -I "..\\src" -I "..\\src\\app" -I "subprojects\\embed-utils" -I "..\\subprojects\\embed-utils" -I "..\\subprojects\\embed-utils\\test_cases" -I "..\\subprojects\\STM32_StdLib\\CMSIS\\CoreSupport" -I "..\\subprojects\\STM32_StdLib\\CMSIS\\DeviceSupport" -I "..\\subprojects\\STM32_StdLib\\Driver\\inc" -D _FILE_OFFSET_BITS=64 -D STM32F10X_MD -D USE_STDPERIPH_DRIVER -D "PROJECT_VERSION=\"0.1\"" -D CONFIG_ENABLE_TEST_CASES=0 -D CONFIG_CHECK_TESTCASE_MEMPOOL=1 -D CONFIG_ENABLE_DEMO=0 -D CONFIG_DEFAULT_POOL_SIZE=2 -D CONFIG_TESTCASE_POOL_SIZE=2 -D CONFIG_CONSOLE_BUILTIN_CMD_ENABLE=1 -D VECT_TAB_SRAM -D __DEBUG -internal-isystem "C:\\Users\\Siliconwaves_Users\\AppData\\Roaming\\Code\\User\\globalStorage\\llvm-vs-code-extensions.vscode-clangd\\install\\19.1.2\\clangd_19.1.2\\lib\\clang\\19\\include" -internal-isystem "D:/SysGCC/arm-none-eabi/bin\\..\\lib\\clang-runtimes\\arm-none-eabi\\include" -Og -Wall -Winvalid-pch -Wextra -Wpedantic -Wall -Wno-format -std=gnu17 -ferror-limit 19 -fno-unroll-loops -fno-builtin -fno-signed-char -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -vectorize-loops -no-round-trip-args -faddrsig -D__GCC_HAVE_DWARF2_CFI_ASM=1 -x c "d:\\proj\\STM32F10x-MesonBuild-Demo\\src\\app\\isr.c"
+I[10:00:19.066] --> textDocument/clangd.fileStatus
+V[10:00:19.066] >>> {"jsonrpc":"2.0","method":"textDocument/clangd.fileStatus","params":{"state":"parsing includes, running Update","uri":"file:///d:/proj/STM32F10x-MesonBuild-Demo/src/app/isr.c"}}
+
+V[10:00:19.066] Building first preamble for d:\proj\STM32F10x-MesonBuild-Demo\src\app\isr.c version 1
+E[10:00:19.078] File has invalid UTF-8 near offset 47: 20202A20202020202020202020202020202D20546F20757365206F72206E6F7420746865207065726970686572616C92
+V[10:00:19.078] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.078] File has invalid UTF-8 near offset 68: 20202A20202020202020202020202020202020636F64652077696C6C206265206261736564206F6E206469726563742061636365737320746F207065726970686572616C92
+V[10:00:19.078] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.078] File has invalid UTF-8 near offset 43: 20202A20202020202020202020202D204D6163726F7320746F20616363657373207065726970686572616C92
+E[10:00:19.088] File has invalid UTF-8 near offset 47: 20202A20202020202020202020202020202D20546F20757365206F72206E6F7420746865207065726970686572616C92
+V[10:00:19.088] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.088] File has invalid UTF-8 near offset 68: 20202A20202020202020202020202020202020636F64652077696C6C206265206261736564206F6E206469726563742061636365737320746F207065726970686572616C92
+V[10:00:19.088] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.088] File has invalid UTF-8 near offset 43: 20202A20202020202020202020202D204D6163726F7320746F20616363657373207065726970686572616C92
+V[10:00:19.088] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+V[10:00:19.089] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\CoreSupport\core_cm3.h: a function declaration without a prototype is deprecated in all versions of C
+V[10:00:19.089] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\CoreSupport\core_cm3.h: a function declaration without a prototype is deprecated in all versions of C
+V[10:00:19.089] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\CoreSupport\core_cm3.h: a function declaration without a prototype is deprecated in all versions of C
+V[10:00:19.089] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\CoreSupport\core_cm3.h: a function declaration without a prototype is deprecated in all versions of C
+V[10:00:19.089] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\CoreSupport\core_cm3.h: a function declaration without a prototype is deprecated in all versions of C
+V[10:00:19.089] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\CoreSupport\core_cm3.h: a function declaration without a prototype is deprecated in all versions of C
+V[10:00:19.089] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\CoreSupport\core_cm3.h: a function declaration without a prototype is deprecated in all versions of C
+V[10:00:19.089] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\CoreSupport\core_cm3.h: a function declaration without a prototype is deprecated in all versions of C
+V[10:00:19.089] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\CoreSupport\core_cm3.h: a function declaration without a prototype is deprecated in all versions of C
+V[10:00:19.089] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\CoreSupport\core_cm3.h: a function declaration without a prototype is deprecated in all versions of C
+V[10:00:19.089] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\CoreSupport\core_cm3.h: a function declaration without a prototype is deprecated in all versions of C
+V[10:00:19.092] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+V[10:00:19.093] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\CoreSupport\core_cm3.h: a function declaration without a prototype is deprecated in all versions of C
+V[10:00:19.093] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\CoreSupport\core_cm3.h: a function declaration without a prototype is deprecated in all versions of C
+V[10:00:19.093] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\CoreSupport\core_cm3.h: a function declaration without a prototype is deprecated in all versions of C
+V[10:00:19.093] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\CoreSupport\core_cm3.h: a function declaration without a prototype is deprecated in all versions of C
+V[10:00:19.093] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\CoreSupport\core_cm3.h: a function declaration without a prototype is deprecated in all versions of C
+V[10:00:19.093] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\CoreSupport\core_cm3.h: a function declaration without a prototype is deprecated in all versions of C
+V[10:00:19.093] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\CoreSupport\core_cm3.h: a function declaration without a prototype is deprecated in all versions of C
+V[10:00:19.093] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\CoreSupport\core_cm3.h: a function declaration without a prototype is deprecated in all versions of C
+V[10:00:19.093] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\CoreSupport\core_cm3.h: a function declaration without a prototype is deprecated in all versions of C
+V[10:00:19.093] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\CoreSupport\core_cm3.h: a function declaration without a prototype is deprecated in all versions of C
+V[10:00:19.093] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\CoreSupport\core_cm3.h: a function declaration without a prototype is deprecated in all versions of C
+I[10:00:19.100] --> $/progress
+V[10:00:19.101] >>> {"jsonrpc":"2.0","method":"$/progress","params":{"token":"backgroundIndexProgress","value":{"kind":"report","message":"0/2","percentage":0}}}
+
+I[10:00:19.101] --> $/progress
+V[10:00:19.101] >>> {"jsonrpc":"2.0","method":"$/progress","params":{"token":"backgroundIndexProgress","value":{"kind":"report","message":"0/2","percentage":0}}}
+
+I[10:00:19.101] --> $/progress
+V[10:00:19.101] >>> {"jsonrpc":"2.0","method":"$/progress","params":{"token":"backgroundIndexProgress","value":{"kind":"report","message":"1/2","percentage":50}}}
+
+V[10:00:19.102] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\CoreSupport\core_cm3.h: a function declaration without a prototype is deprecated in all versions of C
+E[10:00:19.102] File has invalid UTF-8 near offset 47: 20202A20202020202020202020202020202D20546F20757365206F72206E6F7420746865207065726970686572616C92
+V[10:00:19.102] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.102] File has invalid UTF-8 near offset 68: 20202A20202020202020202020202020202020636F64652077696C6C206265206261736564206F6E206469726563742061636365737320746F207065726970686572616C92
+V[10:00:19.102] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.102] File has invalid UTF-8 near offset 43: 20202A20202020202020202020202D204D6163726F7320746F20616363657373207065726970686572616C92
+V[10:00:19.106] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.106] File has invalid UTF-8 near offset 47: 20202A20202020202020202020202020202D20546F20757365206F72206E6F7420746865207065726970686572616C92
+V[10:00:19.106] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.106] File has invalid UTF-8 near offset 68: 20202A20202020202020202020202020202020636F64652077696C6C206265206261736564206F6E206469726563742061636365737320746F207065726970686572616C92
+V[10:00:19.106] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.106] File has invalid UTF-8 near offset 43: 20202A20202020202020202020202D204D6163726F7320746F20616363657373207065726970686572616C92
+V[10:00:19.107] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\CoreSupport\core_cm3.h: a function declaration without a prototype is deprecated in all versions of C
+E[10:00:19.107] File has invalid UTF-8 near offset 47: 20202A20202020202020202020202020202D20546F20757365206F72206E6F7420746865207065726970686572616C92
+V[10:00:19.107] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.107] File has invalid UTF-8 near offset 68: 20202A20202020202020202020202020202020636F64652077696C6C206265206261736564206F6E206469726563742061636365737320746F207065726970686572616C92
+V[10:00:19.107] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.107] File has invalid UTF-8 near offset 43: 20202A20202020202020202020202D204D6163726F7320746F20616363657373207065726970686572616C92
+V[10:00:19.107] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.107] File has invalid UTF-8 near offset 47: 20202A20202020202020202020202020202D20546F20757365206F72206E6F7420746865207065726970686572616C92
+V[10:00:19.107] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.107] File has invalid UTF-8 near offset 68: 20202A20202020202020202020202020202020636F64652077696C6C206265206261736564206F6E206469726563742061636365737320746F207065726970686572616C92
+V[10:00:19.107] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.107] File has invalid UTF-8 near offset 43: 20202A20202020202020202020202D204D6163726F7320746F20616363657373207065726970686572616C92
+V[10:00:19.109] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.110] File has invalid UTF-8 near offset 47: 20202A20202020202020202020202020202D20546F20757365206F72206E6F7420746865207065726970686572616C92
+V[10:00:19.110] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.110] File has invalid UTF-8 near offset 68: 20202A20202020202020202020202020202020636F64652077696C6C206265206261736564206F6E206469726563742061636365737320746F207065726970686572616C92
+V[10:00:19.110] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.110] File has invalid UTF-8 near offset 43: 20202A20202020202020202020202D204D6163726F7320746F20616363657373207065726970686572616C92
+V[10:00:19.111] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.111] File has invalid UTF-8 near offset 47: 20202A20202020202020202020202020202D20546F20757365206F72206E6F7420746865207065726970686572616C92
+V[10:00:19.111] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.111] File has invalid UTF-8 near offset 68: 20202A20202020202020202020202020202020636F64652077696C6C206265206261736564206F6E206469726563742061636365737320746F207065726970686572616C92
+V[10:00:19.111] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.111] File has invalid UTF-8 near offset 43: 20202A20202020202020202020202D204D6163726F7320746F20616363657373207065726970686572616C92
+V[10:00:19.111] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.111] File has invalid UTF-8 near offset 47: 20202A20202020202020202020202020202D20546F20757365206F72206E6F7420746865207065726970686572616C92
+V[10:00:19.111] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.111] File has invalid UTF-8 near offset 68: 20202A20202020202020202020202020202020636F64652077696C6C206265206261736564206F6E206469726563742061636365737320746F207065726970686572616C92
+V[10:00:19.111] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.111] File has invalid UTF-8 near offset 43: 20202A20202020202020202020202D204D6163726F7320746F20616363657373207065726970686572616C92
+V[10:00:19.112] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+V[10:00:19.112] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.112] File has invalid UTF-8 near offset 47: 20202A20202020202020202020202020202D20546F20757365206F72206E6F7420746865207065726970686572616C92
+V[10:00:19.112] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.112] File has invalid UTF-8 near offset 47: 20202A20202020202020202020202020202D20546F20757365206F72206E6F7420746865207065726970686572616C92
+V[10:00:19.112] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.112] File has invalid UTF-8 near offset 68: 20202A20202020202020202020202020202020636F64652077696C6C206265206261736564206F6E206469726563742061636365737320746F207065726970686572616C92
+V[10:00:19.112] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.112] File has invalid UTF-8 near offset 43: 20202A20202020202020202020202D204D6163726F7320746F20616363657373207065726970686572616C92
+E[10:00:19.112] File has invalid UTF-8 near offset 68: 20202A20202020202020202020202020202020636F64652077696C6C206265206261736564206F6E206469726563742061636365737320746F207065726970686572616C92
+V[10:00:19.112] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.112] File has invalid UTF-8 near offset 43: 20202A20202020202020202020202D204D6163726F7320746F20616363657373207065726970686572616C92
+V[10:00:19.113] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.113] File has invalid UTF-8 near offset 47: 20202A20202020202020202020202020202D20546F20757365206F72206E6F7420746865207065726970686572616C92
+V[10:00:19.113] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.113] File has invalid UTF-8 near offset 68: 20202A20202020202020202020202020202020636F64652077696C6C206265206261736564206F6E206469726563742061636365737320746F207065726970686572616C92
+V[10:00:19.113] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.113] File has invalid UTF-8 near offset 43: 20202A20202020202020202020202D204D6163726F7320746F20616363657373207065726970686572616C92
+V[10:00:19.113] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.113] File has invalid UTF-8 near offset 47: 20202A20202020202020202020202020202D20546F20757365206F72206E6F7420746865207065726970686572616C92
+V[10:00:19.113] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.113] File has invalid UTF-8 near offset 68: 20202A20202020202020202020202020202020636F64652077696C6C206265206261736564206F6E206469726563742061636365737320746F207065726970686572616C92
+V[10:00:19.113] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.113] File has invalid UTF-8 near offset 43: 20202A20202020202020202020202D204D6163726F7320746F20616363657373207065726970686572616C92
+V[10:00:19.114] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.114] File has invalid UTF-8 near offset 47: 20202A20202020202020202020202020202D20546F20757365206F72206E6F7420746865207065726970686572616C92
+V[10:00:19.114] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.114] File has invalid UTF-8 near offset 68: 20202A20202020202020202020202020202020636F64652077696C6C206265206261736564206F6E206469726563742061636365737320746F207065726970686572616C92
+V[10:00:19.114] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.114] File has invalid UTF-8 near offset 43: 20202A20202020202020202020202D204D6163726F7320746F20616363657373207065726970686572616C92
+V[10:00:19.114] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.114] File has invalid UTF-8 near offset 47: 20202A20202020202020202020202020202D20546F20757365206F72206E6F7420746865207065726970686572616C92
+V[10:00:19.114] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.114] File has invalid UTF-8 near offset 68: 20202A20202020202020202020202020202020636F64652077696C6C206265206261736564206F6E206469726563742061636365737320746F207065726970686572616C92
+V[10:00:19.114] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.114] File has invalid UTF-8 near offset 43: 20202A20202020202020202020202D204D6163726F7320746F20616363657373207065726970686572616C92
+V[10:00:19.115] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.115] File has invalid UTF-8 near offset 47: 20202A20202020202020202020202020202D20546F20757365206F72206E6F7420746865207065726970686572616C92
+V[10:00:19.115] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.115] File has invalid UTF-8 near offset 68: 20202A20202020202020202020202020202020636F64652077696C6C206265206261736564206F6E206469726563742061636365737320746F207065726970686572616C92
+V[10:00:19.115] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.115] File has invalid UTF-8 near offset 43: 20202A20202020202020202020202D204D6163726F7320746F20616363657373207065726970686572616C92
+V[10:00:19.115] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.115] File has invalid UTF-8 near offset 47: 20202A20202020202020202020202020202D20546F20757365206F72206E6F7420746865207065726970686572616C92
+V[10:00:19.115] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.115] File has invalid UTF-8 near offset 68: 20202A20202020202020202020202020202020636F64652077696C6C206265206261736564206F6E206469726563742061636365737320746F207065726970686572616C92
+V[10:00:19.115] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.115] File has invalid UTF-8 near offset 43: 20202A20202020202020202020202D204D6163726F7320746F20616363657373207065726970686572616C92
+V[10:00:19.116] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.116] File has invalid UTF-8 near offset 47: 20202A20202020202020202020202020202D20546F20757365206F72206E6F7420746865207065726970686572616C92
+V[10:00:19.116] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.116] File has invalid UTF-8 near offset 68: 20202A20202020202020202020202020202020636F64652077696C6C206265206261736564206F6E206469726563742061636365737320746F207065726970686572616C92
+V[10:00:19.116] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.116] File has invalid UTF-8 near offset 43: 20202A20202020202020202020202D204D6163726F7320746F20616363657373207065726970686572616C92
+V[10:00:19.116] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.116] File has invalid UTF-8 near offset 47: 20202A20202020202020202020202020202D20546F20757365206F72206E6F7420746865207065726970686572616C92
+V[10:00:19.116] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.116] File has invalid UTF-8 near offset 68: 20202A20202020202020202020202020202020636F64652077696C6C206265206261736564206F6E206469726563742061636365737320746F207065726970686572616C92
+V[10:00:19.116] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.116] File has invalid UTF-8 near offset 43: 20202A20202020202020202020202D204D6163726F7320746F20616363657373207065726970686572616C92
+V[10:00:19.116] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.116] File has invalid UTF-8 near offset 47: 20202A20202020202020202020202020202D20546F20757365206F72206E6F7420746865207065726970686572616C92
+V[10:00:19.116] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.116] File has invalid UTF-8 near offset 68: 20202A20202020202020202020202020202020636F64652077696C6C206265206261736564206F6E206469726563742061636365737320746F207065726970686572616C92
+V[10:00:19.116] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.116] File has invalid UTF-8 near offset 43: 20202A20202020202020202020202D204D6163726F7320746F20616363657373207065726970686572616C92
+V[10:00:19.118] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.118] File has invalid UTF-8 near offset 47: 20202A20202020202020202020202020202D20546F20757365206F72206E6F7420746865207065726970686572616C92
+V[10:00:19.118] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+V[10:00:19.118] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.118] File has invalid UTF-8 near offset 47: 20202A20202020202020202020202020202D20546F20757365206F72206E6F7420746865207065726970686572616C92
+E[10:00:19.118] File has invalid UTF-8 near offset 68: 20202A20202020202020202020202020202020636F64652077696C6C206265206261736564206F6E206469726563742061636365737320746F207065726970686572616C92
+V[10:00:19.118] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+V[10:00:19.118] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.118] File has invalid UTF-8 near offset 68: 20202A20202020202020202020202020202020636F64652077696C6C206265206261736564206F6E206469726563742061636365737320746F207065726970686572616C92
+V[10:00:19.118] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.118] File has invalid UTF-8 near offset 43: 20202A20202020202020202020202D204D6163726F7320746F20616363657373207065726970686572616C92
+E[10:00:19.118] File has invalid UTF-8 near offset 43: 20202A20202020202020202020202D204D6163726F7320746F20616363657373207065726970686572616C92
+V[10:00:19.119] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.119] File has invalid UTF-8 near offset 47: 20202A20202020202020202020202020202D20546F20757365206F72206E6F7420746865207065726970686572616C92
+V[10:00:19.119] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.119] File has invalid UTF-8 near offset 68: 20202A20202020202020202020202020202020636F64652077696C6C206265206261736564206F6E206469726563742061636365737320746F207065726970686572616C92
+V[10:00:19.119] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.119] File has invalid UTF-8 near offset 43: 20202A20202020202020202020202D204D6163726F7320746F20616363657373207065726970686572616C92
+V[10:00:19.119] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.119] File has invalid UTF-8 near offset 47: 20202A20202020202020202020202020202D20546F20757365206F72206E6F7420746865207065726970686572616C92
+V[10:00:19.119] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.119] File has invalid UTF-8 near offset 68: 20202A20202020202020202020202020202020636F64652077696C6C206265206261736564206F6E206469726563742061636365737320746F207065726970686572616C92
+V[10:00:19.119] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.119] File has invalid UTF-8 near offset 43: 20202A20202020202020202020202D204D6163726F7320746F20616363657373207065726970686572616C92
+V[10:00:19.120] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.120] File has invalid UTF-8 near offset 47: 20202A20202020202020202020202020202D20546F20757365206F72206E6F7420746865207065726970686572616C92
+V[10:00:19.120] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.120] File has invalid UTF-8 near offset 68: 20202A20202020202020202020202020202020636F64652077696C6C206265206261736564206F6E206469726563742061636365737320746F207065726970686572616C92
+V[10:00:19.120] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.120] File has invalid UTF-8 near offset 43: 20202A20202020202020202020202D204D6163726F7320746F20616363657373207065726970686572616C92
+V[10:00:19.120] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.120] File has invalid UTF-8 near offset 47: 20202A20202020202020202020202020202D20546F20757365206F72206E6F7420746865207065726970686572616C92
+V[10:00:19.120] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.120] File has invalid UTF-8 near offset 68: 20202A20202020202020202020202020202020636F64652077696C6C206265206261736564206F6E206469726563742061636365737320746F207065726970686572616C92
+V[10:00:19.120] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.120] File has invalid UTF-8 near offset 43: 20202A20202020202020202020202D204D6163726F7320746F20616363657373207065726970686572616C92
+V[10:00:19.121] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.121] File has invalid UTF-8 near offset 47: 20202A20202020202020202020202020202D20546F20757365206F72206E6F7420746865207065726970686572616C92
+V[10:00:19.121] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.121] File has invalid UTF-8 near offset 68: 20202A20202020202020202020202020202020636F64652077696C6C206265206261736564206F6E206469726563742061636365737320746F207065726970686572616C92
+V[10:00:19.121] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.121] File has invalid UTF-8 near offset 43: 20202A20202020202020202020202D204D6163726F7320746F20616363657373207065726970686572616C92
+V[10:00:19.121] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.121] File has invalid UTF-8 near offset 47: 20202A20202020202020202020202020202D20546F20757365206F72206E6F7420746865207065726970686572616C92
+V[10:00:19.121] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.121] File has invalid UTF-8 near offset 68: 20202A20202020202020202020202020202020636F64652077696C6C206265206261736564206F6E206469726563742061636365737320746F207065726970686572616C92
+V[10:00:19.121] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.121] File has invalid UTF-8 near offset 43: 20202A20202020202020202020202D204D6163726F7320746F20616363657373207065726970686572616C92
+V[10:00:19.122] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.122] File has invalid UTF-8 near offset 47: 20202A20202020202020202020202020202D20546F20757365206F72206E6F7420746865207065726970686572616C92
+V[10:00:19.122] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.122] File has invalid UTF-8 near offset 68: 20202A20202020202020202020202020202020636F64652077696C6C206265206261736564206F6E206469726563742061636365737320746F207065726970686572616C92
+V[10:00:19.122] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.122] File has invalid UTF-8 near offset 43: 20202A20202020202020202020202D204D6163726F7320746F20616363657373207065726970686572616C92
+V[10:00:19.123] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.123] File has invalid UTF-8 near offset 47: 20202A20202020202020202020202020202D20546F20757365206F72206E6F7420746865207065726970686572616C92
+V[10:00:19.123] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.123] File has invalid UTF-8 near offset 68: 20202A20202020202020202020202020202020636F64652077696C6C206265206261736564206F6E206469726563742061636365737320746F207065726970686572616C92
+V[10:00:19.123] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.123] File has invalid UTF-8 near offset 43: 20202A20202020202020202020202D204D6163726F7320746F20616363657373207065726970686572616C92
+V[10:00:19.123] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.123] File has invalid UTF-8 near offset 47: 20202A20202020202020202020202020202D20546F20757365206F72206E6F7420746865207065726970686572616C92
+V[10:00:19.123] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.123] File has invalid UTF-8 near offset 68: 20202A20202020202020202020202020202020636F64652077696C6C206265206261736564206F6E206469726563742061636365737320746F207065726970686572616C92
+V[10:00:19.123] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.123] File has invalid UTF-8 near offset 43: 20202A20202020202020202020202D204D6163726F7320746F20616363657373207065726970686572616C92
+V[10:00:19.124] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.124] File has invalid UTF-8 near offset 47: 20202A20202020202020202020202020202D20546F20757365206F72206E6F7420746865207065726970686572616C92
+V[10:00:19.124] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.124] File has invalid UTF-8 near offset 68: 20202A20202020202020202020202020202020636F64652077696C6C206265206261736564206F6E206469726563742061636365737320746F207065726970686572616C92
+V[10:00:19.124] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.124] File has invalid UTF-8 near offset 43: 20202A20202020202020202020202D204D6163726F7320746F20616363657373207065726970686572616C92
+V[10:00:19.124] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.125] File has invalid UTF-8 near offset 47: 20202A20202020202020202020202020202D20546F20757365206F72206E6F7420746865207065726970686572616C92
+V[10:00:19.125] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.125] File has invalid UTF-8 near offset 68: 20202A20202020202020202020202020202020636F64652077696C6C206265206261736564206F6E206469726563742061636365737320746F207065726970686572616C92
+V[10:00:19.125] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.125] File has invalid UTF-8 near offset 43: 20202A20202020202020202020202D204D6163726F7320746F20616363657373207065726970686572616C92
+V[10:00:19.125] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.125] File has invalid UTF-8 near offset 47: 20202A20202020202020202020202020202D20546F20757365206F72206E6F7420746865207065726970686572616C92
+V[10:00:19.125] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.125] File has invalid UTF-8 near offset 68: 20202A20202020202020202020202020202020636F64652077696C6C206265206261736564206F6E206469726563742061636365737320746F207065726970686572616C92
+V[10:00:19.125] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.125] File has invalid UTF-8 near offset 43: 20202A20202020202020202020202D204D6163726F7320746F20616363657373207065726970686572616C92
+V[10:00:19.125] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.125] File has invalid UTF-8 near offset 47: 20202A20202020202020202020202020202D20546F20757365206F72206E6F7420746865207065726970686572616C92
+V[10:00:19.125] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.125] File has invalid UTF-8 near offset 68: 20202A20202020202020202020202020202020636F64652077696C6C206265206261736564206F6E206469726563742061636365737320746F207065726970686572616C92
+V[10:00:19.125] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.125] File has invalid UTF-8 near offset 43: 20202A20202020202020202020202D204D6163726F7320746F20616363657373207065726970686572616C92
+V[10:00:19.126] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.126] File has invalid UTF-8 near offset 47: 20202A20202020202020202020202020202D20546F20757365206F72206E6F7420746865207065726970686572616C92
+V[10:00:19.126] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.126] File has invalid UTF-8 near offset 68: 20202A20202020202020202020202020202020636F64652077696C6C206265206261736564206F6E206469726563742061636365737320746F207065726970686572616C92
+V[10:00:19.126] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.126] File has invalid UTF-8 near offset 43: 20202A20202020202020202020202D204D6163726F7320746F20616363657373207065726970686572616C92
+V[10:00:19.127] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.127] File has invalid UTF-8 near offset 47: 20202A20202020202020202020202020202D20546F20757365206F72206E6F7420746865207065726970686572616C92
+V[10:00:19.127] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.127] File has invalid UTF-8 near offset 68: 20202A20202020202020202020202020202020636F64652077696C6C206265206261736564206F6E206469726563742061636365737320746F207065726970686572616C92
+V[10:00:19.127] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.127] File has invalid UTF-8 near offset 43: 20202A20202020202020202020202D204D6163726F7320746F20616363657373207065726970686572616C92
+V[10:00:19.128] System include extraction: target extracted: "arm-none-eabi"
+E[10:00:19.128] System include extraction: start marker not found: Using built-in specs.
+
+COLLECT_GCC=D:/SysGCC/arm-none-eabi/bin/arm-none-eabi-gcc
+
+Target: arm-none-eabi
+
+Configured with: /data/jenkins/workspace/GNU-toolchain/arm-13/src/gcc/configure --target=arm-none-eabi --prefix=/data/jenkins/workspace/GNU-toolchain/arm-13/build-mingw-arm-none-eabi/install --with-gmp=/data/jenkins/workspace/GNU-toolchain/arm-13/build-mingw-arm-none-eabi/host-tools --with-mpfr=/data/jenkins/workspace/GNU-toolchain/arm-13/build-mingw-arm-none-eabi/host-tools --with-mpc=/data/jenkins/workspace/GNU-toolchain/arm-13/build-mingw-arm-none-eabi/host-tools --with-isl=/data/jenkins/workspace/GNU-toolchain/arm-13/build-mingw-arm-none-eabi/host-tools --disable-shared --disable-nls --disable-threads --disable-tls --enable-checking=release --enable-languages=c,c++,fortran --with-newlib --with-gnu-as --with-headers=yes --with-gnu-ld --with-native-system-header-dir=/include --with-sysroot=/data/jenkins/workspace/GNU-toolchain/arm-13/build-mingw-arm-none-eabi/install/arm-none-eabi --with-multilib-list=aprofile,rmprofile --with-libiconv-prefix=/data/jenkins/workspace/GNU-toolchain/arm-13/build-mingw-arm-none-eabi/host-tools --host=i686-w64-mingw32 --with-pkgversion='Arm GNU Toolchain 13.2.rel1 (Build arm-13.7)' --with-bugurl=https://bugs.linaro.org/
+
+Thread model: single
+
+Supported LTO compression algorithms: zlib
+
+gcc version 13.2.1 20231009 (Arm GNU Toolchain 13.2.rel1 (Build arm-13.7)) 
+
+COLLECT_GCC_OPTIONS='-E' '-v' '-mcpu=arm7tdmi' '-mfloat-abi=soft' '-marm' '-mlibarch=armv4t' '-march=armv4t'
+
+COMPILER_PATH=D:/SysGCC/arm-none-eabi/bin/../libexec/gcc/arm-none-eabi/13.2.1/;D:/SysGCC/arm-none-eabi/bin/../libexec/gcc/;D:/SysGCC/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/bin/
+
+LIBRARY_PATH=D:/SysGCC/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/;D:/SysGCC/arm-none-eabi/bin/../lib/gcc/;D:/SysGCC/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/lib/;D:/SysGCC/arm-none-eabi/bin/../arm-none-eabi/lib/
+
+COLLECT_GCC_OPTIONS='-E' '-v' '-mcpu=arm7tdmi' '-mfloat-abi=soft' '-marm' '-mlibarch=armv4t' '-march=armv4t'
+
+
+V[10:00:19.128] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+V[10:00:19.128] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.129] File has invalid UTF-8 near offset 47: 20202A20202020202020202020202020202D20546F20757365206F72206E6F7420746865207065726970686572616C92
+E[10:00:19.129] File has invalid UTF-8 near offset 47: 20202A20202020202020202020202020202D20546F20757365206F72206E6F7420746865207065726970686572616C92
+V[10:00:19.129] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+V[10:00:19.129] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.129] File has invalid UTF-8 near offset 68: 20202A20202020202020202020202020202020636F64652077696C6C206265206261736564206F6E206469726563742061636365737320746F207065726970686572616C92
+E[10:00:19.129] File has invalid UTF-8 near offset 68: 20202A20202020202020202020202020202020636F64652077696C6C206265206261736564206F6E206469726563742061636365737320746F207065726970686572616C92
+V[10:00:19.129] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+V[10:00:19.129] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.129] File has invalid UTF-8 near offset 43: 20202A20202020202020202020202D204D6163726F7320746F20616363657373207065726970686572616C92
+E[10:00:19.129] File has invalid UTF-8 near offset 43: 20202A20202020202020202020202D204D6163726F7320746F20616363657373207065726970686572616C92
+V[10:00:19.130] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.130] File has invalid UTF-8 near offset 47: 20202A20202020202020202020202020202D20546F20757365206F72206E6F7420746865207065726970686572616C92
+V[10:00:19.130] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.130] File has invalid UTF-8 near offset 68: 20202A20202020202020202020202020202020636F64652077696C6C206265206261736564206F6E206469726563742061636365737320746F207065726970686572616C92
+V[10:00:19.130] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.130] File has invalid UTF-8 near offset 43: 20202A20202020202020202020202D204D6163726F7320746F20616363657373207065726970686572616C92
+V[10:00:19.131] Indexing ../src/start_files/init_calls.s (digest:=324284C02C7EB5DE)
+V[10:00:19.131] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.131] File has invalid UTF-8 near offset 47: 20202A20202020202020202020202020202D20546F20757365206F72206E6F7420746865207065726970686572616C92
+V[10:00:19.131] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.131] File has invalid UTF-8 near offset 68: 20202A20202020202020202020202020202020636F64652077696C6C206265206261736564206F6E206469726563742061636365737320746F207065726970686572616C92
+V[10:00:19.131] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.131] File has invalid UTF-8 near offset 43: 20202A20202020202020202020202D204D6163726F7320746F20616363657373207065726970686572616C92
+V[10:00:19.131] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.131] File has invalid UTF-8 near offset 47: 20202A20202020202020202020202020202D20546F20757365206F72206E6F7420746865207065726970686572616C92
+V[10:00:19.131] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.131] File has invalid UTF-8 near offset 68: 20202A20202020202020202020202020202020636F64652077696C6C206265206261736564206F6E206469726563742061636365737320746F207065726970686572616C92
+V[10:00:19.131] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.132] File has invalid UTF-8 near offset 43: 20202A20202020202020202020202D204D6163726F7320746F20616363657373207065726970686572616C92
+V[10:00:19.133] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.133] File has invalid UTF-8 near offset 47: 20202A20202020202020202020202020202D20546F20757365206F72206E6F7420746865207065726970686572616C92
+V[10:00:19.133] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.133] File has invalid UTF-8 near offset 68: 20202A20202020202020202020202020202020636F64652077696C6C206265206261736564206F6E206469726563742061636365737320746F207065726970686572616C92
+V[10:00:19.133] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.133] File has invalid UTF-8 near offset 43: 20202A20202020202020202020202D204D6163726F7320746F20616363657373207065726970686572616C92
+V[10:00:19.133] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.133] File has invalid UTF-8 near offset 47: 20202A20202020202020202020202020202D20546F20757365206F72206E6F7420746865207065726970686572616C92
+V[10:00:19.133] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.133] File has invalid UTF-8 near offset 68: 20202A20202020202020202020202020202020636F64652077696C6C206265206261736564206F6E206469726563742061636365737320746F207065726970686572616C92
+V[10:00:19.133] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+V[10:00:19.133] Ignored diagnostic. D:\proj\STM32F10x-MesonBuild-Demo\src\start_files\init_calls.s: 'assembler' input unused
+E[10:00:19.133] File has invalid UTF-8 near offset 43: 20202A20202020202020202020202D204D6163726F7320746F20616363657373207065726970686572616C92
+V[10:00:19.133] Ignored diagnostic. argument unused during compilation: '-Xclang -no-round-trip-args'
+V[10:00:19.133] Ignored diagnostic. argument unused during compilation: '-I demo_dbg.elf.p'
+V[10:00:19.133] Ignored diagnostic. argument unused during compilation: '-I .'
+V[10:00:19.133] Ignored diagnostic. argument unused during compilation: '-I ..'
+V[10:00:19.133] Ignored diagnostic. argument unused during compilation: '-I src'
+V[10:00:19.133] Ignored diagnostic. argument unused during compilation: '-I ..\src'
+V[10:00:19.133] Ignored diagnostic. argument unused during compilation: '-I ..\src\app'
+V[10:00:19.133] Ignored diagnostic. argument unused during compilation: '-I subprojects\embed-utils'
+V[10:00:19.133] Ignored diagnostic. argument unused during compilation: '-I ..\subprojects\embed-utils'
+V[10:00:19.133] Ignored diagnostic. argument unused during compilation: '-I ..\subprojects\embed-utils\test_cases'
+V[10:00:19.133] Ignored diagnostic. argument unused during compilation: '-I ..\subprojects\STM32_StdLib\CMSIS\CoreSupport'
+V[10:00:19.133] Ignored diagnostic. argument unused during compilation: '-I ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport'
+V[10:00:19.133] Ignored diagnostic. argument unused during compilation: '-I ..\subprojects\STM32_StdLib\Driver\inc'
+V[10:00:19.133] Ignored diagnostic. argument unused during compilation: '-fdiagnostics-color=always'
+V[10:00:19.133] Ignored diagnostic. argument unused during compilation: '-D _FILE_OFFSET_BITS=64'
+V[10:00:19.133] Ignored diagnostic. argument unused during compilation: '-Wall'
+V[10:00:19.133] Ignored diagnostic. argument unused during compilation: '-Winvalid-pch'
+V[10:00:19.133] Ignored diagnostic. argument unused during compilation: '-Wextra'
+V[10:00:19.133] Ignored diagnostic. argument unused during compilation: '-Wpedantic'
+V[10:00:19.133] Ignored diagnostic. argument unused during compilation: '-mcpu=cortex-m3'
+V[10:00:19.133] Ignored diagnostic. argument unused during compilation: '-D STM32F10X_MD'
+V[10:00:19.133] Ignored diagnostic. argument unused during compilation: '-D USE_STDPERIPH_DRIVER'
+V[10:00:19.133] Ignored diagnostic. argument unused during compilation: '-D PROJECT_VERSION="0.1"'
+V[10:00:19.133] Ignored diagnostic. argument unused during compilation: '-fdata-sections'
+V[10:00:19.133] Ignored diagnostic. argument unused during compilation: '-ffunction-sections'
+V[10:00:19.133] Ignored diagnostic. argument unused during compilation: '-D CONFIG_ENABLE_TEST_CASES=0'
+V[10:00:19.133] Ignored diagnostic. argument unused during compilation: '-D CONFIG_CHECK_TESTCASE_MEMPOOL=1'
+V[10:00:19.133] Ignored diagnostic. argument unused during compilation: '-D CONFIG_ENABLE_DEMO=0'
+V[10:00:19.133] Ignored diagnostic. argument unused during compilation: '-D CONFIG_DEFAULT_POOL_SIZE=2'
+V[10:00:19.133] Ignored diagnostic. argument unused during compilation: '-D CONFIG_TESTCASE_POOL_SIZE=2'
+V[10:00:19.133] Ignored diagnostic. argument unused during compilation: '-D CONFIG_CONSOLE_BUILTIN_CMD_ENABLE=1'
+V[10:00:19.133] Ignored diagnostic. argument unused during compilation: '-ffast-math'
+V[10:00:19.133] Ignored diagnostic. argument unused during compilation: '-fno-builtin'
+V[10:00:19.133] Ignored diagnostic. argument unused during compilation: '-fno-unroll-loops'
+V[10:00:19.133] Ignored diagnostic. argument unused during compilation: '-fomit-frame-pointer'
+V[10:00:19.133] Ignored diagnostic. argument unused during compilation: '-ftree-vectorize'
+V[10:00:19.133] Ignored diagnostic. argument unused during compilation: '-mthumb'
+V[10:00:19.133] Ignored diagnostic. argument unused during compilation: '-mabi=aapcs'
+V[10:00:19.133] Ignored diagnostic. argument unused during compilation: '-Wall'
+V[10:00:19.133] Ignored diagnostic. argument unused during compilation: '-Og'
+V[10:00:19.133] Ignored diagnostic. argument unused during compilation: '-D VECT_TAB_SRAM'
+V[10:00:19.133] Ignored diagnostic. argument unused during compilation: '-g3'
+V[10:00:19.133] Ignored diagnostic. argument unused during compilation: '-D __DEBUG'
+V[10:00:19.133] Ignored diagnostic. argument unused during compilation: '-MD'
+V[10:00:19.133] Ignored diagnostic. argument unused during compilation: '-MQ demo_dbg.elf.p/src_start_files_init_calls.s.o'
+V[10:00:19.133] Ignored diagnostic. argument unused during compilation: '-MF demo_dbg.elf.p\src_start_files_init_calls.s.o.d'
+V[10:00:19.133] Ignored diagnostic. argument unused during compilation: '-c'
+V[10:00:19.133] Ignored diagnostic. argument unused during compilation: '-Wno-format'
+V[10:00:19.133] Ignored diagnostic. unable to handle compilation, expected exactly one compiler job in ''
+E[10:00:19.133] Indexing D:\proj\STM32F10x-MesonBuild-Demo\src\start_files\init_calls.s failed: Couldn't build compiler invocation
+I[10:00:19.133] --> $/progress
+V[10:00:19.133] >>> {"jsonrpc":"2.0","method":"$/progress","params":{"token":"backgroundIndexProgress","value":{"kind":"end"}}}
+
+V[10:00:19.134] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.134] File has invalid UTF-8 near offset 47: 20202A20202020202020202020202020202D20546F20757365206F72206E6F7420746865207065726970686572616C92
+V[10:00:19.134] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.134] File has invalid UTF-8 near offset 68: 20202A20202020202020202020202020202020636F64652077696C6C206265206261736564206F6E206469726563742061636365737320746F207065726970686572616C92
+V[10:00:19.134] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.134] File has invalid UTF-8 near offset 43: 20202A20202020202020202020202D204D6163726F7320746F20616363657373207065726970686572616C92
+V[10:00:19.135] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.135] File has invalid UTF-8 near offset 47: 20202A20202020202020202020202020202D20546F20757365206F72206E6F7420746865207065726970686572616C92
+V[10:00:19.135] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.135] File has invalid UTF-8 near offset 68: 20202A20202020202020202020202020202020636F64652077696C6C206265206261736564206F6E206469726563742061636365737320746F207065726970686572616C92
+V[10:00:19.135] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.135] File has invalid UTF-8 near offset 43: 20202A20202020202020202020202D204D6163726F7320746F20616363657373207065726970686572616C92
+V[10:00:19.136] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.136] File has invalid UTF-8 near offset 47: 20202A20202020202020202020202020202D20546F20757365206F72206E6F7420746865207065726970686572616C92
+V[10:00:19.136] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.136] File has invalid UTF-8 near offset 68: 20202A20202020202020202020202020202020636F64652077696C6C206265206261736564206F6E206469726563742061636365737320746F207065726970686572616C92
+V[10:00:19.136] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+E[10:00:19.136] File has invalid UTF-8 near offset 43: 20202A20202020202020202020202D204D6163726F7320746F20616363657373207065726970686572616C92
+V[10:00:19.138] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+V[10:00:19.170] Dropped diagnostic: ..\src\hal/usart/prints.h: extension used
+I[10:00:19.172] Built preamble of size 1646920 for file d:\proj\STM32F10x-MesonBuild-Demo\src\start_files\startup_stm32f10x_md.c version 1 in 0.11 seconds
+I[10:00:19.174] --> workspace/semanticTokens/refresh(1)
+V[10:00:19.174] >>> {"id":1,"jsonrpc":"2.0","method":"workspace/semanticTokens/refresh","params":null}
+
+I[10:00:19.174] Indexing c17 standard library in the context of d:\proj\STM32F10x-MesonBuild-Demo\src\start_files\startup_stm32f10x_md.c
+V[10:00:19.179] <<< {"id":5,"jsonrpc":"2.0","method":"textDocument/foldingRange","params":{"textDocument":{"uri":"file:///d%3A/proj/STM32F10x-MesonBuild-Demo/src/app/isr.c"}}}
+
+I[10:00:19.179] <-- textDocument/foldingRange(5)
+V[10:00:19.179] <<< {"id":1,"jsonrpc":"2.0","result":null}
+
+I[10:00:19.179] <-- reply(1)
+I[10:00:19.180] --> reply:textDocument/foldingRange(5) 0 ms
+V[10:00:19.180] >>> {"id":5,"jsonrpc":"2.0","result":[{"endLine":18,"kind":"region","startCharacter":1,"startLine":11},{"endCharacter":4,"endLine":15,"kind":"region","startCharacter":62,"startLine":12}]}
+
+V[10:00:19.182] <<< {"id":6,"jsonrpc":"2.0","method":"textDocument/semanticTokens/full","params":{"textDocument":{"uri":"file:///d%3A/proj/STM32F10x-MesonBuild-Demo/src/app/isr.c"}}}
+
+I[10:00:19.182] <-- textDocument/semanticTokens/full(6)
+V[10:00:19.197] Dropped diagnostic: ..\subprojects\STM32_StdLib\CMSIS\DeviceSupport\stm32f10x.h: invalid UTF-8 in comment
+V[10:00:19.197] Dropped diagnostic: : extension used
+V[10:00:19.209] indexed file AST for d:\proj\STM32F10x-MesonBuild-Demo\src\start_files\startup_stm32f10x_md.c version 1:
+  symbol slab: 74 symbols, 21392 bytes
+  ref slab: 96 symbols, 386 refs, 19904 bytes
+  relations slab: 0 relations, 24 bytes
+V[10:00:19.210] Build dynamic index for main-file symbols with estimated memory usage of 79008 bytes
+I[10:00:19.210] --> textDocument/publishDiagnostics
+V[10:00:19.210] >>> {"jsonrpc":"2.0","method":"textDocument/publishDiagnostics","params":{"diagnostics":[{"code":"-Wlanguage-extension-token","message":"Extension used","range":{"end":{"character":16,"line":37},"start":{"character":4,"line":37}},"relatedInformation":[],"severity":2,"source":"clang"},{"code":"-Wlanguage-extension-token","message":"Extension used","range":{"end":{"character":16,"line":38},"start":{"character":4,"line":38}},"relatedInformation":[],"severity":2,"source":"clang"},{"code":"-Wlanguage-extension-token","message":"Extension used","range":{"end":{"character":16,"line":39},"start":{"character":4,"line":39}},"relatedInformation":[],"severity":2,"source":"clang"},{"code":"-Wlanguage-extension-token","message":"Extension used","range":{"end":{"character":16,"line":40},"start":{"character":4,"line":40}},"relatedInformation":[],"severity":2,"source":"clang"},{"code":"-Wlanguage-extension-token","message":"Extension used","range":{"end":{"character":16,"line":42},"start":{"character":4,"line":42}},"relatedInformation":[],"severity":2,"source":"clang"},{"code":"-Wlanguage-extension-token","message":"Extension used","range":{"end":{"character":17,"line":43},"start":{"character":4,"line":43}},"relatedInformation":[],"severity":2,"source":"clang"},{"code":"-Wlanguage-extension-token","message":"Extension used","range":{"end":{"character":11,"line":79},"start":{"character":8,"line":79}},"relatedInformation":[],"severity":2,"source":"clang"},{"code":"-Wlanguage-extension-token","message":"Extension used","range":{"end":{"character":7,"line":90},"start":{"character":4,"line":90}},"relatedInformation":[],"severity":2,"source":"clang"},{"code":"-Wlanguage-extension-token","message":"Extension used","range":{"end":{"character":7,"line":91},"start":{"character":4,"line":91}},"relatedInformation":[],"severity":2,"source":"clang"},{"code":"-Wlanguage-extension-token","message":"Extension used","range":{"end":{"character":7,"line":92},"start":{"character":4,"line":92}},"relatedInformation":[],"severity":2,"source":"clang"},{"code":"-Wlanguage-extension-token","message":"Extension used","range":{"end":{"character":7,"line":95},"start":{"character":4,"line":95}},"relatedInformation":[],"severity":2,"source":"clang"},{"code":"-Wlanguage-extension-token","message":"Extension used","range":{"end":{"character":7,"line":96},"start":{"character":4,"line":96}},"relatedInformation":[],"severity":2,"source":"clang"},{"code":"-Wlanguage-extension-token","message":"Extension used","range":{"end":{"character":7,"line":99},"start":{"character":4,"line":99}},"relatedInformation":[],"severity":2,"source":"clang"},{"code":"-Wlanguage-extension-token","message":"Extension used","range":{"end":{"character":7,"line":100},"start":{"character":4,"line":100}},"relatedInformation":[],"severity":2,"source":"clang"},{"code":"-Wlanguage-extension-token","message":"Extension used","range":{"end":{"character":7,"line":101},"start":{"character":4,"line":101}},"relatedInformation":[],"severity":2,"source":"clang"},{"code":"-Wlanguage-extension-token","message":"Extension used","range":{"end":{"character":7,"line":104},"start":{"character":4,"line":104}},"relatedInformation":[],"severity":2,"source":"clang"},{"code":"-Wlanguage-extension-token","message":"Extension used","range":{"end":{"character":7,"line":106},"start":{"character":4,"line":106}},"relatedInformation":[],"severity":2,"source":"clang"},{"code":"-Wlanguage-extension-token","message":"Extension used","range":{"end":{"character":7,"line":107},"start":{"character":4,"line":107}},"relatedInformation":[],"severity":2,"source":"clang"},{"code":"-Wlanguage-extension-token","message":"Extension used","range":{"end":{"character":7,"line":110},"start":{"character":4,"line":110}},"relatedInformation":[],"severity":2,"source":"clang"},{"code":"-Wlanguage-extension-token","message":"Extension used","range":{"end":{"character":7,"line":111},"start":{"character":4,"line":111}},"relatedInformation":[],"severity":2,"source":"clang"},{"code":"-Wlanguage-extension-token","message":"Extension used","range":{"end":{"character":7,"line":114},"start":{"character":4,"line":114}},"relatedInformation":[],"severity":2,"source":"clang"},{"code":"-Wlanguage-extension-token","message":"Extension used","range":{"end":{"character":7,"line":115},"start":{"character":4,"line":115}},"relatedInformation":[],"severity":2,"source":"clang"},{"code":"-Wlanguage-extension-token","message":"Extension used","range":{"end":{"character":17,"line":151},"start":{"character":14,"line":151}},"relatedInformation":[],"severity":2,"source":"clang"}],"uri":"file:///d:/proj/STM32F10x-MesonBuild-Demo/src/start_files/startup_stm32f10x_md.c","version":1}}
+
+I[10:00:19.210] --> textDocument/inactiveRegions
+V[10:00:19.210] >>> {"jsonrpc":"2.0","method":"textDocument/inactiveRegions","params":{"regions":[{"end":{"character":28,"line":144},"start":{"character":0,"line":144}}],"textDocument":{"uri":"file:///d:/proj/STM32F10x-MesonBuild-Demo/src/start_files/startup_stm32f10x_md.c"}}}
+
+I[10:00:19.211] --> textDocument/clangd.fileStatus
+V[10:00:19.211] >>> {"jsonrpc":"2.0","method":"textDocument/clangd.fileStatus","params":{"state":"idle","uri":"file:///d:/proj/STM32F10x-MesonBuild-Demo/src/start_files/startup_stm32f10x_md.c"}}
+
+V[10:00:19.228] Dropped diagnostic: : extension used
+I[10:00:19.230] Built preamble of size 1822832 for file d:\proj\STM32F10x-MesonBuild-Demo\src\app\isr.c version 1 in 0.16 seconds
+I[10:00:19.230] --> workspace/semanticTokens/refresh(2)
+V[10:00:19.230] >>> {"id":2,"jsonrpc":"2.0","method":"workspace/semanticTokens/refresh","params":null}
+
+V[10:00:19.233] <<< {"id":2,"jsonrpc":"2.0","result":null}
+
+I[10:00:19.233] <-- reply(2)
+V[10:00:19.243] Ignored diagnostic. D:/SysGCC/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/include\stdatomic.h:201:17:unknown type name 'int_least8_t'; did you mean '__int_least8_t'?
+V[10:00:19.243] Ignored diagnostic. D:/SysGCC/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/include\machine/_default_types.h:134:29:'__int_least8_t' declared here
+V[10:00:19.244] Ignored diagnostic. D:/SysGCC/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/include\stdatomic.h:202:17:unknown type name 'uint_least8_t'
+V[10:00:19.244] Ignored diagnostic. D:/SysGCC/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/include\stdatomic.h:203:17:unknown type name 'int_least16_t'; did you mean '__int_least16_t'?
+V[10:00:19.244] Ignored diagnostic. D:/SysGCC/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/include\machine/_default_types.h:160:30:'__int_least16_t' declared here
+V[10:00:19.245] Ignored diagnostic. D:/SysGCC/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/include\stdatomic.h:204:17:unknown type name 'uint_least16_t'
+V[10:00:19.246] Ignored diagnostic. D:/SysGCC/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/include\stdatomic.h:205:17:unknown type name 'int_least32_t'; did you mean '__int_least32_t'?
+V[10:00:19.246] Ignored diagnostic. D:/SysGCC/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/include\machine/_default_types.h:182:30:'__int_least32_t' declared here
+V[10:00:19.246] Ignored diagnostic. D:/SysGCC/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/include\stdatomic.h:206:17:unknown type name 'uint_least32_t'
+V[10:00:19.247] Ignored diagnostic. D:/SysGCC/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/include\stdatomic.h:207:17:unknown type name 'int_least64_t'; did you mean '__int_least64_t'?
+V[10:00:19.247] Ignored diagnostic. D:/SysGCC/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/include\machine/_default_types.h:200:30:'__int_least64_t' declared here
+V[10:00:19.248] Ignored diagnostic. D:/SysGCC/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/include\stdatomic.h:208:17:unknown type name 'uint_least64_t'
+V[10:00:19.248] Ignored diagnostic. D:/SysGCC/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/include\stdatomic.h:209:17:unknown type name 'int_fast8_t'
+V[10:00:19.249] Ignored diagnostic. D:/SysGCC/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/include\stdatomic.h:210:17:unknown type name 'uint_fast8_t'
+V[10:00:19.250] Ignored diagnostic. D:/SysGCC/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/include\stdatomic.h:211:17:unknown type name 'int_fast16_t'; did you mean '__int_least16_t'?
+V[10:00:19.250] Ignored diagnostic. D:/SysGCC/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/include\machine/_default_types.h:160:30:'__int_least16_t' declared here
+V[10:00:19.251] Ignored diagnostic. D:/SysGCC/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/include\stdatomic.h:212:17:unknown type name 'uint_fast16_t'
+V[10:00:19.252] Ignored diagnostic. D:/SysGCC/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/include\stdatomic.h:213:17:unknown type name 'int_fast32_t'; did you mean '__int_least32_t'?
+V[10:00:19.252] Ignored diagnostic. D:/SysGCC/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/include\machine/_default_types.h:182:30:'__int_least32_t' declared here
+V[10:00:19.253] Ignored diagnostic. D:/SysGCC/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/include\stdatomic.h:214:17:unknown type name 'uint_fast32_t'
+V[10:00:19.253] Ignored diagnostic. D:/SysGCC/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/include\stdatomic.h:215:17:unknown type name 'int_fast64_t'; did you mean '__int_least64_t'?
+V[10:00:19.253] Ignored diagnostic. D:/SysGCC/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/include\machine/_default_types.h:200:30:'__int_least64_t' declared here
+V[10:00:19.254] indexed file AST for d:\proj\STM32F10x-MesonBuild-Demo\src\app\isr.c version 1:
+  symbol slab: 4 symbols, 5152 bytes
+  ref slab: 14 symbols, 23 refs, 4688 bytes
+  relations slab: 0 relations, 24 bytes
+V[10:00:19.254] Ignored diagnostic. D:/SysGCC/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/include\stdatomic.h:216:17:unknown type name 'uint_fast64_t'
+V[10:00:19.255] Build dynamic index for main-file symbols with estimated memory usage of 90280 bytes
+I[10:00:19.255] --> textDocument/publishDiagnostics
+V[10:00:19.255] >>> {"jsonrpc":"2.0","method":"textDocument/publishDiagnostics","params":{"diagnostics":[{"code":"unused-includes","codeDescription":{"href":"https://clangd.llvm.org/guides/include-cleaner"},"message":"Included header stm32f10x.h is not used directly (fixes available)","range":{"end":{"character":22,"line":0},"start":{"character":0,"line":0}},"relatedInformation":[],"severity":2,"source":"clangd","tags":[1]},{"code":"unused-includes","codeDescription":{"href":"https://clangd.llvm.org/guides/include-cleaner"},"message":"Included header arm_isr_attr.h is not used directly (fixes available)","range":{"end":{"character":25,"line":1},"start":{"character":0,"line":1}},"relatedInformation":[],"severity":2,"source":"clangd","tags":[1]}],"uri":"file:///d:/proj/STM32F10x-MesonBuild-Demo/src/app/isr.c","version":1}}
+
+I[10:00:19.255] --> textDocument/inactiveRegions
+V[10:00:19.255] >>> {"jsonrpc":"2.0","method":"textDocument/inactiveRegions","params":{"regions":[],"textDocument":{"uri":"file:///d:/proj/STM32F10x-MesonBuild-Demo/src/app/isr.c"}}}
+
+V[10:00:19.255] ASTWorker running DocumentSymbols on version 1 of d:\proj\STM32F10x-MesonBuild-Demo\src\app\isr.c
+I[10:00:19.255] --> reply:textDocument/documentSymbol(1) 278 ms
+V[10:00:19.255] >>> {"id":1,"jsonrpc":"2.0","result":[{"detail":"console_t *","kind":13,"name":"console","range":{"end":{"character":25,"line":6},"start":{"character":0,"line":6}},"selectionRange":{"end":{"character":25,"line":6},"start":{"character":18,"line":6}}},{"detail":"volatile uint8_t","kind":13,"name":"rcv_flag","range":{"end":{"character":32,"line":7},"start":{"character":0,"line":7}},"selectionRange":{"end":{"character":32,"line":7},"start":{"character":24,"line":7}}},{"detail":"usart_dev_t","kind":13,"name":"console_usart","range":{"end":{"character":32,"line":8},"start":{"character":0,"line":8}},"selectionRange":{"end":{"character":32,"line":8},"start":{"character":19,"line":8}}},{"detail":"void (void)","kind":12,"name":"USART1_IRQHandler","range":{"end":{"character":1,"line":19},"start":{"character":0,"line":10}},"selectionRange":{"end":{"character":22,"line":10},"start":{"character":5,"line":10}}}]}
+
+V[10:00:19.255] ASTWorker running codeAction on version 1 of d:\proj\STM32F10x-MesonBuild-Demo\src\app\isr.c
+I[10:00:19.255] --> reply:textDocument/codeAction(2) 278 ms
+V[10:00:19.255] >>> {"id":2,"jsonrpc":"2.0","result":[]}
+
+V[10:00:19.255] ASTWorker running DocumentLinks on version 1 of d:\proj\STM32F10x-MesonBuild-Demo\src\app\isr.c
+I[10:00:19.255] --> reply:textDocument/documentLink(3) 264 ms
+V[10:00:19.255] >>> {"id":3,"jsonrpc":"2.0","result":[{"range":{"end":{"character":22,"line":0},"start":{"character":9,"line":0}},"target":"file:///D:/proj/STM32F10x-MesonBuild-Demo/subprojects/STM32_StdLib/CMSIS/DeviceSupport/stm32f10x.h"},{"range":{"end":{"character":25,"line":1},"start":{"character":9,"line":1}},"target":"file:///D:/proj/STM32F10x-MesonBuild-Demo/subprojects/embed-utils/arm_isr_attr.h"},{"range":{"end":{"character":38,"line":2},"start":{"character":9,"line":2}},"target":"file:///D:/proj/STM32F10x-MesonBuild-Demo/subprojects/embed-utils/tiny_console/tiny_console.h"},{"range":{"end":{"character":28,"line":4},"start":{"character":9,"line":4}},"target":"file:///D:/proj/STM32F10x-MesonBuild-Demo/src/hal/usart/usart.h"}]}
+
+V[10:00:19.255] ASTWorker running InlayHints on version 1 of d:\proj\STM32F10x-MesonBuild-Demo\src\app\isr.c
+I[10:00:19.255] --> reply:textDocument/inlayHint(4) 262 ms
+V[10:00:19.255] >>> {"id":4,"jsonrpc":"2.0","result":[{"kind":2,"label":[{"value":"USARTx:"}],"paddingLeft":false,"paddingRight":true,"position":{"character":26,"line":12}},{"kind":2,"label":[{"value":"USART_IT:"}],"paddingLeft":false,"paddingRight":true,"position":{"character":45,"line":12}},{"kind":2,"label":[{"value":"USARTx:"}],"paddingLeft":false,"paddingRight":true,"position":{"character":32,"line":13}},{"kind":2,"label":[{"value":"USART_IT:"}],"paddingLeft":false,"paddingRight":true,"position":{"character":51,"line":13}},{"kind":2,"label":[{"value":"this:"}],"paddingLeft":false,"paddingRight":true,"position":{"character":27,"line":14}},{"kind":2,"label":[{"value":"data:"}],"paddingLeft":false,"paddingRight":true,"position":{"character":36,"line":14}},{"kind":2,"label":[{"value":"USARTx:"}],"paddingLeft":false,"paddingRight":true,"position":{"character":61,"line":14}}]}
+
+V[10:00:19.255] ASTWorker running SemanticHighlights on version 1 of d:\proj\STM32F10x-MesonBuild-Demo\src\app\isr.c
+I[10:00:19.255] --> reply:textDocument/semanticTokens/full(6) 73 ms
+V[10:00:19.255] >>> {"id":6,"jsonrpc":"2.0","result":{"data":[6,7,9,8,65536,0,11,7,0,131073,1,16,7,18,66048,0,8,8,0,131073,1,7,11,8,131072,0,12,13,0,131073,2,5,17,3,131075,2,8,17,3,131072,0,18,13,0,131072,0,14,3,6,34816,0,5,13,19,131072,1,8,23,3,131072,0,24,13,0,131072,0,14,3,6,34816,0,5,13,19,131072,1,8,18,3,65536,0,19,7,0,133120,0,16,17,3,131072,0,18,13,0,131072,0,14,3,6,34816,1,8,8,0,131072,0,9,1,21,0],"resultId":"1"}}
+
+I[10:00:19.255] --> textDocument/clangd.fileStatus
+V[10:00:19.255] >>> {"jsonrpc":"2.0","method":"textDocument/clangd.fileStatus","params":{"state":"idle","uri":"file:///d:/proj/STM32F10x-MesonBuild-Demo/src/app/isr.c"}}
+
+V[10:00:19.272] indexed preamble AST for d:\proj\STM32F10x-MesonBuild-Demo\src\start_files\startup_stm32f10x_md.c version 1:
+  symbol slab: 8242 symbols, 2125264 bytes
+  ref slab: 0 symbols, 0 refs, 136 bytes
+  relations slab: 0 relations, 24 bytes
+V[10:00:19.279] Ignored diagnostic. D:/SysGCC/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/include\threads.h:30:10:'machine/_threads.h' file not found
+I[10:00:19.336] Indexed c17 standard library (incomplete due to errors): 2406 symbols, 27 filtered
+V[10:00:19.343] Build dynamic index for header symbols with estimated memory usage of 5401192 bytes
+V[10:00:19.360] indexed preamble AST for d:\proj\STM32F10x-MesonBuild-Demo\src\app\isr.c version 1:
+  symbol slab: 9017 symbols, 2333736 bytes
+  ref slab: 0 symbols, 0 refs, 136 bytes
+  relations slab: 0 relations, 24 bytes
+V[10:00:19.377] Build dynamic index for header symbols with estimated memory usage of 6301984 bytes
+V[10:00:19.401] Build dynamic index for header symbols with estimated memory usage of 6439712 bytes
+V[10:00:19.515] <<< {"id":7,"jsonrpc":"2.0","method":"textDocument/codeAction","params":{"context":{"diagnostics":[],"triggerKind":2},"range":{"end":{"character":17,"line":10},"start":{"character":17,"line":10}},"textDocument":{"uri":"file:///d%3A/proj/STM32F10x-MesonBuild-Demo/src/app/isr.c"}}}
+
+I[10:00:19.515] <-- textDocument/codeAction(7)
+V[10:00:19.515] ASTWorker running codeAction on version 1 of d:\proj\STM32F10x-MesonBuild-Demo\src\app\isr.c
+I[10:00:19.515] --> reply:textDocument/codeAction(7) 0 ms
+V[10:00:19.515] >>> {"id":7,"jsonrpc":"2.0","result":[]}
+
+I[10:00:19.515] --> textDocument/clangd.fileStatus
+V[10:00:19.515] >>> {"jsonrpc":"2.0","method":"textDocument/clangd.fileStatus","params":{"state":"idle","uri":"file:///d:/proj/STM32F10x-MesonBuild-Demo/src/app/isr.c"}}
+
+V[10:00:19.583] <<< {"id":8,"jsonrpc":"2.0","method":"textDocument/semanticTokens/full/delta","params":{"previousResultId":"1","textDocument":{"uri":"file:///d%3A/proj/STM32F10x-MesonBuild-Demo/src/app/isr.c"}}}
+
+I[10:00:19.583] <-- textDocument/semanticTokens/full/delta(8)
+V[10:00:19.583] ASTWorker running SemanticHighlights on version 1 of d:\proj\STM32F10x-MesonBuild-Demo\src\app\isr.c
+I[10:00:19.583] --> reply:textDocument/semanticTokens/full/delta(8) 0 ms
+V[10:00:19.583] >>> {"id":8,"jsonrpc":"2.0","result":{"edits":[],"resultId":"2"}}
+
+I[10:00:19.583] --> textDocument/clangd.fileStatus
+V[10:00:19.583] >>> {"jsonrpc":"2.0","method":"textDocument/clangd.fileStatus","params":{"state":"idle","uri":"file:///d:/proj/STM32F10x-MesonBuild-Demo/src/app/isr.c"}}
+
+V[10:00:20.308] <<< {"id":9,"jsonrpc":"2.0","method":"textDocument/hover","params":{"position":{"character":16,"line":10},"textDocument":{"uri":"file:///d%3A/proj/STM32F10x-MesonBuild-Demo/src/app/isr.c"}}}
+
+I[10:00:20.308] <-- textDocument/hover(9)
+V[10:00:20.308] ASTWorker running Hover on version 1 of d:\proj\STM32F10x-MesonBuild-Demo\src\app\isr.c
+I[10:00:20.310] --> reply:textDocument/hover(9) 2 ms
+V[10:00:20.310] >>> {"id":9,"jsonrpc":"2.0","result":{"contents":{"kind":"markdown","value":"### function `USART1_IRQHandler`  \n\n---\n→ `void`  \n\n---\n```cpp\nvoid USART1_IRQHandler(void)\n```"},"range":{"end":{"character":22,"line":10},"start":{"character":5,"line":10}}}}
+
+I[10:00:20.310] --> textDocument/clangd.fileStatus
+V[10:00:20.310] >>> {"jsonrpc":"2.0","method":"textDocument/clangd.fileStatus","params":{"state":"idle","uri":"file:///d:/proj/STM32F10x-MesonBuild-Demo/src/app/isr.c"}}
+
+V[10:00:20.747] <<< {"id":10,"jsonrpc":"2.0","method":"textDocument/codeAction","params":{"context":{"diagnostics":[],"triggerKind":2},"range":{"end":{"character":16,"line":10},"start":{"character":16,"line":10}},"textDocument":{"uri":"file:///d%3A/proj/STM32F10x-MesonBuild-Demo/src/app/isr.c"}}}
+
+I[10:00:20.747] <-- textDocument/codeAction(10)
+V[10:00:20.747] ASTWorker running codeAction on version 1 of d:\proj\STM32F10x-MesonBuild-Demo\src\app\isr.c
+I[10:00:20.747] --> reply:textDocument/codeAction(10) 0 ms
+V[10:00:20.747] >>> {"id":10,"jsonrpc":"2.0","result":[]}
+
+I[10:00:20.747] --> textDocument/clangd.fileStatus
+V[10:00:20.747] >>> {"jsonrpc":"2.0","method":"textDocument/clangd.fileStatus","params":{"state":"idle","uri":"file:///d:/proj/STM32F10x-MesonBuild-Demo/src/app/isr.c"}}
+
+V[10:00:21.672] <<< {"id":11,"jsonrpc":"2.0","method":"textDocument/references","params":{"context":{"includeDeclaration":true},"position":{"character":16,"line":10},"textDocument":{"uri":"file:///d%3A/proj/STM32F10x-MesonBuild-Demo/src/app/isr.c"}}}
+
+I[10:00:21.672] <-- textDocument/references(11)
+V[10:00:21.672] ASTWorker running References on version 1 of d:\proj\STM32F10x-MesonBuild-Demo\src\app\isr.c
+I[10:00:21.672] --> reply:textDocument/references(11) 0 ms
+V[10:00:21.672] >>> {"id":11,"jsonrpc":"2.0","result":[{"range":{"end":{"character":22,"line":10},"start":{"character":5,"line":10}},"uri":"file:///d:/proj/STM32F10x-MesonBuild-Demo/src/app/isr.c"},{"range":{"end":{"character":30,"line":201},"start":{"character":13,"line":201}},"uri":"file:///d:/proj/STM32F10x-MesonBuild-Demo/src/start_files/startup_stm32f10x_md.c"},{"range":{"end":{"character":32,"line":264},"start":{"character":15,"line":264}},"uri":"file:///d:/proj/STM32F10x-MesonBuild-Demo/src/start_files/startup_stm32f10x_md.c"},{"range":{"end":{"character":22,"line":10},"start":{"character":5,"line":10}},"uri":"file:///D:/proj/STM32F10x-MesonBuild-Demo/src/app/isr.c"},{"range":{"end":{"character":30,"line":201},"start":{"character":13,"line":201}},"uri":"file:///D:/proj/STM32F10x-MesonBuild-Demo/src/start_files/startup_stm32f10x_md.c"},{"range":{"end":{"character":32,"line":264},"start":{"character":15,"line":264}},"uri":"file:///D:/proj/STM32F10x-MesonBuild-Demo/src/start_files/startup_stm32f10x_md.c"}]}
+
+I[10:00:21.672] --> textDocument/clangd.fileStatus
+V[10:00:21.672] >>> {"jsonrpc":"2.0","method":"textDocument/clangd.fileStatus","params":{"state":"idle","uri":"file:///d:/proj/STM32F10x-MesonBuild-Demo/src/app/isr.c"}}
+
