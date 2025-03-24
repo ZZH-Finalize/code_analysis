@@ -41,20 +41,22 @@ class Test(BaseModel):
 
 class FindAllReference(BaseModel):
     """Find all reference of a symbol"""
-    symbol_name: str
+    file: str
+    line: str
+    column: str
 
     @staticmethod
     def get_name() -> str:
         return 'find_all_reference'
 
-    @unwrap_arg('symbol_name')
+    @unwrap_arg('file', 'line', 'column')
     @staticmethod
-    def exec(symbol_name: str) -> list[str]:
+    def exec(file: str, line, column) -> list[str]:
         return [
+            f'input symbol: {file}:{line}:{column}',
             'main.c:45',
-            'caller.cpp:153'
+            'caller.cpp:153',
         ]
-
 
 
 tool_list = [
