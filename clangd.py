@@ -1,8 +1,5 @@
 import subprocess
 import json
-import threading
-import queue
-import time
 from packaging import version
 import os, sys
 import asyncio
@@ -24,7 +21,7 @@ class ClangdClient:
                 '--all-scopes-completion',
                 '--enable-config',
                 '--cross-file-rename',
-                '--background-index',
+                # '--background-index',
             ],
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
@@ -32,11 +29,15 @@ class ClangdClient:
             cwd=workspace_dir,
         )
 
-        self.send_queue = queue.Queue()
-        self.pending_queue = queue.Queue()
-        self.recived_queue = queue.Queue()
+        # self.response_event = asyncio.Event()
+        self.recived_queue = asyncio.Queue()
+        self.pending_queue = asyncio.Queue()
 
-        self.id = -1
+        self.id = 10
+        self.exit_flag = False
+
+    def exit(self):
+        self.exit_flag = True
 
     def get_id(self):
         self.id = self.id + 1
@@ -46,10 +47,14 @@ class ClangdClient:
 
         return self.id
 
-    async def _recive_task(self):
-        while True:
-            # wait until there is data valid
-            line = self.process.stdout.readline()
+    async def recive_task(self):
+        while False == self.exit_flag:
+            try:
+                line = await asyncio.wait_for(asyncio.to_thread(self.process.stdout.readline), timeout=5)
+            except asyncio.TimeoutError:
+                if self.exit_flag:
+                    return
+                continue
             print(f'recived resp: {line.removesuffix(b'\r\n')}')
 
             # is a response instead of a log information
@@ -64,23 +69,20 @@ class ClangdClient:
                 response = json.loads(data)
                 # response with id
                 if 'id' in response:
-                    if not self.pending_queue.empty():
-                        request = self.pending_queue.get()
-                        print(f'Response for {request['method']}:')
-                        # self.recived_queue.put(response)
-                        return response
+                    print(f'resp: {response}')
+                    request = await self.pending_queue.get()
+                    if request['id'] == response['id']:
+                        if 'method' in response:
+                            if request['method'] != response['method']:
+                                await self.pending_queue.put(request)
+                                continue
 
-                # response that does not cantain a id
-                # print(json.dumps(response, indent=4))
-
-            # handle log information
-            else:
-                pass
-                
-
-    async def recive(self):
-        # return await self.recived_queue.get()
-        return await self._recive_task()
+                        # self.response_event.set()
+                        print(f'recive resp for {request['method']}:{request['id']}')
+                        await self.recived_queue.put(response)
+                    else:
+                        print(f'unknow resp for id: {request['id'], response}')
+                        await self.pending_queue.put(request)
 
     async def _send(self, method: str, params: dict, **kwargs):
         request = {
@@ -90,20 +92,19 @@ class ClangdClient:
         }
         request.update(kwargs)
 
-        if None != kwargs:
-            self.pending_queue.put(request)
-
         message = json.dumps(request)
         req = f'Content-Length: {len(message)}\r\n\r\n{message}'.encode()
         print(f'write a request: {req}')
         self.process.stdin.write(req)
-        # print('flush stdin')
         self.process.stdin.flush()
+
+        if 'id' in kwargs:
+            await self.pending_queue.put(request)
+            return await self.recived_queue.get()
 
     async def send_request(self, method: str, params: dict):
         # send request with id
-        await self._send(method, params, id=self.get_id())
-        return await self.recive()
+        return await self._send(method, params, id=self.get_id())
     
     async def send_notification(self, method: str, params: dict):
         # send request without id
@@ -154,9 +155,10 @@ class ClangdClient:
             return vscode_clangd
 
         return None
-    
 
-client = ClangdClient('d:/proj/STM32F10x-MesonBuild-Demo')
+# workspace = 'd:/proj/STM32F10x-MesonBuild-Demo'
+workspace = 'E:/Shared_Dir/ProgramsAndScripts/embed/C/STM32F10x-MesonBuild-Demo'
+client = ClangdClient(workspace)
 
 async def send():
     from init_param import get_init_param
@@ -165,7 +167,7 @@ async def send():
     print(await client.send_request('initialize', param))
     await client.send_notification('initialized', {})
 
-    file = 'd:/proj/STM32F10x-MesonBuild-Demo/subprojects/embed-utils/tiny_console/tiny_console.c'
+    file = os.path.join(workspace, 'subprojects/embed-utils/tiny_console/tiny_console.c')
     with open(file) as f:
         await client.send_notification('textDocument/didOpen', {
             'textDocument': {
@@ -185,9 +187,25 @@ async def send():
         'query': function_name
     }))
 
+    print(await client.send_request('textDocument/references', {
+        'textDocument': {
+            'uri': f'file:///{file}'
+        },
+        "position": {
+            "character": 14,
+            "line": 146
+        },
+        "context": {
+            "includeDeclaration": True
+        }
+    }))
+
+    print('program done')
+
+    client.exit()
+
 async def main():
-    # await asyncio.gather(send(), client._recive_task())
-    await send()
+    await asyncio.gather(send(), client.recive_task())
 
 if __name__ == '__main__':
     asyncio.run(main())
