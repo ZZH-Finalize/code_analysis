@@ -1,0 +1,249 @@
+import subprocess
+import json
+from packaging import version
+import os, sys
+import queue
+import time
+from typing import Union
+
+class ClangdClient:
+    def __init__(self, workspace_path: str = ''):
+        self.workspace_path = workspace_path
+        self.clangd_path = self.__find_clangd()
+        self.id = 10
+        self.process = None
+        self.pending_queue = queue.Queue()
+
+        print(f'find {self.clangd_path}')
+
+    def _recive(self):
+        while True:
+            line = self.process.stdout.readline()
+            print(f'recived resp: {line.removesuffix(b'\r\n')}')
+            # is a response instead of a log information
+            if line.startswith(b'Content-Length:'):
+                # convert length
+                length = int(line.split(b':')[1].strip())
+                # skip empty line
+                self.process.stdout.readline()
+                # read remain data
+                data = self.process.stdout.read(length).replace(b'\r\n', b'')
+                # convert to python dict
+                response = json.loads(data)
+                # response with id
+                if 'id' in response:
+                    print(f'resp: {response}')
+                    request = self.pending_queue.get()
+                    if request['id'] == response['id']:
+                        if 'method' in response:
+                            if request['method'] != response['method']:
+                                self.pending_queue.put(request)
+                                continue
+
+                        # self.response_event.set()
+                        print(f'recive resp for {request['method']}:{request['id']}')
+                        return response
+                    else:
+                        print(f'unknow resp for id: {request['id'], response}')
+                        self.pending_queue.put(request)
+
+    def _send(self, method: str, params: dict, **kwargs):
+        request = {
+            'jsonrpc': '2.0',
+            'method': method,
+            'params': params
+        }
+        request.update(kwargs)
+
+        message = json.dumps(request)
+        req = f'Content-Length: {len(message)}\r\n\r\n{message}'.encode()
+        print(f'write a request: {req}')
+        self.process.stdin.write(req)
+        self.process.stdin.flush()
+
+        if 'id' in kwargs:
+            self.pending_queue.put(request)
+            return self._recive()
+        
+    def get_id(self):
+        self.id = self.id + 1
+
+        if self.id < 0:
+            raise RuntimeError('id exhaused !')
+
+        return self.id
+
+    def start(self, workspace_path: str = ''):
+        if '' != workspace_path:
+            self.workspace_path = workspace_path
+
+        self.process = subprocess.Popen(
+            executable=self.clangd_path,
+            args=[
+                self.clangd_path,
+                '--compile-commands-dir=builddir',
+                '--function-arg-placeholders=1',
+                '--header-insertion=iwyu',
+                '--clang-tidy',
+                '--all-scopes-completion',
+                '--enable-config',
+                '--cross-file-rename',
+                # '--background-index',
+            ],
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            cwd=self.workspace_path,
+        )
+
+        from init_param import get_init_param
+        param = get_init_param()
+        self.send_request('initialize', param)
+        self.send_notification('initialized', {})
+    
+    def stop(self):
+        self.process.terminate()
+        self.process = None
+        self.workspace_path = ''
+
+    def send_request(self, method: str, params: dict):
+        # send request with id
+        return self._send(method, params, id=self.get_id())
+    
+    def send_notification(self, method: str, params: dict):
+        # send request without id
+        self._send(method, params)
+
+    def check_resault(self, response: dict) -> Union[list, str, bool]:
+        if None == response.get('result', None):
+            return []
+        elif 'error' in response:
+            return response['message']
+        else:
+            return True
+    
+    def did_open(self, fn: str):
+        file = os.path.join(self.workspace_path, fn)
+        with open(file) as f:
+            self.send_notification('textDocument/didOpen', {
+                'textDocument': {
+                    'uri': f'file:///{file}',
+                    'languageId': 'c',
+                    'version': 1,
+                    'text': f.read()
+                }
+            })
+
+        time.sleep(2)
+    
+    def did_close(self, fn: str):
+        pass
+
+    def workspace_symbol(self, symbol: str):
+        return self.send_request('workspace/symbol', {
+            'query': symbol
+        })
+
+    def document_references(self, uri: str, line: int, character: int):
+        return self.send_request('textDocument/references', {
+            'textDocument': {'uri': uri},
+            'context': {'includeDeclaration': True},
+            'position': {
+                'line': line,
+                'character': character
+            },
+        })
+
+    def find_symbol_in_workspace(self, symbol: str) -> Union[list, str]:
+        symbol_resp = self.workspace_symbol(symbol)
+
+        # print(f'symbol_resp: {symbol_resp}')
+
+        fail_res = self.check_resault(symbol_resp)
+        if fail_res is not True:
+            return fail_res
+
+        symbol_loc = symbol_resp['result'][0]['location']
+        reference = self.document_references(symbol_loc['uri'], **symbol_loc['range']['start'])
+
+        # print(f'reference: {reference}')
+
+        fail_res = self.check_resault(reference)
+        if fail_res is not True:
+            return fail_res
+
+        # print(json.dumps(reference, indent=4))
+
+        ref_list = []
+
+        for ref in reference['result']:
+            rel_path = os.path.relpath(ref['uri'].removeprefix('file:///'), self.workspace_path)
+            line = ref['range']['start']['line']
+            ref_list.append(f'{rel_path}:{line}')
+
+        return ref_list
+
+    def __find_clangd(self):
+        check_name = 'clangd'
+        clangd_abs_path = ''
+
+        if os.name == 'nt':
+            check_name = check_name + '.exe'
+
+        for path in os.environ['PATH'].split(';'):
+            clangd_abs_path = os.path.join(path, check_name)
+            if os.path.exists(clangd_abs_path):
+                return clangd_abs_path
+            
+        # check for vscode
+        vscode_ext_dir = ''
+
+        if os.name == 'nt':
+            vscode_ext_dir = os.path.join(
+                os.environ['USERPROFILE'],
+                    'AppData',
+                    'Roaming',
+                    'Code',
+                    'User',
+                    'globalStorage',
+                    'llvm-vs-code-extensions.vscode-clangd',
+                    'install'
+                )
+        else:
+            raise RuntimeError('not support')
+            
+        if not os.path.exists(vscode_ext_dir):
+            return None
+
+        leatest = str(max(map(version.parse, os.listdir(vscode_ext_dir))))
+        vscode_clangd = os.path.join(
+            vscode_ext_dir,
+            leatest,
+            'clangd_' + leatest,
+            'bin',
+            check_name
+        )
+        
+        if os.path.exists(vscode_clangd):
+            return vscode_clangd
+
+        return None
+
+def send():
+    client = ClangdClient()
+    # workspace = 'd:/proj/STM32F10x-MesonBuild-Demo'
+    workspace = 'E:/Shared_Dir/ProgramsAndScripts/embed/C/STM32F10x-MesonBuild-Demo'
+    
+    client.start(workspace)
+
+    client.did_open('subprojects/embed-utils/tiny_console/tiny_console.c')
+
+    for ref_info in client.find_symbol_in_workspace('console_send_str'):
+        print(ref_info)
+
+    print('program done')
+
+    client.stop()
+
+if __name__ == '__main__':
+    send()
