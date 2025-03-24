@@ -33,10 +33,25 @@ class Test(BaseModel):
 
     @unwrap_arg('arg_a', 'arg_b')
     @staticmethod
-    def exec(a: str, b: str) -> list[str]:
+    async def exec(a: str, b: str) -> list[str]:
         return [
             f'arg_a: {a}',
             f'arg_b: {b}',
+        ]
+
+class Env(BaseModel):
+    """read envirement"""
+
+    @staticmethod
+    def get_name() -> str:
+        return 'env'
+
+    @unwrap_arg()
+    @staticmethod
+    async def exec() -> list[str]:
+        import sys
+        return [
+            sys.argv,
         ]
 
 class FindAllReference(BaseModel):
@@ -51,7 +66,7 @@ class FindAllReference(BaseModel):
 
     @unwrap_arg('file', 'line', 'column')
     @staticmethod
-    def exec(file: str, line, column) -> list[str]:
+    async def exec(file: str, line, column) -> list[str]:
         return [
             f'input symbol: {file}:{line}:{column}',
             'main.c:45',
@@ -61,5 +76,6 @@ class FindAllReference(BaseModel):
 
 tool_list = [
     FindAllReference,
-    Test
+    Test,
+    Env,
 ]

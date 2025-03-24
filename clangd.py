@@ -3,9 +3,11 @@ import json
 from packaging import version
 import os, sys
 import asyncio
+from typing import Union
 
 class ClangdClient:
     def __init__(self, workspace_dir: str):
+        self.workspace_path = workspace_dir
         clangd_path = self.__find_clangd()
 
         print(f'find {clangd_path}')
@@ -110,6 +112,55 @@ class ClangdClient:
         # send request without id
         await self._send(method, params)
 
+    def __check_resault(self, response: dict) -> Union[list, str, bool]:
+        if None == response.get('result', None):
+            return []
+        elif 'error' in response:
+            return response['message']
+        else:
+            return True
+
+    async def find_symbol_in_workspace(self, symbol: str) -> Union[list, str]:
+        symbol_resp = await client.send_request('workspace/symbol', {
+            'query': symbol
+        })
+
+        # print(f'symbol_resp: {symbol_resp}')
+
+        fail_res = self.__check_resault(symbol_resp)
+        if fail_res is not True:
+            return fail_res
+
+        symbol_loc = symbol_resp['result'][0]['location']
+        reference = await client.send_request('textDocument/references', {
+            'textDocument': {
+                'uri': symbol_loc['uri']
+            },
+            'position': {
+                **symbol_loc['range']['start']
+            },
+            'context': {
+                'includeDeclaration': True
+            }
+        })
+
+        # print(f'reference: {reference}')
+
+        fail_res = self.__check_resault(reference)
+        if fail_res is not True:
+            return fail_res
+
+        # print(json.dumps(reference, indent=4))
+
+        ref_list = []
+
+        for ref in reference['result']:
+            rel_path = os.path.relpath(ref['uri'].removeprefix('file:///'), self.workspace_path)
+            line = ref['range']['start']['line']
+            ref_list.append(f'{rel_path}:{line}')
+
+        return ref_list
+
     def __find_clangd(self):
         check_name = 'clangd'
         clangd_abs_path = ''
@@ -179,26 +230,10 @@ async def send():
             }
         })
 
-    await asyncio.sleep(5)
+    await asyncio.sleep(2)
 
-    function_name = 'console_send_str'
-
-    print(await client.send_request('workspace/symbol', {
-        'query': function_name
-    }))
-
-    print(await client.send_request('textDocument/references', {
-        'textDocument': {
-            'uri': f'file:///{file}'
-        },
-        "position": {
-            "character": 14,
-            "line": 146
-        },
-        "context": {
-            "includeDeclaration": True
-        }
-    }))
+    for ref_info in await client.find_symbol_in_workspace('bitmap_find_first_free'):
+        print(ref_info)
 
     print('program done')
 
