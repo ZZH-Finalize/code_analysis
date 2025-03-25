@@ -17,8 +17,8 @@ class ClangdClient:
         self.opened_files = set()
 
         self.logger = logging.getLogger(__name__)
-        self.logger.setLevel(logging.CRITICAL)
-        self.logger.addHandler(logging.FileHandler('log.txt', mode='w'))
+        self.logger.setLevel(logging.DEBUG)
+        self.logger.addHandler(logging.FileHandler('/mnt/d/proj/python/code_analysis/log.txt', mode='w'))
         self.logger.info(f'find {self.clangd_path}')
 
     def _recive(self):
@@ -84,20 +84,28 @@ class ClangdClient:
 
         if None != self.process:
             return 'analyzer already running, please stop and re-start'
-
-        self.process = subprocess.Popen(
-            executable=self.clangd_path,
-            args=[
+        
+        clangd_args = [
                 self.clangd_path,
-                '--compile-commands-dir=builddir',
                 '--function-arg-placeholders=1',
                 '--header-insertion=iwyu',
                 '--clang-tidy',
                 '--all-scopes-completion',
                 '--enable-config',
                 '--cross-file-rename',
+                # '--log=verbose',
                 # '--background-index',
-            ],
+            ]
+        
+        cdb_path = os.path.dirname(self.__search_cdb())
+        self.logger.debug(f'cdb_path: {cdb_path}')
+        clangd_args.append(f'--compile-commands-dir={cdb_path}')
+        if None == cdb_path:
+            raise RuntimeError('no compile_commands.json found')
+
+        self.process = subprocess.Popen(
+            executable=self.clangd_path,
+            args=clangd_args,
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
@@ -136,8 +144,11 @@ class ClangdClient:
         if fn in self.opened_files:
             return
 
-        # file = os.path.join(self.workspace_path, fn)
-        file = fn
+        if os.path.exists(fn):
+            file = fn
+        else:
+            file = os.path.join(self.workspace_path, fn)
+
         with open(file, encoding='utf-8') as f:
             self.send_notification('textDocument/didOpen', {
                 'textDocument': {
@@ -150,11 +161,17 @@ class ClangdClient:
 
         self.opened_files.add(fn)
 
-        time.sleep(5)
+        time.sleep(10)
     
     def did_close(self, fn: str):
-        # file = os.path.join(self.workspace_path, fn)
-        file = fn
+        if fn not in self.opened_files:
+            return
+
+        if os.path.exists(fn):
+            file = fn
+        else:
+            file = os.path.join(self.workspace_path, fn)
+
         self.send_notification('textDocument/didClose', {
             'textDocument': {
                 'uri': f'file:///{file}'
@@ -233,6 +250,16 @@ class ClangdClient:
                     'llvm-vs-code-extensions.vscode-clangd',
                     'install'
                 )
+        elif os.name == 'posix':
+            vscode_ext_dir = os.path.join(
+                os.path.expanduser('~'),
+                    '.vscode-server',
+                    'data',
+                    'User',
+                    'globalStorage',
+                    'llvm-vs-code-extensions.vscode-clangd',
+                    'install'
+                )
         else:
             raise RuntimeError('not support')
             
@@ -251,6 +278,14 @@ class ClangdClient:
         if os.path.exists(vscode_clangd):
             return vscode_clangd
 
+        return None
+    
+    def __search_cdb(self):
+        import fnmatch
+        for root, dir, files in os.walk(self.workspace_path):
+            # print(f'root: {root}, _:{dir}, files: {files}')
+            for file_path in fnmatch.filter(files, 'compile_commands.json'):
+                return os.path.relpath(os.path.join(root, file_path), self.workspace_path)
         return None
 
 def send():
