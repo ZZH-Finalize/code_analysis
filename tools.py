@@ -1,6 +1,9 @@
 from pydantic import BaseModel
 from functools import wraps
 from typing import Callable
+from clang_blocked import ClangdClient
+
+client = ClangdClient()
 
 # accept argument from decorator
 def unwrap_arg(*arg_keys) -> Callable:
@@ -33,7 +36,7 @@ class Test(BaseModel):
 
     @unwrap_arg('arg_a', 'arg_b')
     @staticmethod
-    async def exec(a: str, b: str) -> list[str]:
+    def exec(a: str, b: str) -> list[str]:
         return [
             f'arg_a: {a}',
             f'arg_b: {b}',
@@ -48,34 +51,89 @@ class Env(BaseModel):
 
     @unwrap_arg()
     @staticmethod
-    async def exec() -> list[str]:
+    def exec() -> list[str]:
         import sys
         return [
             sys.argv,
         ]
+    
+class StartAnalyzer(BaseModel):
+    """Start the code analyzer in a workspace"""
+    workspace_path: str
+
+    @staticmethod
+    def get_name():
+        return 'start_analyzer'
+    
+    @unwrap_arg('workspace_path')
+    @staticmethod
+    def exec(path):
+        return client.start(path)
+
+class StopAnalyzer(BaseModel):
+    """Stop the code analyzer"""
+
+    @staticmethod
+    def get_name():
+        return 'stop_analyzer'
+    
+    @unwrap_arg()
+    @staticmethod
+    def exec():
+        client.stop()
+
+class AddFile(BaseModel):
+    """
+    Before performing symbol lookup, the file containing the symbols must first be added to the analyzer.
+    """
+
+    path_to_file: str
+
+    @staticmethod
+    def get_name():
+        return 'add_file'
+    
+    @unwrap_arg('path_to_file')
+    @staticmethod
+    def exec(path_to_file):
+        client.did_open(path_to_file)
+
+class RemoveFile(BaseModel):
+    """Remove file from the analyzer after analysis"""
+
+    path_to_file: str
+
+    @staticmethod
+    def get_name():
+        return 'remove_file'
+    
+    @unwrap_arg('path_to_file')
+    @staticmethod
+    def exec(path_to_file):
+        client.did_close(path_to_file)
 
 class FindAllReference(BaseModel):
     """Find all reference of a symbol"""
-    file: str
-    line: str
-    column: str
+    symbol_name: str
 
     @staticmethod
     def get_name() -> str:
         return 'find_all_reference'
 
-    @unwrap_arg('file', 'line', 'column')
+    @unwrap_arg('symbol_name')
     @staticmethod
-    async def exec(file: str, line, column) -> list[str]:
-        return [
-            f'input symbol: {file}:{line}:{column}',
-            'main.c:45',
-            'caller.cpp:153',
-        ]
+    def exec(symbol_name: str) -> list[str]:
+        return client.find_symbol_in_workspace(symbol_name)
 
 
-tool_list = [
+tool_list: list[BaseModel] = [
+    StartAnalyzer,
+    StopAnalyzer,
+    AddFile,
+    RemoveFile,
     FindAllReference,
-    Test,
-    Env,
+
+
+    # Test,
+    # Env,
 ]

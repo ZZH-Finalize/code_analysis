@@ -5,6 +5,7 @@ import os, sys
 import queue
 import time
 from typing import Union
+import logging
 
 class ClangdClient:
     def __init__(self, workspace_path: str = ''):
@@ -13,13 +14,17 @@ class ClangdClient:
         self.id = 10
         self.process = None
         self.pending_queue = queue.Queue()
+        self.opened_files = set()
 
-        print(f'find {self.clangd_path}')
+        self.logger = logging.getLogger(__name__)
+        self.logger.setLevel(logging.CRITICAL)
+        self.logger.addHandler(logging.FileHandler('log.txt', mode='w'))
+        self.logger.info(f'find {self.clangd_path}')
 
     def _recive(self):
         while True:
             line = self.process.stdout.readline()
-            print(f'recived resp: {line.removesuffix(b'\r\n')}')
+            self.logger.debug(f'recived resp: {line.removesuffix(b'\r\n')}')
             # is a response instead of a log information
             if line.startswith(b'Content-Length:'):
                 # convert length
@@ -32,7 +37,7 @@ class ClangdClient:
                 response = json.loads(data)
                 # response with id
                 if 'id' in response:
-                    print(f'resp: {response}')
+                    self.logger.debug(f'resp: {response}')
                     request = self.pending_queue.get()
                     if request['id'] == response['id']:
                         if 'method' in response:
@@ -41,10 +46,10 @@ class ClangdClient:
                                 continue
 
                         # self.response_event.set()
-                        print(f'recive resp for {request['method']}:{request['id']}')
+                        self.logger.debug(f'recive resp for {request['method']}:{request['id']}')
                         return response
                     else:
-                        print(f'unknow resp for id: {request['id'], response}')
+                        self.logger.debug(f'unknow resp for id: {request['id'], response}')
                         self.pending_queue.put(request)
 
     def _send(self, method: str, params: dict, **kwargs):
@@ -57,7 +62,7 @@ class ClangdClient:
 
         message = json.dumps(request)
         req = f'Content-Length: {len(message)}\r\n\r\n{message}'.encode()
-        print(f'write a request: {req}')
+        self.logger.debug(f'write a request: {req}')
         self.process.stdin.write(req)
         self.process.stdin.flush()
 
@@ -76,6 +81,9 @@ class ClangdClient:
     def start(self, workspace_path: str = ''):
         if '' != workspace_path:
             self.workspace_path = workspace_path
+
+        if None != self.process:
+            return 'analyzer already running, please stop and re-start'
 
         self.process = subprocess.Popen(
             executable=self.clangd_path,
@@ -100,11 +108,13 @@ class ClangdClient:
         param = get_init_param()
         self.send_request('initialize', param)
         self.send_notification('initialized', {})
+        self.opened_files.clear()
     
     def stop(self):
         self.process.terminate()
         self.process = None
         self.workspace_path = ''
+        self.opened_files.clear()
 
     def send_request(self, method: str, params: dict):
         # send request with id
@@ -123,8 +133,12 @@ class ClangdClient:
             return True
     
     def did_open(self, fn: str):
-        file = os.path.join(self.workspace_path, fn)
-        with open(file) as f:
+        if fn in self.opened_files:
+            return
+
+        # file = os.path.join(self.workspace_path, fn)
+        file = fn
+        with open(file, encoding='utf-8') as f:
             self.send_notification('textDocument/didOpen', {
                 'textDocument': {
                     'uri': f'file:///{file}',
@@ -134,10 +148,20 @@ class ClangdClient:
                 }
             })
 
-        time.sleep(2)
+        self.opened_files.add(fn)
+
+        time.sleep(5)
     
     def did_close(self, fn: str):
-        pass
+        # file = os.path.join(self.workspace_path, fn)
+        file = fn
+        self.send_notification('textDocument/didClose', {
+            'textDocument': {
+                'uri': f'file:///{file}'
+            }
+        })
+
+        self.opened_files.remove(fn)
 
     def workspace_symbol(self, symbol: str):
         return self.send_request('workspace/symbol', {
@@ -157,7 +181,7 @@ class ClangdClient:
     def find_symbol_in_workspace(self, symbol: str) -> Union[list, str]:
         symbol_resp = self.workspace_symbol(symbol)
 
-        # print(f'symbol_resp: {symbol_resp}')
+        # self.logger.debug(f'symbol_resp: {symbol_resp}')
 
         fail_res = self.check_resault(symbol_resp)
         if fail_res is not True:
@@ -166,13 +190,13 @@ class ClangdClient:
         symbol_loc = symbol_resp['result'][0]['location']
         reference = self.document_references(symbol_loc['uri'], **symbol_loc['range']['start'])
 
-        # print(f'reference: {reference}')
+        # self.logger.debug(f'reference: {reference}')
 
         fail_res = self.check_resault(reference)
         if fail_res is not True:
             return fail_res
 
-        # print(json.dumps(reference, indent=4))
+        # self.logger.debug(json.dumps(reference, indent=4))
 
         ref_list = []
 
@@ -231,15 +255,20 @@ class ClangdClient:
 
 def send():
     client = ClangdClient()
-    # workspace = 'd:/proj/STM32F10x-MesonBuild-Demo'
-    workspace = 'E:/Shared_Dir/ProgramsAndScripts/embed/C/STM32F10x-MesonBuild-Demo'
-    
+    client.logger.setLevel(logging.DEBUG)
+    workspace = 'd:/proj/STM32F10x-MesonBuild-Demo'
+    # workspace = 'E:/Shared_Dir/ProgramsAndScripts/embed/C/STM32F10x-MesonBuild-Demo'
+
     client.start(workspace)
 
-    client.did_open('subprojects/embed-utils/tiny_console/tiny_console.c')
+    client.did_open('d:/proj/STM32F10x-MesonBuild-Demo/src/app/main.c')
 
-    for ref_info in client.find_symbol_in_workspace('console_send_str'):
+    for ref_info in client.find_symbol_in_workspace('main'):
         print(ref_info)
+
+    client.did_close('d:/proj/STM32F10x-MesonBuild-Demo/src/app/main.c')
+
+    time.sleep(2)
 
     print('program done')
 
