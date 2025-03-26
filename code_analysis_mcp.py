@@ -32,6 +32,9 @@ async def call_tool(name: str, arg: Any) -> Sequence[TextContent]:
 
     resault = tool_table[name].exec(arg)
 
+    if None == resault:
+        resault = True
+
     return [
         TextContent(
             text = json.dumps(resault),

@@ -1,0 +1,10 @@
+执行以下命令
+
+1. 使用/workspace/proj/baseband/macsw/作为参数调用Code Analysis里的start_analyzer
+2. 使用plf/refip/src/arch/risc-v/arch_main.c作为参数调用Code Analysis里的add_file
+2. 使用rwnx_platform_init作为参数调用Code Analysis里的find_all_reference
+
+执行以下命令
+1. 使用d:/proj/STM32F10x-MesonBuild-Demo作为参数调用Code Analysis里的start_analyzer
+2. 使用src/app/main.c作为参数调用Code Analysis里的add_file
+3. 使用console_update作为参数调用Code Analysis里的find_all_reference

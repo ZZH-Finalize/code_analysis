@@ -68,7 +68,7 @@ class StartAnalyzer(BaseModel):
     @unwrap_arg('workspace_path')
     @staticmethod
     def exec(path):
-        return client.start(path)
+        client.start(path)
 
 class StopAnalyzer(BaseModel):
     """Stop the code analyzer"""
@@ -124,6 +124,37 @@ class FindAllReference(BaseModel):
     @staticmethod
     def exec(symbol_name: str) -> list[str]:
         return client.find_symbol_in_workspace(symbol_name)
+
+# class FindAllReference(BaseModel):
+#     """Find all reference of a symbol"""
+#     file: str
+#     symbol_line: str
+#     symbol_column: str
+
+#     @staticmethod
+#     def get_name() -> str:
+#         return 'find_all_reference'
+
+#     @unwrap_arg('file', 'symbol_line', 'symbol_column')
+#     @staticmethod
+#     def exec(file: str, symbol_line: str, symbol_column: str) -> list[str]:
+#         import os
+#         fn = client.did_open(file)
+#         client.logger.debug(f'file: {file}, fn: {fn}')
+#         reference = client.document_references(f'file:///{fn}', symbol_line, symbol_column)
+
+#         fail_res = client.check_resault(reference)
+#         if fail_res is not True:
+#             return fail_res
+        
+#         ref_list = []
+
+#         for ref in reference['result']:
+#             rel_path = os.path.relpath(client.uri_to_fn(ref['uri']), client.workspace_path)
+#             line = ref['range']['start']['line']
+#             ref_list.append(f'{rel_path}:{line}')
+        
+#         return ref_list
 
 
 tool_list: list[BaseModel] = [

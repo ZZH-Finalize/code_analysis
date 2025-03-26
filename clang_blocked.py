@@ -6,6 +6,8 @@ import queue
 import time
 from typing import Union
 import logging
+from urllib.parse import urlparse, unquote
+from urllib.request import pathname2url
 
 class ClangdClient:
     def __init__(self, workspace_path: str = ''):
@@ -18,7 +20,13 @@ class ClangdClient:
 
         self.logger = logging.getLogger(__name__)
         self.logger.setLevel(logging.DEBUG)
-        self.logger.addHandler(logging.FileHandler('/mnt/d/proj/python/code_analysis/log.txt', mode='w'))
+
+        if os.name == 'nt':
+            log_fn = 'D:/proj/python/code_analysis/log.txt'
+        elif os.name == 'posix':
+            log_fn = '/mnt/d/proj/python/code_analysis/log.txt'
+
+        self.logger.addHandler(logging.FileHandler(log_fn, mode='w'))
         self.logger.info(f'find {self.clangd_path}')
 
     def _recive(self):
@@ -79,11 +87,14 @@ class ClangdClient:
         return self.id
 
     def start(self, workspace_path: str = ''):
+        if None != self.process:
+            self.logger.debug('restart server')
+            self.stop()
+        
         if '' != workspace_path:
             self.workspace_path = workspace_path
-
-        if None != self.process:
-            return 'analyzer already running, please stop and re-start'
+        
+        os.chdir(self.workspace_path)
         
         clangd_args = [
                 self.clangd_path,
@@ -141,18 +152,15 @@ class ClangdClient:
             return True
     
     def did_open(self, fn: str):
+        file = os.path.abspath(fn)
+    
         if fn in self.opened_files:
-            return
-
-        if os.path.exists(fn):
-            file = fn
-        else:
-            file = os.path.join(self.workspace_path, fn)
+            return file
 
         with open(file, encoding='utf-8') as f:
             self.send_notification('textDocument/didOpen', {
                 'textDocument': {
-                    'uri': f'file:///{file}',
+                    'uri': self.fn_to_uri(file),
                     'languageId': 'c',
                     'version': 1,
                     'text': f.read()
@@ -161,20 +169,16 @@ class ClangdClient:
 
         self.opened_files.add(fn)
 
-        time.sleep(10)
+        time.sleep(5)
+
+        return file
     
     def did_close(self, fn: str):
-        if fn not in self.opened_files:
-            return
-
-        if os.path.exists(fn):
-            file = fn
-        else:
-            file = os.path.join(self.workspace_path, fn)
+        file = os.path.abspath(fn)
 
         self.send_notification('textDocument/didClose', {
             'textDocument': {
-                'uri': f'file:///{file}'
+                'uri': self.fn_to_uri(file)
             }
         })
 
@@ -190,8 +194,8 @@ class ClangdClient:
             'textDocument': {'uri': uri},
             'context': {'includeDeclaration': True},
             'position': {
-                'line': line,
-                'character': character
+                'line': int(line),
+                'character': int(character)
             },
         })
 
@@ -205,6 +209,9 @@ class ClangdClient:
             return fail_res
 
         symbol_loc = symbol_resp['result'][0]['location']
+
+        self.did_open(self.uri_to_fn(symbol_loc['uri']))
+
         reference = self.document_references(symbol_loc['uri'], **symbol_loc['range']['start'])
 
         # self.logger.debug(f'reference: {reference}')
@@ -218,7 +225,7 @@ class ClangdClient:
         ref_list = []
 
         for ref in reference['result']:
-            rel_path = os.path.relpath(ref['uri'].removeprefix('file:///'), self.workspace_path)
+            rel_path = os.path.relpath(self.uri_to_fn(ref['uri']), self.workspace_path)
             line = ref['range']['start']['line']
             ref_list.append(f'{rel_path}:{line}')
 
@@ -287,6 +294,17 @@ class ClangdClient:
             for file_path in fnmatch.filter(files, 'compile_commands.json'):
                 return os.path.relpath(os.path.join(root, file_path), self.workspace_path)
         return None
+    
+    @staticmethod
+    def uri_to_fn(uri: str):
+        fn = unquote(urlparse(uri).path)
+        if os.name == 'nt':
+            fn = fn.removeprefix('/')
+        return fn
+
+    @staticmethod
+    def fn_to_uri(fn: str):
+        return 'file:' + pathname2url(fn)
 
 def send():
     client = ClangdClient()
@@ -298,10 +316,10 @@ def send():
 
     client.did_open('d:/proj/STM32F10x-MesonBuild-Demo/src/app/main.c')
 
-    for ref_info in client.find_symbol_in_workspace('main'):
+    for ref_info in client.find_symbol_in_workspace('console_update'):
         print(ref_info)
 
-    client.did_close('d:/proj/STM32F10x-MesonBuild-Demo/src/app/main.c')
+    # client.did_close('d:/proj/STM32F10x-MesonBuild-Demo/src/app/main.c')
 
     time.sleep(2)
 
