@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from functools import wraps
 from typing import Callable
 from clang_blocked import ClangdClient
@@ -57,113 +57,37 @@ class Env(BaseModel):
             sys.argv,
         ]
     
-class StartAnalyzer(BaseModel):
+class start_analyzer(BaseModel):
     """Start the code analyzer in a workspace"""
-    workspace_path: str
-
-    @staticmethod
-    def get_name():
-        return 'start_analyzer'
+    workspace_path: str = Field(description='absolute path to the current workspace')
     
     @unwrap_arg('workspace_path')
     @staticmethod
     def exec(path):
         client.start(path)
 
-class StopAnalyzer(BaseModel):
+class stop_analyzer(BaseModel):
     """Stop the code analyzer"""
-
-    @staticmethod
-    def get_name():
-        return 'stop_analyzer'
     
     @unwrap_arg()
     @staticmethod
     def exec():
         client.stop()
 
-class AddFile(BaseModel):
-    """
-    Before performing symbol lookup, the file containing the symbols must first be added to the analyzer.
-    """
-
-    path_to_file: str
-
-    @staticmethod
-    def get_name():
-        return 'add_file'
-    
-    @unwrap_arg('path_to_file')
-    @staticmethod
-    def exec(path_to_file):
-        client.did_open(path_to_file)
-
-class RemoveFile(BaseModel):
-    """Remove file from the analyzer after analysis"""
-
-    path_to_file: str
-
-    @staticmethod
-    def get_name():
-        return 'remove_file'
-    
-    @unwrap_arg('path_to_file')
-    @staticmethod
-    def exec(path_to_file):
-        client.did_close(path_to_file)
-
-class FindAllReference(BaseModel):
+class find_all_reference(BaseModel):
     """Find all reference of a symbol"""
-    symbol_name: str
-
-    @staticmethod
-    def get_name() -> str:
-        return 'find_all_reference'
+    symbol_name: str = Field(description='function name or variable name')
 
     @unwrap_arg('symbol_name')
     @staticmethod
     def exec(symbol_name: str) -> list[str]:
         return client.find_symbol_in_workspace(symbol_name)
 
-# class FindAllReference(BaseModel):
-#     """Find all reference of a symbol"""
-#     file: str
-#     symbol_line: str
-#     symbol_column: str
-
-#     @staticmethod
-#     def get_name() -> str:
-#         return 'find_all_reference'
-
-#     @unwrap_arg('file', 'symbol_line', 'symbol_column')
-#     @staticmethod
-#     def exec(file: str, symbol_line: str, symbol_column: str) -> list[str]:
-#         import os
-#         fn = client.did_open(file)
-#         client.logger.debug(f'file: {file}, fn: {fn}')
-#         reference = client.document_references(f'file:///{fn}', symbol_line, symbol_column)
-
-#         fail_res = client.check_resault(reference)
-#         if fail_res is not True:
-#             return fail_res
-        
-#         ref_list = []
-
-#         for ref in reference['result']:
-#             rel_path = os.path.relpath(client.uri_to_fn(ref['uri']), client.workspace_path)
-#             line = ref['range']['start']['line']
-#             ref_list.append(f'{rel_path}:{line}')
-        
-#         return ref_list
-
 
 tool_list: list[BaseModel] = [
-    StartAnalyzer,
-    StopAnalyzer,
-    # AddFile,
-    # RemoveFile,
-    FindAllReference,
-
+    start_analyzer,
+    stop_analyzer,
+    find_all_reference,
 
     # Test,
     # Env,

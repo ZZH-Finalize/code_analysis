@@ -18,7 +18,7 @@ async def list_tools() -> list[Tool]:
 
     for tool in tool_list:
         tool_register_list.append(Tool(
-            name = tool.get_name(),
+            name = tool.__name__,
             description = tool.__doc__,
             inputSchema = tool.model_json_schema()
         ))
@@ -46,7 +46,7 @@ async def main():
     global tool_table
 
     for tool in tool_list:
-        tool_table.update({tool.get_name(): tool})
+        tool_table.update({tool.__name__: tool})
 
     async with stdio_server() as (read_stream, write_stream):
         await server.run(read_stream, write_stream, server.create_initialization_options())
