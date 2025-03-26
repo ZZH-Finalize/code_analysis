@@ -160,8 +160,8 @@ class FindAllReference(BaseModel):
 tool_list: list[BaseModel] = [
     StartAnalyzer,
     StopAnalyzer,
-    AddFile,
-    RemoveFile,
+    # AddFile,
+    # RemoveFile,
     FindAllReference,
 
 
