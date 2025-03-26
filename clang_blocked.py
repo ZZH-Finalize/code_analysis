@@ -39,16 +39,16 @@ class ClangdClient:
 
     def _recive(self):
         while True:
-            line = self.process.stdout.readline()
-            self.logger.debug(f'recived resp: {line.removesuffix(b'\r\n')}')
+            line = self.process.stdout.readline().decode().removesuffix('\r\n')
+            self.logger.debug(f'recived resp: {line}')
             # is a response instead of a log information
-            if line.startswith(b'Content-Length:'):
+            if line.startswith('Content-Length:'):
                 # convert length
-                length = int(line.split(b':')[1].strip())
+                length = int(line.split(':')[1].strip())
                 # skip empty line
                 self.process.stdout.readline()
                 # read remain data
-                data = self.process.stdout.read(length).replace(b'\r\n', b'')
+                data = self.process.stdout.read(length).decode().removesuffix('\r\n')
                 # convert to python dict
                 response = json.loads(data)
                 # response with id
