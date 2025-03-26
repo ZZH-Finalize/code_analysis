@@ -7,7 +7,7 @@ from typing import Optional
 import asyncio
 from contextlib import AsyncExitStack
 
-import os
+import os, sys
 
 class MCPClient:
     def __init__(self):
@@ -39,7 +39,7 @@ class MCPClient:
 
         server_params = StdioServerParameters(
             command=cmd,
-            args=[server_script_path],
+            args=[server_script_path, '--enable-log'],
             env=None
         )
 
@@ -63,45 +63,28 @@ class MCPClient:
         """清理资源"""
         await self.exit_stack.aclose()
 
+test_cases = {
+    'nt': [
+        ('start_analyzer', {"workspace_path": "D:/proj/STM32F10x-MesonBuild-Demo"}),
+        ('start_analyzer', {"workspace_path": "D:/proj/STM32F10x-MesonBuild-Demo"}),
+        ('find_all_reference', {"symbol_name": "console_update"}),
+    ],
+    'posix': [
+        ('start_analyzer', {"workspace_path": "/workspace/proj/baseband/macsw/"}),
+        ('find_all_reference', {"symbol_name": "rwnx_platform_init"}),
+    ]
+}
+
 async def main():
     client = MCPClient()
 
     try:
-        if os.name == 'nt':
-            await client.connect_to_server('D:/proj/python/code_analysis/code_analysis_mcp.py')
-            await client.call_tool('start_analyzer', {
-                "workspace_path": "d:/proj/STM32F10x-MesonBuild-Demo"
-            })
-            await client.call_tool('start_analyzer', {
-                "workspace_path": "d:/proj/STM32F10x-MesonBuild-Demo"
-            })
-            await client.call_tool('add_file', {
-                "path_to_file": "src/app/main.c"
-            })
-            # await client.call_tool('find_all_reference', {
-            #     "file": "src/app/main.c",
-            #     "symbol_line": '121',
-            #     "symbol_column": '19'
-            # })
-            await client.call_tool('find_all_reference', {
-                "symbol_name": "console_update",
-            })
-        elif os.name == 'posix':
-            await client.connect_to_server('/mnt/d/proj/python/code_analysis/code_analysis_mcp.py')
-            await client.call_tool('start_analyzer', {
-                "workspace_path": "/workspace/proj/baseband/macsw/"
-            })
-            await client.call_tool('add_file', {
-                "path_to_file": "plf/refip/src/arch/risc-v/arch_main.c"
-            })
-            # await client.call_tool('find_all_reference', {
-            #     "file": "/workspace/proj/baseband/macsw/plf/refip/src/arch/risc-v/arch_main.c",
-            #     "symbol_line": '34',
-            #     "symbol_column": '6'
-            # })
-            await client.call_tool('find_all_reference', {
-                "symbol_name": "rwnx_platform_init",
-            })
+        script_path = os.path.dirname(sys.argv[0])
+        await client.connect_to_server(os.path.join(script_path, '..', 'code_analysis_mcp.py'))
+
+        for tool, param in test_cases[os.name]:
+            await client.call_tool(tool, param)
+
     finally:
         await client.cleanup()
 

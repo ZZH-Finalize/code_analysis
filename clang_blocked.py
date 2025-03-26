@@ -17,16 +17,24 @@ class ClangdClient:
         self.process = None
         self.pending_queue = queue.Queue()
         self.opened_files = set()
+        self.script_path = os.path.abspath(os.path.dirname(sys.argv[0]))
+
+        if not os.path.exists(os.path.join(self.script_path, 'logs')):
+            os.mkdir(os.path.join(self.script_path, 'logs'))
+
+        time_tag = time.strftime('%Y-%m-%d-%H-%M-%S', time.localtime())
 
         self.logger = logging.getLogger(__name__)
-        self.logger.setLevel(logging.DEBUG)
 
-        if os.name == 'nt':
-            log_fn = 'D:/proj/python/code_analysis/log.txt'
-        elif os.name == 'posix':
-            log_fn = '/mnt/d/proj/python/code_analysis/log.txt'
+        # default disable log
+        self.logger.setLevel(logging.CRITICAL)
+        for hdlr in self.logger.handlers:
+            self.logger.removeHandler(hdlr)
 
-        self.logger.addHandler(logging.FileHandler(log_fn, mode='w'))
+        if len(sys.argv) > 1 and '--enable-log' == sys.argv[1]:
+            self.logger.setLevel(logging.DEBUG)
+            self.logger.addHandler(logging.FileHandler(os.path.join(self.script_path, 'logs', f'log-{time_tag}.txt'), mode='w'))
+        
         self.logger.info(f'find {self.clangd_path}')
 
     def _recive(self):
@@ -87,13 +95,14 @@ class ClangdClient:
         return self.id
 
     def start(self, workspace_path: str = ''):
-        if None != self.process:
+        if None != self.process and workspace_path != self.workspace_path:
             self.logger.debug('restart server')
             self.stop()
         
         if '' != workspace_path:
             self.workspace_path = workspace_path
-        
+
+        self.logger.debug('switch to workspace')
         os.chdir(self.workspace_path)
         
         clangd_args = [
@@ -108,7 +117,8 @@ class ClangdClient:
                 # '--background-index',
             ]
         
-        cdb_path = os.path.dirname(self.__search_cdb())
+        cdb_file = self.__search_cdb()
+        cdb_path = os.path.dirname(cdb_file)
         self.logger.debug(f'cdb_path: {cdb_path}')
         clangd_args.append(f'--compile-commands-dir={cdb_path}')
         if None == cdb_path:
@@ -123,11 +133,17 @@ class ClangdClient:
             cwd=self.workspace_path,
         )
 
-        from init_param import get_init_param
-        param = get_init_param()
+        with open(os.path.join(self.script_path, 'init_param.json'), encoding='utf-8') as f:
+            param = json.loads(f.read())
+
         self.send_request('initialize', param)
         self.send_notification('initialized', {})
         self.opened_files.clear()
+
+        with open(cdb_file, encoding='utf-8') as f:
+            cdb = json.loads(f.read())
+
+        self.did_open(os.path.join(cdb[0]['directory'], cdb[0]['file']))
     
     def stop(self):
         self.process.terminate()
@@ -152,6 +168,7 @@ class ClangdClient:
             return True
     
     def did_open(self, fn: str):
+        self.logger.debug(f'fn: {fn}')
         file = os.path.abspath(fn)
     
         if fn in self.opened_files:
@@ -168,10 +185,7 @@ class ClangdClient:
             })
 
         self.opened_files.add(fn)
-
-        time.sleep(5)
-
-        return file
+        time.sleep(0.5)
     
     def did_close(self, fn: str):
         file = os.path.abspath(fn)
@@ -314,12 +328,16 @@ def send():
 
     client.start(workspace)
 
-    client.did_open('d:/proj/STM32F10x-MesonBuild-Demo/src/app/main.c')
+    # client.did_open('src/app/main.c')
+
+    # sym = client.workspace_symbol('console_update')
+
+    # client.send_request('workspaceSymbol/resolve', sym)
 
     for ref_info in client.find_symbol_in_workspace('console_update'):
         print(ref_info)
 
-    # client.did_close('d:/proj/STM32F10x-MesonBuild-Demo/src/app/main.c')
+    # client.did_close('src/app/main.c')
 
     time.sleep(2)
 
