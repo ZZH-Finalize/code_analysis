@@ -159,13 +159,21 @@ class ClangdClient:
         # send request without id
         self._send(method, params)
 
-    def check_resault(self, response: dict) -> Union[list, str, bool]:
-        if None == response.get('result', None):
-            return []
-        elif 'error' in response:
-            return response['message']
-        else:
-            return True
+    def check_resault(self, response: dict) -> None:
+        if 'error' in response:
+            raise RuntimeError(f'error occur: {response['message']}')
+        elif [] == response.get('result', []):
+            raise RuntimeError('result not found')
+        
+    def extract_list(self, response: dict) -> list[str]:
+        res = []
+
+        for ref in response['result']:
+            rel_path = os.path.relpath(self.uri_to_fn(ref['uri']), self.workspace_path)
+            line = ref['range']['start']['line']
+            res.append(f'{rel_path}:{line}')
+
+        return res
     
     def did_open(self, fn: str):
         self.logger.debug(f'fn: {fn}')
@@ -204,7 +212,7 @@ class ClangdClient:
         })
 
     def document_references(self, uri: str, line: int, character: int):
-        return self.send_request('textDocument/references', {
+        reference = self.send_request('textDocument/references', {
             'textDocument': {'uri': uri},
             'context': {'includeDeclaration': True},
             'position': {
@@ -213,37 +221,55 @@ class ClangdClient:
             },
         })
 
+        self.check_resault(reference)
+        return reference
+    
+    def document_definition(self, uri: str, line: int, character: int):
+        definition = self.send_request('textDocument/definition', {
+            'textDocument': {'uri': uri},
+            'position': {
+                'line': int(line),
+                'character': int(character)
+            },
+        })
+
+        # print(json.dumps(definition, indent=4))
+
+        self.check_resault(definition)
+        return definition
+    
+    def find_symbol_definition(self, symbol: str):
+        symbol_loc = self.locate_symbol(symbol)
+
+        self.did_open(self.uri_to_fn(symbol_loc['uri']))
+
+        definition = self.document_definition(symbol_loc['uri'], **symbol_loc['range']['start'])
+
+        # this means the symbol_loc is the actual definition
+        if definition['result'][0]['uri'].endswith('.h'):
+            definition = {'result': [symbol_loc]}
+
+        return self.extract_list(definition)
+        
+
     def find_symbol_in_workspace(self, symbol: str) -> Union[list, str]:
-        symbol_resp = self.workspace_symbol(symbol)
-
-        # self.logger.debug(f'symbol_resp: {symbol_resp}')
-
-        fail_res = self.check_resault(symbol_resp)
-        if fail_res is not True:
-            return fail_res
-
-        symbol_loc = symbol_resp['result'][0]['location']
+        symbol_loc = self.locate_symbol(symbol)
 
         self.did_open(self.uri_to_fn(symbol_loc['uri']))
 
         reference = self.document_references(symbol_loc['uri'], **symbol_loc['range']['start'])
 
-        # self.logger.debug(f'reference: {reference}')
-
-        fail_res = self.check_resault(reference)
-        if fail_res is not True:
-            return fail_res
-
         # self.logger.debug(json.dumps(reference, indent=4))
 
-        ref_list = []
+        return self.extract_list(reference)
+    
+    def locate_symbol(self, symbol: str) -> Union[list, str, bool, dict]:
+        symbol_resp = self.workspace_symbol(symbol)
 
-        for ref in reference['result']:
-            rel_path = os.path.relpath(self.uri_to_fn(ref['uri']), self.workspace_path)
-            line = ref['range']['start']['line']
-            ref_list.append(f'{rel_path}:{line}')
-
-        return ref_list
+        # self.logger.debug(f'symbol_resp: {symbol_resp}')
+        # print(json.dumps(symbol_resp, indent=4))
+        self.check_resault(symbol_resp)
+        return symbol_resp['result'][0]['location']
 
     def __find_clangd(self):
         check_name = 'clangd'
@@ -334,8 +360,10 @@ def send():
 
     # client.send_request('workspaceSymbol/resolve', sym)
 
-    for ref_info in client.find_symbol_in_workspace('console_update'):
-        print(ref_info)
+    # for ref_info in client.find_symbol_in_workspace('console_update'):
+    #     print(ref_info)
+
+    print(client.find_symbol_definition('console_update'))
 
     # client.did_close('src/app/main.c')
 

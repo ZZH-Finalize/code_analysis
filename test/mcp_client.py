@@ -68,10 +68,15 @@ test_cases = {
         ('start_analyzer', {"workspace_path": "D:/proj/STM32F10x-MesonBuild-Demo"}),
         ('start_analyzer', {"workspace_path": "D:/proj/STM32F10x-MesonBuild-Demo"}),
         ('find_all_reference', {"symbol_name": "console_update"}),
+        ('find_all_reference', {"symbol_name": "console_send_str"}),
+        ('find_definition', {"symbol_name": "console_update"}),
+        ('find_definition', {"symbol_name": "map_search"}),
+        ('find_definition', {"symbol_name": "main"}),
     ],
     'posix': [
         ('start_analyzer', {"workspace_path": "/workspace/proj/baseband/macsw/"}),
         ('find_all_reference', {"symbol_name": "rwnx_platform_init"}),
+        ('find_definition', {"symbol_name": "rxl_mpdu_isr"}),
     ]
 }
 

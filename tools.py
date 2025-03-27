@@ -74,6 +74,15 @@ class stop_analyzer(BaseModel):
     def exec():
         client.stop()
 
+class find_definition(BaseModel):
+    """Find definition position of a symbol"""
+    symbol_name: str = Field(description='function name or variable name')
+
+    @unwrap_arg('symbol_name')
+    @staticmethod
+    def exec(symbol_name: str) -> list[str]:
+        return client.find_symbol_definition(symbol_name)
+
 class find_all_reference(BaseModel):
     """Find all reference of a symbol"""
     symbol_name: str = Field(description='function name or variable name')
@@ -87,6 +96,7 @@ class find_all_reference(BaseModel):
 tool_list: list[BaseModel] = [
     start_analyzer,
     stop_analyzer,
+    find_definition,
     find_all_reference,
 
     # Test,
