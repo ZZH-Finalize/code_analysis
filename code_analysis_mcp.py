@@ -1,7 +1,7 @@
 # from pylsp import LspClient
 from mcp.server import Server
 from mcp.server.stdio import stdio_server
-from mcp.types import TextContent, Tool
+from mcp.types import TextContent, Tool, GetPromptResult, PromptMessage, Prompt
 from typing import Any
 from collections.abc import Sequence
 import json
@@ -41,6 +41,27 @@ async def call_tool(name: str, arg: Any) -> Sequence[TextContent]:
             type = 'text'
         )
     ]
+
+# @server.get_prompt()
+# async def get_prompt(name: str, arg: dict[str, str] | None) -> GetPromptResult:
+#     return GetPromptResult(description='desc', messages=[
+#         PromptMessage(
+#             role="user",
+#             content=TextContent(
+#                 text=f'input name: {name}, input arg: {arg}',
+#                 type='text'
+#             )
+#         )
+#     ])
+
+# @server.list_prompts()
+# async def list_prompts() -> list[Prompt]:
+#     return [
+#         Prompt(
+#             name='analysis',
+#             description='first desc',
+#         )
+#     ]
 
 async def main():
     global tool_table

@@ -90,6 +90,18 @@ async def main():
         for tool, param in test_cases[os.name]:
             await client.call_tool(tool, param)
 
+        # prompts = await client.session.list_prompts()
+
+        # print(prompts.prompts[0].name)
+
+        # response = await client.session.get_prompt(prompts.prompts[0].name, {
+        #     'a': '1',
+        #     'b': '2',
+        #     'c': '3',
+        # })
+
+        # print(f'response.messages: {response.messages}')
+
     finally:
         await client.cleanup()
 
