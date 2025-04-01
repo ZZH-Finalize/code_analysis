@@ -34,7 +34,7 @@ class ClangdClient:
         if len(sys.argv) > 1 and '--enable-log' == sys.argv[1]:
             self.logger.setLevel(logging.DEBUG)
             self.logger.addHandler(logging.FileHandler(os.path.join(self.script_path, 'logs', f'log-{time_tag}.txt'), mode='w'))
-        
+
         self.logger.info(f'find {self.clangd_path}')
 
     def _recive(self):
@@ -69,6 +69,9 @@ class ClangdClient:
                         self.pending_queue.put(request)
 
     def _send(self, method: str, params: dict, **kwargs):
+        if None == self.process:
+            raise RuntimeError('analyzer is down, please call start_analyzer first')
+
         request = {
             'jsonrpc': '2.0',
             'method': method,
@@ -85,7 +88,7 @@ class ClangdClient:
         if 'id' in kwargs:
             self.pending_queue.put(request)
             return self._recive()
-        
+
     def get_id(self):
         self.id = self.id + 1
 
@@ -95,16 +98,17 @@ class ClangdClient:
         return self.id
 
     def start(self, workspace_path: str = ''):
+        if '' == workspace_path:
+            raise RuntimeError('workspace_path cannot be a empty path')
+
         if None != self.process and workspace_path != self.workspace_path:
             self.logger.debug('restart server')
             self.stop()
-        
-        if '' != workspace_path:
-            self.workspace_path = workspace_path
 
+        self.workspace_path = workspace_path
         self.logger.debug('switch to workspace')
         os.chdir(self.workspace_path)
-        
+
         clangd_args = [
                 self.clangd_path,
                 '--function-arg-placeholders=1',
@@ -116,7 +120,7 @@ class ClangdClient:
                 # '--log=verbose',
                 # '--background-index',
             ]
-        
+
         cdb_file = self.__search_cdb()
         cdb_path = os.path.dirname(cdb_file)
         self.logger.debug(f'cdb_path: {cdb_path}')
@@ -144,7 +148,7 @@ class ClangdClient:
             cdb = json.loads(f.read())
 
         self.did_open(os.path.join(cdb[0]['directory'], cdb[0]['file']))
-    
+
     def stop(self):
         self.process.terminate()
         self.process = None
@@ -154,7 +158,7 @@ class ClangdClient:
     def send_request(self, method: str, params: dict):
         # send request with id
         return self._send(method, params, id=self.get_id())
-    
+
     def send_notification(self, method: str, params: dict):
         # send request without id
         self._send(method, params)
@@ -164,7 +168,7 @@ class ClangdClient:
             raise RuntimeError(f'error occur: {response['message']}')
         elif [] == response.get('result', []):
             raise RuntimeError('result not found')
-        
+
     def extract_list(self, response: dict) -> list[str]:
         res = []
 
@@ -174,11 +178,11 @@ class ClangdClient:
             res.append(f'{rel_path}:{line}')
 
         return res
-    
+
     def did_open(self, fn: str):
         self.logger.debug(f'fn: {fn}')
         file = os.path.abspath(fn)
-    
+
         if fn in self.opened_files:
             return file
 
@@ -194,7 +198,7 @@ class ClangdClient:
 
         self.opened_files.add(fn)
         time.sleep(0.5)
-    
+
     def did_close(self, fn: str):
         file = os.path.abspath(fn)
 
@@ -223,7 +227,7 @@ class ClangdClient:
 
         self.check_resault(reference)
         return reference
-    
+
     def document_definition(self, uri: str, line: int, character: int):
         definition = self.send_request('textDocument/definition', {
             'textDocument': {'uri': uri},
@@ -237,7 +241,7 @@ class ClangdClient:
 
         self.check_resault(definition)
         return definition
-    
+
     def find_symbol_definition(self, symbol: str):
         symbol_loc = self.locate_symbol(symbol)
 
@@ -250,7 +254,6 @@ class ClangdClient:
             definition = {'result': [symbol_loc]}
 
         return self.extract_list(definition)
-        
 
     def find_symbol_in_workspace(self, symbol: str) -> Union[list, str]:
         symbol_loc = self.locate_symbol(symbol)
@@ -262,7 +265,7 @@ class ClangdClient:
         # self.logger.debug(json.dumps(reference, indent=4))
 
         return self.extract_list(reference)
-    
+
     def locate_symbol(self, symbol: str) -> Union[list, str, bool, dict]:
         symbol_resp = self.workspace_symbol(symbol)
 
@@ -282,7 +285,7 @@ class ClangdClient:
             clangd_abs_path = os.path.join(path, check_name)
             if os.path.exists(clangd_abs_path):
                 return clangd_abs_path
-            
+
         # check for vscode
         vscode_ext_dir = ''
 
@@ -309,7 +312,7 @@ class ClangdClient:
                 )
         else:
             raise RuntimeError('not support')
-            
+
         if not os.path.exists(vscode_ext_dir):
             return None
 
@@ -321,12 +324,12 @@ class ClangdClient:
             'bin',
             check_name
         )
-        
+
         if os.path.exists(vscode_clangd):
             return vscode_clangd
 
         return None
-    
+
     def __search_cdb(self):
         import fnmatch
         for root, dir, files in os.walk(self.workspace_path):
@@ -334,7 +337,7 @@ class ClangdClient:
             for file_path in fnmatch.filter(files, 'compile_commands.json'):
                 return os.path.relpath(os.path.join(root, file_path), self.workspace_path)
         return None
-    
+
     @staticmethod
     def uri_to_fn(uri: str):
         fn = unquote(urlparse(uri).path)

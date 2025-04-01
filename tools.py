@@ -23,11 +23,11 @@ def unwrap_arg(fun: Callable) -> Callable:
 
         return fun(*arg_list)
     return wrapper
-    
+
 class start_analyzer(BaseModel):
     """Start the code analyzer in a workspace"""
     workspace_path: str = Field(description='absolute path to the current workspace')
-    
+
     @unwrap_arg
     @staticmethod
     def exec(workspace_path):

@@ -107,7 +107,7 @@ class ClangdClient:
     async def send_request(self, method: str, params: dict):
         # send request with id
         return await self._send(method, params, id=self.get_id())
-    
+
     async def send_notification(self, method: str, params: dict):
         # send request without id
         await self._send(method, params)
@@ -172,7 +172,7 @@ class ClangdClient:
             clangd_abs_path = os.path.join(path, check_name)
             if os.path.exists(clangd_abs_path):
                 return clangd_abs_path
-            
+
         # check for vscode
         vscode_ext_dir = ''
 
@@ -189,7 +189,7 @@ class ClangdClient:
                 )
         else:
             raise RuntimeError('not support')
-            
+
         if not os.path.exists(vscode_ext_dir):
             return None
 
@@ -201,7 +201,7 @@ class ClangdClient:
             'bin',
             check_name
         )
-        
+
         if os.path.exists(vscode_clangd):
             return vscode_clangd
 
