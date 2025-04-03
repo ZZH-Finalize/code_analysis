@@ -1,18 +1,14 @@
-import subprocess
 import json
-from packaging import version
 import os, sys
 import queue
 import time
 from typing import Union
 import logging
-from urllib.parse import urlparse, unquote
-from urllib.request import pathname2url
+from clangd_utils import *
 
 class ClangdClient:
     def __init__(self, workspace_path: str = ''):
         self.workspace_path = workspace_path
-        self.clangd_path = self.__find_clangd()
         self.id = 10
         self.process = None
         self.pending_queue = queue.Queue()
@@ -34,8 +30,6 @@ class ClangdClient:
         if len(sys.argv) > 1 and '--enable-log' == sys.argv[1]:
             self.logger.setLevel(logging.DEBUG)
             self.logger.addHandler(logging.FileHandler(os.path.join(self.script_path, 'logs', f'log-{time_tag}.txt'), mode='w'))
-
-        self.logger.info(f'find {self.clangd_path}')
 
     def _recive(self):
         while True:
@@ -109,33 +103,7 @@ class ClangdClient:
         self.logger.debug('switch to workspace')
         os.chdir(self.workspace_path)
 
-        clangd_args = [
-                self.clangd_path,
-                '--function-arg-placeholders=1',
-                '--header-insertion=iwyu',
-                '--clang-tidy',
-                '--all-scopes-completion',
-                '--enable-config',
-                '--cross-file-rename',
-                # '--log=verbose',
-                # '--background-index',
-            ]
-
-        cdb_file = self.__search_cdb()
-        cdb_path = os.path.dirname(cdb_file)
-        self.logger.debug(f'cdb_path: {cdb_path}')
-        clangd_args.append(f'--compile-commands-dir={cdb_path}')
-        if None == cdb_path:
-            raise RuntimeError('no compile_commands.json found')
-
-        self.process = subprocess.Popen(
-            executable=self.clangd_path,
-            args=clangd_args,
-            stdin=subprocess.PIPE,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
-            cwd=self.workspace_path,
-        )
+        self.process, cdb_file, _ = create_clangd_process(self.workspace_path)
 
         with open(os.path.join(self.script_path, 'init_param.json'), encoding='utf-8') as f:
             param = json.loads(f.read())
@@ -163,22 +131,6 @@ class ClangdClient:
         # send request without id
         self._send(method, params)
 
-    def check_resault(self, response: dict) -> None:
-        if 'error' in response:
-            raise RuntimeError(f'error occur: {response['message']}')
-        elif [] == response.get('result', []):
-            raise RuntimeError('result not found')
-
-    def extract_list(self, response: dict) -> list[str]:
-        res = []
-
-        for ref in response['result']:
-            rel_path = os.path.relpath(self.uri_to_fn(ref['uri']), self.workspace_path)
-            line = ref['range']['start']['line']
-            res.append(f'{rel_path}:{line}')
-
-        return res
-
     def did_open(self, fn: str):
         self.logger.debug(f'fn: {fn}')
         file = os.path.abspath(fn)
@@ -189,7 +141,7 @@ class ClangdClient:
         with open(file, encoding='utf-8') as f:
             self.send_notification('textDocument/didOpen', {
                 'textDocument': {
-                    'uri': self.fn_to_uri(file),
+                    'uri': fn_to_uri(file),
                     'languageId': 'c',
                     'version': 1,
                     'text': f.read()
@@ -204,7 +156,7 @@ class ClangdClient:
 
         self.send_notification('textDocument/didClose', {
             'textDocument': {
-                'uri': self.fn_to_uri(file)
+                'uri': fn_to_uri(file)
             }
         })
 
@@ -225,7 +177,7 @@ class ClangdClient:
             },
         })
 
-        self.check_resault(reference)
+        check_resault(reference)
         return reference
 
     def document_definition(self, uri: str, line: int, character: int):
@@ -239,13 +191,13 @@ class ClangdClient:
 
         # print(json.dumps(definition, indent=4))
 
-        self.check_resault(definition)
+        check_resault(definition)
         return definition
 
     def find_symbol_definition(self, symbol: str):
         symbol_loc = self.locate_symbol(symbol)
 
-        self.did_open(self.uri_to_fn(symbol_loc['uri']))
+        self.did_open(uri_to_fn(symbol_loc['uri']))
 
         definition = self.document_definition(symbol_loc['uri'], **symbol_loc['range']['start'])
 
@@ -253,101 +205,27 @@ class ClangdClient:
         if definition['result'][0]['uri'].endswith('.h'):
             definition = {'result': [symbol_loc]}
 
-        return self.extract_list(definition)
+        return extract_list(definition, self.workspace_path)
 
-    def find_symbol_in_workspace(self, symbol: str) -> Union[list, str]:
+    def find_symbol_references(self, symbol: str) -> Union[list, str]:
         symbol_loc = self.locate_symbol(symbol)
 
-        self.did_open(self.uri_to_fn(symbol_loc['uri']))
+        self.did_open(uri_to_fn(symbol_loc['uri']))
 
         reference = self.document_references(symbol_loc['uri'], **symbol_loc['range']['start'])
 
         # self.logger.debug(json.dumps(reference, indent=4))
 
-        return self.extract_list(reference)
+        return extract_list(reference, self.workspace_path)
 
     def locate_symbol(self, symbol: str) -> Union[list, str, bool, dict]:
         symbol_resp = self.workspace_symbol(symbol)
 
         # self.logger.debug(f'symbol_resp: {symbol_resp}')
         # print(json.dumps(symbol_resp, indent=4))
-        self.check_resault(symbol_resp)
+        check_resault(symbol_resp)
         return symbol_resp['result'][0]['location']
 
-    def __find_clangd(self):
-        check_name = 'clangd'
-        clangd_abs_path = ''
-
-        if os.name == 'nt':
-            check_name = check_name + '.exe'
-
-        for path in os.environ['PATH'].split(';'):
-            clangd_abs_path = os.path.join(path, check_name)
-            if os.path.exists(clangd_abs_path):
-                return clangd_abs_path
-
-        # check for vscode
-        vscode_ext_dir = ''
-
-        if os.name == 'nt':
-            vscode_ext_dir = os.path.join(
-                os.environ['USERPROFILE'],
-                    'AppData',
-                    'Roaming',
-                    'Code',
-                    'User',
-                    'globalStorage',
-                    'llvm-vs-code-extensions.vscode-clangd',
-                    'install'
-                )
-        elif os.name == 'posix':
-            vscode_ext_dir = os.path.join(
-                os.path.expanduser('~'),
-                    '.vscode-server',
-                    'data',
-                    'User',
-                    'globalStorage',
-                    'llvm-vs-code-extensions.vscode-clangd',
-                    'install'
-                )
-        else:
-            raise RuntimeError('not support')
-
-        if not os.path.exists(vscode_ext_dir):
-            return None
-
-        leatest = str(max(map(version.parse, os.listdir(vscode_ext_dir))))
-        vscode_clangd = os.path.join(
-            vscode_ext_dir,
-            leatest,
-            'clangd_' + leatest,
-            'bin',
-            check_name
-        )
-
-        if os.path.exists(vscode_clangd):
-            return vscode_clangd
-
-        return None
-
-    def __search_cdb(self):
-        import fnmatch
-        for root, dir, files in os.walk(self.workspace_path):
-            # print(f'root: {root}, _:{dir}, files: {files}')
-            for file_path in fnmatch.filter(files, 'compile_commands.json'):
-                return os.path.relpath(os.path.join(root, file_path), self.workspace_path)
-        return None
-
-    @staticmethod
-    def uri_to_fn(uri: str):
-        fn = unquote(urlparse(uri).path)
-        if os.name == 'nt':
-            fn = fn.removeprefix('/')
-        return fn
-
-    @staticmethod
-    def fn_to_uri(fn: str):
-        return 'file:' + pathname2url(fn)
 
 def send():
     client = ClangdClient()

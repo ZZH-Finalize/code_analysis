@@ -47,7 +47,7 @@ class MCPClient:
         self.stdio, self.write = stdio_transport
         self.session = await self.exit_stack.enter_async_context(ClientSession(self.stdio, self.write))
 
-        await self.session.initialize()
+        print('initialize res:', await self.session.initialize())
 
         # 列出可用工具
         response = await self.session.list_tools()

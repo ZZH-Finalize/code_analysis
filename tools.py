@@ -57,7 +57,7 @@ class find_all_reference(BaseModel):
     @unwrap_arg
     @staticmethod
     def exec(symbol_name: str) -> list[str]:
-        return client.find_symbol_in_workspace(symbol_name)
+        return client.find_symbol_references(symbol_name)
 
 
 tool_list: list[BaseModel] = [
