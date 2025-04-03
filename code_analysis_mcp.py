@@ -30,7 +30,7 @@ async def call_tool(name: str, arg: Any) -> Sequence[TextContent]:
     if name not in tool_table:
         raise ValueError(f'unknow tool: {name}')
 
-    resault = tool_table[name].exec(arg)
+    resault = await tool_table[name].exec(arg)
 
     if None == resault:
         resault = True

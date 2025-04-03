@@ -1,7 +1,7 @@
 from pydantic import BaseModel, Field
 from functools import wraps
 from typing import Callable
-from clang_blocked import ClangdClient
+from clangd import ClangdClient
 
 client = ClangdClient()
 
@@ -30,16 +30,16 @@ class start_analyzer(BaseModel):
 
     @unwrap_arg
     @staticmethod
-    def exec(workspace_path):
-        client.start(workspace_path)
+    async def exec(workspace_path):
+        await client.start(workspace_path)
 
 class stop_analyzer(BaseModel):
     """Stop the code analyzer"""
 
     @unwrap_arg
     @staticmethod
-    def exec():
-        client.stop()
+    async def exec():
+        await client.stop()
 
 class find_definition(BaseModel):
     """Find definition position of a symbol"""
@@ -47,8 +47,8 @@ class find_definition(BaseModel):
 
     @unwrap_arg
     @staticmethod
-    def exec(symbol_name: str) -> list[str]:
-        return client.find_symbol_definition(symbol_name)
+    async def exec(symbol_name: str) -> list[str]:
+        return await client.find_symbol_definition(symbol_name)
 
 class find_all_reference(BaseModel):
     """Find all reference of a symbol"""
@@ -56,8 +56,8 @@ class find_all_reference(BaseModel):
 
     @unwrap_arg
     @staticmethod
-    def exec(symbol_name: str) -> list[str]:
-        return client.find_symbol_references(symbol_name)
+    async def exec(symbol_name: str) -> list[str]:
+        return await client.find_symbol_references(symbol_name)
 
 
 tool_list: list[BaseModel] = [

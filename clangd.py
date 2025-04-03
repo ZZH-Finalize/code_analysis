@@ -83,7 +83,8 @@ class ClangdClient:
                     # there is no pending requests
                     if 0 == len(self.pending_queue):
                         # workdone progress should recive
-                        if 'window/workDoneProgress/create' == response['method']:
+                        if 'window/workDoneProgress/create' == response['method'] and \
+                            'backgroundIndexProgress' == response['params']['token']:
                             self.logger.info('recived workDoneProgress/create request')
                             await self.recived_queue.put(response)
                             continue
@@ -138,7 +139,7 @@ class ClangdClient:
             if 'method' in request:
                 log_info = f'write a message: {request['method']}'
             else:
-                log_info = f'write a message: {request}'
+                log_info = f'write a message: {request} ...'
             # request with id means this is a request instead of a notification
             if need_resp:
                 log_info += f'({request.get('id', None)})'
@@ -155,13 +156,7 @@ class ClangdClient:
             raise RuntimeError('analyzer is down, please call start_analyzer first')
 
         # make request body
-        request = {
-            'jsonrpc': '2.0',
-            # **kwargs
-            # 'method': method,
-            # 'params': params
-        }
-        request.update(kwargs)
+        request = {'jsonrpc': '2.0', **kwargs}
 
         # put request to sending queue
         await self.send_queue.put((request, need_resp))
@@ -178,11 +173,16 @@ class ClangdClient:
         if '' == workspace_path:
             raise RuntimeError('workspace_path cannot be a empty path')
 
-        # if process started and workspace changed 
-        if None != self.process and workspace_path != self.workspace_path:
-            self.logger.info('restart server')
-            # restart server
-            await self.stop()
+        # if process started
+        if None != self.process:
+            # and workspace changed
+            if workspace_path != self.workspace_path:
+                self.logger.info('restart server')
+                # restart server
+                await self.stop()
+            # workspace dod not change
+            else:
+                return
 
         # process cwd
         self.workspace_path = workspace_path
@@ -253,10 +253,8 @@ class ClangdClient:
     async def wait_for_background_index_down(self):
         request = await self.recived_queue.get()
 
-        self.logger.info('handle workDoneProgress')
-
         if request['method'] != 'window/workDoneProgress/create':
-            self.logger.info(f'response not expected: {request['method']}')
+            self.logger.info(f'unexpected response : {request['method']}')
             raise RuntimeError('recived error request')
 
         # send response to clangd
@@ -264,11 +262,21 @@ class ClangdClient:
 
         # loop handle $/progress notification until it is done
         done_flag = False
+        percentage = 0
 
         while False == done_flag:
             progress = await self.recived_queue.get()
-            if 'end' == progress['params']['value']['kind']:
+            # self.logger.info(f'progress: {json.dumps(progress, indent=4)}')
+            kind = progress['params']['value']['kind']
+
+            if 'end' == kind:
                 done_flag = True
+                percentage = 100
+            elif 'report' == kind:
+                percentage = int(progress['params']['value']['percentage'])
+            
+            self.logger.info(f'clangd indexing: {percentage}/100')
+            
 
     async def did_open(self, fn: str):
         file = os.path.abspath(fn)
@@ -290,8 +298,6 @@ class ClangdClient:
 
         # record opened file
         self.opened_files.add(fn)
-        # todo: use self.cdb_loaded flag
-        # await asyncio.sleep(5)
 
         return file
 
@@ -367,15 +373,11 @@ class ClangdClient:
         # find symbol references
         reference = await self.document_references(symbol_loc['uri'], **symbol_loc['range']['start'])
 
-        # self.logger.debug(json.dumps(reference, indent=4))
-
         return clangd_utils.extract_list(reference, self.workspace_path)
 
     async def locate_symbol(self, symbol: str) -> Union[list, str, bool, dict]:
         symbol_resp = await self.workspace_symbol(symbol)
 
-        # self.logger.debug(f'symbol_resp: {symbol_resp}')
-        # print(json.dumps(symbol_resp, indent=4))
         clangd_utils.check_resault(symbol_resp)
         return symbol_resp['result'][0]['location']
 

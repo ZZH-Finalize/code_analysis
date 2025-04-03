@@ -39,7 +39,7 @@ class MCPClient:
 
         server_params = StdioServerParameters(
             command=cmd,
-            args=[server_script_path, '--enable-log'],
+            args=[server_script_path, '--enable-log=DEBUG'],
             env=None
         )
 
@@ -62,11 +62,14 @@ class MCPClient:
     async def cleanup(self):
         """清理资源"""
         await self.exit_stack.aclose()
+    
 
+workspace = 'D:/proj/STM32F10x-MesonBuild-Demo'
+# workspace = 'E:/Shared_Dir/ProgramsAndScripts/embed/C/STM32F10x-MesonBuild-Demo'
 test_cases = {
     'nt': [
-        ('start_analyzer', {"workspace_path": "D:/proj/STM32F10x-MesonBuild-Demo"}),
-        ('start_analyzer', {"workspace_path": "D:/proj/STM32F10x-MesonBuild-Demo"}),
+        ('start_analyzer', {"workspace_path": workspace}),
+        ('start_analyzer', {"workspace_path": workspace}),
         ('find_all_reference', {"symbol_name": "console_update"}),
         ('find_all_reference', {"symbol_name": "console_send_str"}),
         ('find_definition', {"symbol_name": "console_update"}),
