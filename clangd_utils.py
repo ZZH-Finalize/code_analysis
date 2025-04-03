@@ -5,6 +5,11 @@ import fnmatch
 import subprocess
 import os
 
+def get_endl() -> str:
+    if os.name == 'nt':
+        return '\r\n'
+    elif os.name == 'posix':
+        return '\n'
 
 def uri_to_fn(uri: str):
     fn = unquote(urlparse(uri).path)
@@ -93,7 +98,7 @@ def find_clangd(check_name: str = 'clangd'):
 
     return None
 
-def create_clangd_process(cwd: str, clangd_path: str = find_clangd(), *clangd_args):
+def create_clangd_process(cwd: str, *clangd_args, clangd_path: str = find_clangd()):
     __clangd_args = [
         clangd_path,
         '--function-arg-placeholders=1',

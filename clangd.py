@@ -15,6 +15,7 @@ class ClangdClient:
         self.process: clangd_utils.subprocess.Popen = None
         self.opened_files = set()
         self.script_path = os.path.abspath(os.path.dirname(sys.argv[0]))
+        self.endl = clangd_utils.get_endl()
 
         # requests or notifications that wait to be send
         self.send_queue = asyncio.Queue()
@@ -25,8 +26,6 @@ class ClangdClient:
         self.recived_queue = asyncio.Queue()
         # clangd started flag
         self.clangd_started = asyncio.Event()
-        # compile database loaded flag
-        self.cdb_loaded = asyncio.Event()
 
         if not os.path.exists(os.path.join(self.script_path, 'logs')):
             os.mkdir(os.path.join(self.script_path, 'logs'))
@@ -40,8 +39,12 @@ class ClangdClient:
         for hdlr in self.logger.handlers:
             self.logger.removeHandler(hdlr)
 
-        if len(sys.argv) > 1 and '--enable-log' == sys.argv[1]:
-            self.logger.setLevel(logging.INFO)
+        if len(sys.argv) > 1 and sys.argv[1].startswith('--enable-log'):
+            args = sys.argv[1].split('=')
+            if len(args) == 2:
+                self.logger.setLevel(logging._nameToLevel.get(args[1], logging.INFO))
+            else:
+                self.logger.setLevel(logging.INFO)
             self.logger.addHandler(logging.FileHandler(os.path.join(self.script_path, 'logs', f'log-{time_tag}.txt'), mode='w'))
 
     def __done_cb(self, task: asyncio.Task):
@@ -50,6 +53,7 @@ class ClangdClient:
         except asyncio.CancelledError as e:
             self.logger.info(f'task: {task.get_name()} canceled')
         except Exception as e:
+            self.logger.critical(f'task encounter an error: {e.with_traceback()}')
             asyncio.get_event_loop().stop()
             raise e
 
@@ -60,7 +64,7 @@ class ClangdClient:
 
             # wait for a line is read in buffer            
             line: bytes = await asyncio.to_thread(self.process.stdout.readline)
-            line: str = line.decode().removeprefix('\r\n')
+            line: str = line.decode().removeprefix(self.endl)
 
             # is a response instead of a log information
             if line.startswith('Content-Length:'):
@@ -69,7 +73,7 @@ class ClangdClient:
                 # skip empty line
                 self.process.stdout.readline()
                 # read remain data
-                data = self.process.stdout.read(length).decode().removesuffix('\r\n')
+                data = self.process.stdout.read(length).decode().removesuffix(self.endl)
                 # convert to python dict
                 response: dict = json.loads(data)
                 # response with id
@@ -78,7 +82,14 @@ class ClangdClient:
 
                     # there is no pending requests
                     if 0 == len(self.pending_queue):
+                        # workdone progress should recive
+                        if 'window/workDoneProgress/create' == response['method']:
+                            self.logger.info('recived workDoneProgress/create request')
+                            await self.recived_queue.put(response)
+                            continue
+
                         # skip this response
+                        self.logger.info(f'drop response for: {response['method']}')
                         continue
 
                     # peek the first request in the pending_requests list
@@ -101,26 +112,36 @@ class ClangdClient:
                     self.pending_queue.popleft()
                 # no id in response
                 else:
+                    # progress report, should be recived
+                    if '$/progress' == response['method']:
+                        await self.recived_queue.put(response)
+                        continue
+
                     self.logger.info(f'recived no id msg: {response}')
             # not started with Content-Length, might be a log information
             else:
-                self.logger.debug(f'recived log: {line.removesuffix('\r\n')}')
+                line = line.removesuffix(self.endl)
+                if line:
+                    self.logger.debug(f'recived log: {line}')
 
     async def __send_task(self):
         while True:
             # clangd should be started before read any messages
             await self.clangd_started.wait()
             # wait for send queue data avalible
-            request = await self.send_queue.get()
+            request, need_resp = await self.send_queue.get()
             # convert dict to json string
             message = json.dumps(request)
             # add message header
             req = f'Content-Length: {len(message)}\r\n\r\n{message}'.encode()
 
-            log_info = f'write a message: {request['method']}'
+            if 'method' in request:
+                log_info = f'write a message: {request['method']}'
+            else:
+                log_info = f'write a message: {request}'
             # request with id means this is a request instead of a notification
-            if 'id' in request:
-                log_info += f'({request['id']})'
+            if need_resp:
+                log_info += f'({request.get('id', None)})'
                 # put request into pending queue waitting for response
                 self.pending_queue.append(request)
             self.logger.info(log_info)
@@ -129,20 +150,21 @@ class ClangdClient:
             await asyncio.to_thread(self.process.stdin.write, req)
             await asyncio.to_thread(self.process.stdin.flush)
 
-    async def _send(self, method: str, params: dict, **kwargs):
+    async def _send(self, need_resp: bool, **kwargs):
         if not self.clangd_started.is_set():
             raise RuntimeError('analyzer is down, please call start_analyzer first')
 
         # make request body
         request = {
             'jsonrpc': '2.0',
-            'method': method,
-            'params': params
+            # **kwargs
+            # 'method': method,
+            # 'params': params
         }
         request.update(kwargs)
 
         # put request to sending queue
-        await self.send_queue.put(request)
+        await self.send_queue.put((request, need_resp))
 
     def get_id(self):
         self.id = self.id + 1
@@ -168,7 +190,7 @@ class ClangdClient:
         os.chdir(self.workspace_path)
 
         # launch clangd process
-        self.process, cdb_file, clangd_path = clangd_utils.create_clangd_process(self.workspace_path)
+        self.process, cdb_file, clangd_path = clangd_utils.create_clangd_process(self.workspace_path, '--log=verbose', '--background-index')
         self.logger.info(f'find clangd: {clangd_path}')
 
         # set clangd start flag
@@ -195,8 +217,12 @@ class ClangdClient:
 
         # send did open request to force clangd load cdb
         await self.did_open(os.path.join(cdb[0]['directory'], cdb[0]['file']))
+        # wait for clangd index the project
+        await self.wait_for_background_index_down()
 
     async def stop(self):
+        self.logger.info('stop server')
+
         self.recive_task.cancel()
         self.send_task.cancel()
 
@@ -212,18 +238,37 @@ class ClangdClient:
 
         # clear flags
         self.clangd_started.clear()
-        self.cdb_loaded.clear()
 
     async def send_request(self, method: str, params: dict):
         # send request with id
-        await self._send(method, params, id=self.get_id())
+        await self._send(True, method=method, params=params, id=self.get_id())
 
         # wait for response
         return await self.recived_queue.get()
 
     async def send_notification(self, method: str, params: dict):
         # send request without id
-        await self._send(method, params)
+        await self._send(False, method=method, params=params)
+
+    async def wait_for_background_index_down(self):
+        request = await self.recived_queue.get()
+
+        self.logger.info('handle workDoneProgress')
+
+        if request['method'] != 'window/workDoneProgress/create':
+            self.logger.info(f'response not expected: {request['method']}')
+            raise RuntimeError('recived error request')
+
+        # send response to clangd
+        await self._send(False, id=request['id'], result=None)
+
+        # loop handle $/progress notification until it is done
+        done_flag = False
+
+        while False == done_flag:
+            progress = await self.recived_queue.get()
+            if 'end' == progress['params']['value']['kind']:
+                done_flag = True
 
     async def did_open(self, fn: str):
         file = os.path.abspath(fn)
@@ -246,7 +291,7 @@ class ClangdClient:
         # record opened file
         self.opened_files.add(fn)
         # todo: use self.cdb_loaded flag
-        await asyncio.sleep(5)
+        # await asyncio.sleep(5)
 
         return file
 
@@ -264,6 +309,13 @@ class ClangdClient:
     async def workspace_symbol(self, symbol: str):
         return await self.send_request('workspace/symbol', {
             'query': symbol
+        })
+    
+    async def document_symbol(self, uri: str):
+        return await self.send_request('textDocument/documentSymbol', {
+            'textDocument': {
+                'uri': uri
+            }
         })
 
     async def document_references(self, uri: str, line: int, character: int):
@@ -360,5 +412,19 @@ async def main():
 
     print('program done')
 
+async def main2():
+    client = ClangdClient()
+    await client.start('/workspace/proj/baseband/macsw')
+    print('clangd started')
+
+    print(await client.find_symbol_definition('rxu_cntrl_defrag_timeout_cb'))
+
+    await client.stop()
+
+    print('program done')
+
 if __name__ == '__main__':
-    asyncio.run(main())
+    if os.name == 'nt':
+        asyncio.run(main())
+    elif os.name == 'posix':
+        asyncio.run(main2())
