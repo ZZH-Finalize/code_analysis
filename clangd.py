@@ -205,7 +205,7 @@ class ClangdClient:
 
         # load init param
         with open(os.path.join(self.script_path, 'init_param.json'), encoding='utf-8') as f:
-            param = json.loads(f.read())
+            param = json.loads(await asyncio.to_thread(f.read))
 
         # perform initialize sequence
         await self.send_request('initialize', param)
@@ -213,7 +213,7 @@ class ClangdClient:
 
         # find a random file from cdb
         with open(cdb_file, encoding='utf-8') as f:
-            cdb = json.loads(f.read())
+            cdb = json.loads(await asyncio.to_thread(f.read))
 
         # send did open request to force clangd load cdb
         await self.did_open(os.path.join(cdb[0]['directory'], cdb[0]['file']))
@@ -292,7 +292,7 @@ class ClangdClient:
                     'uri': clangd_utils.fn_to_uri(file),
                     'languageId': 'c',
                     'version': 1,
-                    'text': f.read()
+                    'text': await asyncio.to_thread(f.read)
                 }
             })
 
