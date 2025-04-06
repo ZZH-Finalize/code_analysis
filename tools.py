@@ -50,7 +50,7 @@ class find_definition(BaseModel):
     async def exec(symbol_name: str) -> list[str]:
         return await client.find_symbol_definition(symbol_name)
 
-class find_all_reference(BaseModel):
+class find_references(BaseModel):
     """Find all reference of a symbol"""
     symbol_name: str = Field(description='function name or variable name')
 
@@ -64,5 +64,5 @@ tool_list: list[BaseModel] = [
     start_analyzer,
     stop_analyzer,
     find_definition,
-    find_all_reference,
+    find_references,
 ]

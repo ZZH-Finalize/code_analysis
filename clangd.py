@@ -352,7 +352,7 @@ class ClangdClient:
     async def find_symbol_definition(self, symbol: str):
         # find symbol location first
         symbol_loc = await self.locate_symbol(symbol)
-        # open the file which symbol at
+        # open the file where the symbol is located
         await self.did_open(clangd_utils.uri_to_fn(symbol_loc['uri']))
 
         # find symbol definition
@@ -367,7 +367,7 @@ class ClangdClient:
     async def find_symbol_references(self, symbol: str) -> Union[list, str]:
         # find symbol location first
         symbol_loc = await self.locate_symbol(symbol)
-        # open the file which symbol at
+        # open the file where the symbol is located
         await self.did_open(clangd_utils.uri_to_fn(symbol_loc['uri']))
 
         # find symbol references
